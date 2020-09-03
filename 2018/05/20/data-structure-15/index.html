@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    <link rel="shortcut icon" type='image/x-icon' href="/favicon.ico">
+
+
+    <!-- meta -->
+
+
+<title>快速排序 | Hexo</title>
+
+
+    <meta name="keywords" content="data-structure">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="首先以几个图片大致说一下这个算法的思路是什么：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="快速排序">
+<meta property="og:url" content="http://example.com/2018/05/20/data-structure-15/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="首先以几个图片大致说一下这个算法的思路是什么：">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/fanandli/picblog/blob/master/kuaisupaixu1.png?raw=true">
+<meta property="og:image" content="https://github.com/fanandli/picblog/blob/master/kuaipai2.png?raw=true">
+<meta property="og:image" content="https://github.com/fanandli/picblog/blob/master/kuaipai3.png?raw=true">
+<meta property="og:image" content="https://github.com/fanandli/picblog/blob/master/kuaipai5.png?raw=true">
+<meta property="og:image" content="https://github.com/fanandli/picblog/blob/master/kuaipai6.png?raw=true">
+<meta property="article:published_time" content="2018-05-20T08:39:30.000Z">
+<meta property="article:modified_time" content="2019-03-31T15:49:27.200Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="data-structure">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://github.com/fanandli/picblog/blob/master/kuaisupaixu1.png?raw=true">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" onload="if(getComputedStyle(document.documentElement).getPropertyValue('--color-mode').indexOf('dark')===-1)this.media='all'">
+        
+    
+
+    
+    
+
+    
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">
+                Demo
+            </span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="navbar-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="navbar-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="navbar-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="navbar-menu button">
+                        Page
+                    </a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+
+        
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
+                </svg>
+            </a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                <a class="dropback-icon button" id="btn-dropback">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                        <path fill="currentColor" d="M11.469,10l7.08-7.08c0.406-0.406,0.406-1.064,0-1.469c-0.406-0.406-1.063-0.406-1.469,0L10,8.53l-7.081-7.08c-0.406-0.406-1.064-0.406-1.469,0c-0.406,0.406-0.406,1.063,0,1.469L8.531,10L1.45,17.081c-0.406,0.406-0.406,1.064,0,1.469c0.203,0.203,0.469,0.304,0.735,0.304c0.266,0,0.531-0.101,0.735-0.304L10,11.469l7.08,7.081c0.203,0.203,0.469,0.304,0.735,0.304c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"></path>
+                    </svg>
+                </a>
+                
+                    <a href="/" class="dropdown-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="dropdown-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="dropdown-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="dropdown-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="dropdown-menu button">
+                        Page
+                    </a>
+                
+            </div>
+            <script>
+                document.getElementById('btn-dropdown').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    requestAnimationFrame(() => {
+                        dd.style.display = 'flex';
+                        requestAnimationFrame(() => {
+                            dd.style.transform = 'translateY(0)';
+                            dd.style.opacity = '1';
+                        });
+                    });
+                });
+                document.getElementById('btn-dropback').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    dd.style.transform = 'translateY(2.25rem)';                    
+                    dd.style.opacity = '0';
+                    setTimeout(() => {dd.style.display = 'none';}, 350);
+                });
+            </script>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+<div class="post-title">
+    <h1 class="post-title__text">
+        快速排序
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2018/05/" class="post-meta__date button">
+    2018-05-20
+</a>
+        
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <article class="post content-card">
+        <div class="post__header"> </div>
+        <div class="post__content">
+            <p>首先以几个图片大致说一下这个算法的思路是什么：<br><img src="https://github.com/fanandli/picblog/blob/master/kuaisupaixu1.png?raw=true" width = "250" height = "200" alt="kuaipai" align=center /><img src="https://github.com/fanandli/picblog/blob/master/kuaipai2.png?raw=true" width = "250" height = "200" alt="kuaipai2" align=center /><img src="https://github.com/fanandli/picblog/blob/master/kuaipai3.png?raw=true" width = "250" height = "200" alt="kuaipai3" align=center /></p>
+<a id="more"></a>
+<p>然后看以下代码事例：<br>其中arr[]是装关键字的数组，low和high是处理关键字的范围，初始就为整个数组。if(low&lt;high)成立才递归，很明显是因为low&gt;high了，说明子序列就不存在了。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span> arr[],<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> temp;</span><br><span class="line">	<span class="keyword">int</span> i=low;j=high;</span><br><span class="line">	<span class="keyword">if</span>(low&lt;high)</span><br><span class="line">	&#123;</span><br><span class="line">		temp=arr[low];</span><br><span class="line">		<span class="keyword">while</span>(i&lt;j)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">while</span>(j&gt;i&amp;&amp;arr[j]&gt;=temp) --j;</span><br><span class="line">			<span class="keyword">if</span>(i&lt;j)</span><br><span class="line">			&#123;</span><br><span class="line">				arr[i]=arr[j];</span><br><span class="line">				++i;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">while</span>(i&lt;j&amp;&amp;arr[i]&lt;temp) ++i;</span><br><span class="line">			<span class="keyword">if</span>(i&lt;j)</span><br><span class="line">			&#123;</span><br><span class="line">				arr[j]=arr[i];</span><br><span class="line">				--j;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		arr[i]=temp;</span><br><span class="line">		quickSort(arr,low,i<span class="number">-1</span>);</span><br><span class="line">		quickSort(arr,i+<span class="number">1</span>,high);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我说明一下这段代码的大致意思。首先先讲i,j指向low,high。temp先指定low处的关键字，然后第10行的while循环，这个循环的主要目的是找到一个arr[j]处的关键字比temp指的小，不然就一直往前移（–j），如果找到了，且满足if（i&lt;j），就将这个小的值，移到temp处，即往前移，然后让i往后移。同样的道理，在i处是找到比temp大的数就停下来，让这个大的数往后移，即与arr[j]交换，j往前再走一步。如此一直循环，直到不满足i&lt;j。然后退出第8行的循环，将此时的temp赋给arr[i]。<br><img src="https://github.com/fanandli/picblog/blob/master/kuaipai5.png?raw=true" width = "600" height = "350" alt="kuaipai5" align=center /></p>
+<p>接着到了24行，进入递归，level1（0,3,7）是为了方便理解自己写出来的，指出范围为0到7，且i，j指向3。在第一次进入这个递归的时候，low=0，i-1=2；所以，如图所示。<br><img src="https://github.com/fanandli/picblog/blob/master/kuaipai6.png?raw=true" width = "600" height = "350" alt="kuaipai6" align=center /></p>
+<p>i=0，j=2.temp暂存arr[0]=27。然后下面的while循环同上面的过程一样。一直走到第23行，循环完之后，i和j同时指向了1。所以我们可以记录为level2（0,1,2），代表这次是在0到2中循环且最后落在在了1这个位置。然后我们又来到了第24行，又进入了递归，此时i=j=0,进入递归，在第5行if（low&lt;high）处就不满足条件了，就直接跳出来了一直到代码底此时的记录应该为level3(0, ,0)1。<br>然后，我们跳出来了，我们就得从递归函数那出来，此时我们的level还是上一个，即level2（0,1,2）,然后程序执行来到第25行，又得进入一个递归，此时i=2，high=2.不满足第5行的if。就跳出来，然后从这个递归入口函数又出来，此时为level3(0, ,0)2。然后回到上一个递归，即到了level3（0，，0）1。上面已经知道了，这一层也不满足条件直接跳过，所以我们来到了level1(0,3,7)。然后执行第25行，i=4，j=7。然后进入if判定进行循环，接着个判定大小移动的操作和上面的步骤一样。此时level(4,6,7)2。然后在 准备进入递归入口函数，然后循环，然后再出递归，。。。以此再操作。</p>
+
+        </div>
+         
+        <div class="post-footer__meta">
+    <p>
+        updated at 2019-03-31
+    </p>
+</div> 
+        <div class="post-meta__cats">
+    
+    
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
+    
+</div> 
+    </article>
+    
+
+
+</main>
+
+            <footer class="footer">
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright&nbsp;©&nbsp;2020&nbsp;<a href="/">Hexo</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+  
+
+
+
+ 
+
+
+    
+
+
+ 
+
+
+
+
+
+
+
+
+    </body>
+</html>

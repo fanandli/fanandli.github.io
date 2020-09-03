@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    <link rel="shortcut icon" type='image/x-icon' href="/favicon.ico">
+
+
+    <!-- meta -->
+
+
+<title>归并排序 | Hexo</title>
+
+
+    <meta name="keywords" content="data-structure">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="arr[]存储所有待排关键字的数组，low到high的关键字为一个子表，从mid+1到high为另一个关键字的子表。所以可以看出，归并排序可以对一个序列中任意一部分的元素进行排序，通过指定范围low-high就行。int n1&#x3D;mid-low+1;显然n1为low到high范围里的关键字的个数。int n2&#x3D;high-mid;显然n2是mid+1到high的关键字的个数。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="归并排序">
+<meta property="og:url" content="http://example.com/2018/05/22/data-structure-17/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="arr[]存储所有待排关键字的数组，low到high的关键字为一个子表，从mid+1到high为另一个关键字的子表。所以可以看出，归并排序可以对一个序列中任意一部分的元素进行排序，通过指定范围low-high就行。int n1&#x3D;mid-low+1;显然n1为low到high范围里的关键字的个数。int n2&#x3D;high-mid;显然n2是mid+1到high的关键字的个数。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/fanandli/picblog/blob/master/guibing1.png?raw=true">
+<meta property="article:published_time" content="2018-05-22T02:02:05.000Z">
+<meta property="article:modified_time" content="2019-03-31T15:49:27.200Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="data-structure">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://github.com/fanandli/picblog/blob/master/guibing1.png?raw=true">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" onload="if(getComputedStyle(document.documentElement).getPropertyValue('--color-mode').indexOf('dark')===-1)this.media='all'">
+        
+    
+
+    
+    
+
+    
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">
+                Demo
+            </span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="navbar-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="navbar-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="navbar-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="navbar-menu button">
+                        Page
+                    </a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+
+        
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
+                </svg>
+            </a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                <a class="dropback-icon button" id="btn-dropback">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                        <path fill="currentColor" d="M11.469,10l7.08-7.08c0.406-0.406,0.406-1.064,0-1.469c-0.406-0.406-1.063-0.406-1.469,0L10,8.53l-7.081-7.08c-0.406-0.406-1.064-0.406-1.469,0c-0.406,0.406-0.406,1.063,0,1.469L8.531,10L1.45,17.081c-0.406,0.406-0.406,1.064,0,1.469c0.203,0.203,0.469,0.304,0.735,0.304c0.266,0,0.531-0.101,0.735-0.304L10,11.469l7.08,7.081c0.203,0.203,0.469,0.304,0.735,0.304c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"></path>
+                    </svg>
+                </a>
+                
+                    <a href="/" class="dropdown-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="dropdown-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="dropdown-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="dropdown-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="dropdown-menu button">
+                        Page
+                    </a>
+                
+            </div>
+            <script>
+                document.getElementById('btn-dropdown').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    requestAnimationFrame(() => {
+                        dd.style.display = 'flex';
+                        requestAnimationFrame(() => {
+                            dd.style.transform = 'translateY(0)';
+                            dd.style.opacity = '1';
+                        });
+                    });
+                });
+                document.getElementById('btn-dropback').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    dd.style.transform = 'translateY(2.25rem)';                    
+                    dd.style.opacity = '0';
+                    setTimeout(() => {dd.style.display = 'none';}, 350);
+                });
+            </script>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+<div class="post-title">
+    <h1 class="post-title__text">
+        归并排序
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2018/05/" class="post-meta__date button">
+    2018-05-22
+</a>
+        
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <article class="post content-card">
+        <div class="post__header"> </div>
+        <div class="post__content">
+            <p>arr[]存储所有待排关键字的数组，low到high的关键字为一个子表，从mid+1到high为另一个关键字的子表。所以可以看出，归并排序<strong>可以对一个序列中任意一部分的元素进行排序</strong>，通过指定范围low-high就行。int n1=mid-low+1;显然n1为low到high范围里的关键字的个数。int n2=high-mid;显然n2是mid+1到high的关键字的个数。 </p>
+<img src="https://github.com/fanandli/picblog/blob/master/guibing1.png?raw=true" width = "600" height = "350" alt="guibingpaixu" align=center />
+<a id="more"></a>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span> arr[],<span class="keyword">int</span> low,<span class="keyword">int</span> mid,<span class="keyword">int</span> high)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,j,k;</span><br><span class="line">	<span class="keyword">int</span> n1=mid-low+<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> n2=high-mid;</span><br><span class="line">	<span class="keyword">int</span> L[n1],R[n2];</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n1;i++)</span><br><span class="line">		L[i]=arr[low+i]; <span class="comment">//将arr[]中的low到mid的元素赋给L[]中</span></span><br><span class="line">	<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;n2;j++)</span><br><span class="line">		R[j]=arr[mid+<span class="number">1</span>+j]; <span class="comment">//将arr[]中的mid+1到high的元素赋给R[]中</span></span><br><span class="line">	i=<span class="number">0</span>; </span><br><span class="line">	j=<span class="number">0</span>;</span><br><span class="line">	k=low;</span><br><span class="line">	<span class="keyword">while</span>(i&lt;n1&amp;&amp;j&lt;n2)  </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(L[i]&lt;=R[j])   <span class="comment">//L数组和R数组中相对应的元素进行大小比较</span></span><br><span class="line">			arr[k]=L[i++]; <span class="comment">//此时L数组的元素较小，赋给arr数组中，且i加一</span></span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			arr[k]=R[j++]; <span class="comment">// R数组中的元素较小</span></span><br><span class="line">		k++; <span class="comment">//k指向arr数组中的元素，被赋过值了，所以加一</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span>(i&lt;n1)  <span class="comment">//L数组中若是比较完之后有剩余就将他加到arr数组的后面</span></span><br><span class="line">		arr[k++]=L[i++];</span><br><span class="line">	<span class="keyword">while</span>(j&lt;n2)  <span class="comment">//同理是R数组中若有剩余</span></span><br><span class="line">		arr[k++]=R[j++];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">mergeSort</span><span class="params">(<span class="keyword">int</span> arr[],<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(low&lt;high)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> mid=(low+high)/<span class="number">2</span>; <span class="comment">//计算出中间位置</span></span><br><span class="line">		mergeSort(arr,low,mid); </span><br><span class="line">		mergeSort(arr,mid+<span class="number">1</span>,high);</span><br><span class="line">		merge(arr,low,mid,high);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+         
+        <div class="post-footer__meta">
+    <p>
+        updated at 2019-03-31
+    </p>
+</div> 
+        <div class="post-meta__cats">
+    
+    
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
+    
+</div> 
+    </article>
+    
+
+
+</main>
+
+            <footer class="footer">
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright&nbsp;©&nbsp;2020&nbsp;<a href="/">Hexo</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+  
+
+
+
+ 
+
+
+    
+
+
+ 
+
+
+
+
+
+
+
+
+    </body>
+</html>

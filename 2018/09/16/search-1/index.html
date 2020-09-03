@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    <link rel="shortcut icon" type='image/x-icon' href="/favicon.ico">
+
+
+    <!-- meta -->
+
+
+<title>data-structure———查找 | Hexo</title>
+
+
+    <meta name="keywords" content="data-structure">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="注意一下有一个概念：平均查找长度：ASL 顺序查找：举例如果从一个无序数组a（数组下标从1开始）中找到值为k的元素，查找成功就返回1，不成功就返回0，采用顺序查找的话： 12345678int Search(int a[] ,int n ,int k)&amp;#123;	int i ;	for(i&#x3D;1;i&lt;&#x3D;n;i++)		if(a[i]&#x3D;&#x3D;k)			return 	1;		return 0;&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="data-structure———查找">
+<meta property="og:url" content="http://example.com/2018/09/16/search-1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="注意一下有一个概念：平均查找长度：ASL 顺序查找：举例如果从一个无序数组a（数组下标从1开始）中找到值为k的元素，查找成功就返回1，不成功就返回0，采用顺序查找的话： 12345678int Search(int a[] ,int n ,int k)&amp;#123;	int i ;	for(i&#x3D;1;i&lt;&#x3D;n;i++)		if(a[i]&#x3D;&#x3D;k)			return 	1;		return 0;&amp;#">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-09-16T10:47:00.000Z">
+<meta property="article:modified_time" content="2019-03-31T15:49:27.207Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="data-structure">
+<meta name="twitter:card" content="summary_large_image">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" onload="if(getComputedStyle(document.documentElement).getPropertyValue('--color-mode').indexOf('dark')===-1)this.media='all'">
+        
+    
+
+    
+    
+
+    
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">
+                Demo
+            </span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="navbar-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="navbar-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="navbar-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="navbar-menu button">
+                        Page
+                    </a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+
+        
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
+                </svg>
+            </a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                <a class="dropback-icon button" id="btn-dropback">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                        <path fill="currentColor" d="M11.469,10l7.08-7.08c0.406-0.406,0.406-1.064,0-1.469c-0.406-0.406-1.063-0.406-1.469,0L10,8.53l-7.081-7.08c-0.406-0.406-1.064-0.406-1.469,0c-0.406,0.406-0.406,1.063,0,1.469L8.531,10L1.45,17.081c-0.406,0.406-0.406,1.064,0,1.469c0.203,0.203,0.469,0.304,0.735,0.304c0.266,0,0.531-0.101,0.735-0.304L10,11.469l7.08,7.081c0.203,0.203,0.469,0.304,0.735,0.304c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"></path>
+                    </svg>
+                </a>
+                
+                    <a href="/" class="dropdown-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="dropdown-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="dropdown-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="dropdown-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="dropdown-menu button">
+                        Page
+                    </a>
+                
+            </div>
+            <script>
+                document.getElementById('btn-dropdown').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    requestAnimationFrame(() => {
+                        dd.style.display = 'flex';
+                        requestAnimationFrame(() => {
+                            dd.style.transform = 'translateY(0)';
+                            dd.style.opacity = '1';
+                        });
+                    });
+                });
+                document.getElementById('btn-dropback').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    dd.style.transform = 'translateY(2.25rem)';                    
+                    dd.style.opacity = '0';
+                    setTimeout(() => {dd.style.display = 'none';}, 350);
+                });
+            </script>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+<div class="post-title">
+    <h1 class="post-title__text">
+        data-structure———查找
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2018/09/" class="post-meta__date button">
+    2018-09-16
+</a>
+        
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <article class="post content-card">
+        <div class="post__header"> </div>
+        <div class="post__content">
+            <p>注意一下有一个概念：平均查找长度：<strong>ASL</strong></p>
+<p><strong>顺序查找：</strong><br>举例如果从一个无序数组a（数组下标从1开始）中找到值为k的元素，查找成功就返回1，不成功就返回0，采用顺序查找的话：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Search</span><span class="params">(<span class="keyword">int</span> a[] ,<span class="keyword">int</span> n ,<span class="keyword">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i ;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">		<span class="keyword">if</span>(a[i]==k)</span><br><span class="line">			<span class="keyword">return</span> 	<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上是使用顺序表的时候的情况，下面再看一下链式结构的情况：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">LNode* <span class="title">search</span><span class="params">(LNode* head,<span class="keyword">int</span> key)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	LNode* p = head-&gt;next;</span><br><span class="line">	<span class="keyword">while</span>(p!=<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(p-&gt;data==key)</span><br><span class="line">			<span class="keyword">return</span> p;</span><br><span class="line">		p=p-&gt;next; <span class="comment">//注意一下</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;  <span class="comment">//注意一下这个没有找到所要值得情况的位置</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一个是使用循环递增i数组下标，还有一个是使用p=p-&gt;next，一个一个的顺序访问。<br><strong>折半查找：</strong><br>折半查找的要求是表中记录是按关键字<strong>有序</strong>的。用到的是递归的思想。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Bsearch</span><span class="params">(<span class="keyword">int</span> R[],<span class="keyword">int</span> low,<span class="keyword">int</span> high,<span class="keyword">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> mid;</span><br><span class="line">	<span class="keyword">while</span>(low&lt;=high)</span><br><span class="line">	&#123;</span><br><span class="line">		mid=(low+high)/<span class="number">2</span>;</span><br><span class="line">		<span class="keyword">if</span>(R[mid]==k)</span><br><span class="line">			<span class="keyword">return</span> mid;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(R[mid]&gt;k)</span><br><span class="line">			high=mid<span class="number">-1</span>;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(R[mid]&lt;k)</span><br><span class="line">			low=mid+<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的low，high，mid是下标，不是值的大小</p>
+<a id="more"></a>
+<p><strong>分块查找：</strong></p>
+<p>索引表：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> //索引表结构体</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> key;  <span class="comment">//存放这个表中的最大的关键字</span></span><br><span class="line">	<span class="keyword">int</span> low,high; <span class="comment">//存放这个块中的第一个和最后一个元素的位置</span></span><br><span class="line"></span><br><span class="line">&#125;indexElem;</span><br><span class="line"></span><br><span class="line">indexElem index[maxsize]; <span class="comment">//定义索引表</span></span><br></pre></td></tr></table></figure>
+<p>查找过程是先使用二分查找法找到带查找元素在哪一个块中，然后在块中使用顺序查找就好，因为在一个块中的元素的个数就已经很少了。</p>
+<p><strong>二叉排序树和平衡二叉树：</strong></p>
+<p>二叉排序树的定义：</p>
+<ol>
+<li><p>若它的左子树不空，则左子树上所有结点的值均小于它的根结点的值；</p>
+</li>
+<li><p>若它的右子树不空，则右子树上所有结点的值均大于它的根结点的值；</p>
+</li>
+<li><p>它的左、右子树也分别为二叉排序树。</p>
+</li>
+</ol>
+<p>二叉排序树的存储结构：采用二叉链表存储</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">BTNode</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> key;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">BTNode</span> *<span class="title">rchild</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">BTNode</span> *<span class="title">lchild</span>;</span></span><br><span class="line">&#125;BTNode;</span><br></pre></td></tr></table></figure>
+<p>二叉排序树中查找关键字的算法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BTNode *<span class="title">BSTSearch</span><span class="params">(BTNode *bt,<span class="keyword">int</span> key)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(bt==<span class="literal">NULL</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(bt-&gt;key==key)</span><br><span class="line">			<span class="keyword">return</span> bt;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(key&lt;bt-&gt;key)</span><br><span class="line">			<span class="keyword">return</span> BSTSearch(bt-&gt;lChild,key);</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(key&gt;bt-&gt;key)  </span><br><span class="line">			<span class="keyword">return</span> BSTSearch(bt-&gt;rchild,key);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到这里的查找的过程和折半查找的过程非常相似，其实，实质上折半查找（判定树是二叉排序树）就是二叉排序树的查找过程。</p>
+<p>二叉树的插入关键字的算法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">BSTInsert</span><span class="params">(BTNode *&amp;bt,<span class="keyword">int</span> key)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(bt==<span class="literal">NULL</span>) <span class="comment">//对应的是空树的情况</span></span><br><span class="line">	&#123;</span><br><span class="line">		bt=(BTNode *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(BTNode));</span><br><span class="line">		bt-&gt;rchild=<span class="literal">NULL</span>;</span><br><span class="line">		bt-&gt;lchild=<span class="literal">NULL</span>;</span><br><span class="line">		bt-&gt;key=key;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(bt-&gt;key==key) <span class="comment">//对应的是待插入的值已经在树中</span></span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(bt-&gt;key&gt;key) <span class="comment">//这里往后就很像查找算法</span></span><br><span class="line">			<span class="keyword">return</span> BSTInsert(lchild,key);</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			<span class="keyword">return</span> BSTInsert(rChild,key);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不管什么情况，插入关键字都是在新创建的结点上，最后的递归处理对应的是，找到合适的插入的位置，一层一层的递归，最后还是会创建新结点，将要插入的值插入到新创建的结点处。</p>
+<p>二叉树的构造算法：<br>假设所要构造的值都已经存储在了数组中</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">CreateBST</span><span class="params">(BTNode *&amp;bt,<span class="keyword">int</span> key[],<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	bt=<span class="literal">NULL</span>; <span class="comment">//将树置空</span></span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>,i&lt;n,i++)</span><br><span class="line">		BSTInsert(bt,key[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里使用了上面的插入算法。</p>
+
+        </div>
+         
+        <div class="post-footer__meta">
+    <p>
+        updated at 2019-03-31
+    </p>
+</div> 
+        <div class="post-meta__cats">
+    
+    
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
+    
+</div> 
+    </article>
+    
+
+
+</main>
+
+            <footer class="footer">
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright&nbsp;©&nbsp;2020&nbsp;<a href="/">Hexo</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+  
+
+
+
+ 
+
+
+    
+
+
+ 
+
+
+
+
+
+
+
+
+    </body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    <link rel="shortcut icon" type='image/x-icon' href="/favicon.ico">
+
+
+    <!-- meta -->
+
+
+<title>web scraping with python | Hexo</title>
+
+
+    <meta name="keywords" content="python, crawler">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="之前就有对网络爬虫很感兴趣，觉得这是一件比较有意思的事情，奈何前段时间有接触过，学到后面的时候有点吃力，总结了一下原因之后觉得最直接的原因就是在前端方面自己接触的还是太少了，现在在准备论文之余。。。（为何总对论文的内容不感兴趣呢-_-！）再来重新看一遍爬虫吧。。哈哈，突然觉得保持一整天学习的热情的秘诀就是:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web scraping with python">
+<meta property="og:url" content="http://example.com/2018/03/23/scraping-with-python/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="之前就有对网络爬虫很感兴趣，觉得这是一件比较有意思的事情，奈何前段时间有接触过，学到后面的时候有点吃力，总结了一下原因之后觉得最直接的原因就是在前端方面自己接触的还是太少了，现在在准备论文之余。。。（为何总对论文的内容不感兴趣呢-_-！）再来重新看一遍爬虫吧。。哈哈，突然觉得保持一整天学习的热情的秘诀就是:">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-03-23T01:13:05.000Z">
+<meta property="article:modified_time" content="2019-03-31T15:49:27.207Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="crawler">
+<meta name="twitter:card" content="summary_large_image">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" onload="if(getComputedStyle(document.documentElement).getPropertyValue('--color-mode').indexOf('dark')===-1)this.media='all'">
+        
+    
+
+    
+    
+
+    
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">
+                Demo
+            </span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="navbar-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="navbar-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="navbar-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="navbar-menu button">
+                        Page
+                    </a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+
+        
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
+                </svg>
+            </a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                <a class="dropback-icon button" id="btn-dropback">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                        <path fill="currentColor" d="M11.469,10l7.08-7.08c0.406-0.406,0.406-1.064,0-1.469c-0.406-0.406-1.063-0.406-1.469,0L10,8.53l-7.081-7.08c-0.406-0.406-1.064-0.406-1.469,0c-0.406,0.406-0.406,1.063,0,1.469L8.531,10L1.45,17.081c-0.406,0.406-0.406,1.064,0,1.469c0.203,0.203,0.469,0.304,0.735,0.304c0.266,0,0.531-0.101,0.735-0.304L10,11.469l7.08,7.081c0.203,0.203,0.469,0.304,0.735,0.304c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"></path>
+                    </svg>
+                </a>
+                
+                    <a href="/" class="dropdown-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="dropdown-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="dropdown-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="dropdown-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="dropdown-menu button">
+                        Page
+                    </a>
+                
+            </div>
+            <script>
+                document.getElementById('btn-dropdown').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    requestAnimationFrame(() => {
+                        dd.style.display = 'flex';
+                        requestAnimationFrame(() => {
+                            dd.style.transform = 'translateY(0)';
+                            dd.style.opacity = '1';
+                        });
+                    });
+                });
+                document.getElementById('btn-dropback').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    dd.style.transform = 'translateY(2.25rem)';                    
+                    dd.style.opacity = '0';
+                    setTimeout(() => {dd.style.display = 'none';}, 350);
+                });
+            </script>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+<div class="post-title">
+    <h1 class="post-title__text">
+        web scraping with python
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2018/03/" class="post-meta__date button">
+    2018-03-23
+</a>
+        
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <article class="post content-card">
+        <div class="post__header"> </div>
+        <div class="post__content">
+            <p>之前就有对网络爬虫很感兴趣，觉得这是一件比较有意思的事情，奈何前段时间有接触过，学到后面的时候有点吃力，总结了一下原因之后觉得最直接的原因就是在前端方面自己接触的还是太少了，现在在准备论文之余。。。（为何总对论文的内容不感兴趣呢-_-！）再来重新看一遍爬虫吧。。哈哈，突然觉得保持一整天学习的热情的秘诀就是:</p>
+<a id="more"></a>***把每一天的早晨的时间都用在自己感兴趣的事情上。***
+
+<hr>
+<p>好了，进入正题，直接来看代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlopen</span><br><span class="line"><span class="keyword">from</span> urllib.error <span class="keyword">import</span> HTTPError,URLError</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getTitle</span>(<span class="params">url</span>):</span></span><br><span class="line">	<span class="keyword">try</span> :</span><br><span class="line">		html=urlopen(url)</span><br><span class="line">	<span class="keyword">except</span> (HTTPError,URLError) <span class="keyword">as</span> e:</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		bsObj=BeautifulSoup(html.read())</span><br><span class="line">		title=bsObj.body.h1</span><br><span class="line">	<span class="keyword">except</span> AttributeError <span class="keyword">as</span> e:</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">	<span class="keyword">return</span> title</span><br><span class="line">	</span><br><span class="line">title=getTitle(<span class="string">&quot;http://aisleep.xyz&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> title ==<span class="literal">None</span>:</span><br><span class="line">	print(<span class="string">&quot;Title could not be found&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	print(title)</span><br></pre></td></tr></table></figure>
+
+<p>首先是引入几个需要用到的库，<code>request</code>中的<code>urlopen</code>，<code>beautifulsoup</code>，是爬虫经常需要用到的库（这里代码中的<code>BeautifulSoup</code>是<code>BeautifulSoup</code>库中的<code>BeautifulSoup</code>对象，不是指的<code>BeautifulSoup</code>库），前者是自带的，能够直接获取网页中的<code>html</code>代码，而后者是第三方库，需要自己安装，他是用来转换我们得到的<code>html</code>代码的结构，使其能够只要目标信息的旁边或附近有标记（这里说的标记是<code>HTML</code>中的标记）我们就能够提取出来。<code>HTTPError</code>和<code>URLError</code>则是对异常的处理所需要的。</p>
+<p>我们这里首先定义了一个名为<code>getTitle</code>的函数。我们在进行这个语句的时候：<code>html=urlopen(&quot;http://aisleep.xyz&quot;)</code>这行代码可能会发生两种异常：1、网页不在服务器上；2、服务器不存在。发生第一种异常，程序会抛出<code>HTTpError</code>异常，发生第二种异常，程序会返回一个<code>None</code>对象。所以<code>getTitle</code>函数中的第一个异常处理针对于<code>HTTPError</code>，还增加了一个防止<code>url</code>地址输入错误引起的<code>URLError</code>。</p>
+<p>然后，我们在使用<code>BeautifulSoup</code>去提取我们所需要的信息时也会出错：如果我们想要调用的标签不存在，<code>BeautifulSoup</code>会返回一个<code>None</code>对象；如果再去调用这个<code>None</code>对象下面的子标签，还会发生<code>AttributeError</code>错误。</p>
+<p>所以第二个异常处理针对于：1、因为服务器不存在而返回一个<code>None</code>值，后再调用这个<code>None</code>值（通过<code>html.read()</code>调用）引起的<code>AttributeError</code>异常。2、因为我们使用<code>BeautifulSoup</code>调用一个不存在的标签的时候返回了一个<code>None</code>值，后再调用这个<code>None</code>值下面的子标签而造成的<code>AttributeError</code>异常。</p>
+<p>针对于爬虫中比较常见的异常处理，这样一来就会很简单的使自己的代码更稳定一点。</p>
+<hr>
+<p>上面的是采集一个页面中需要的信息，下面再看一个代码，实现随机的从一个页面跳转到另一个页面：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlopen</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">random.seed(datetime.datetime.now())</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getLinks</span>(<span class="params">articleUrl</span>)：</span></span><br><span class="line">	html=urlopen(&quot;http://en.wikipedia.org&quot;+articleUrl)</span><br><span class="line">	bsObj=BeautifulSoup(html)</span><br><span class="line">	<span class="keyword">return</span> bsObj.find(<span class="string">&quot;div&quot;</span>,&#123;<span class="string">&quot;id&quot;</span>:<span class="string">&quot;bodyContent&quot;</span>&#125;).findAll(<span class="string">&quot;a&quot;</span>,href=re.compile(<span class="string">&quot;^(/wiki/)((?!:).)*$&quot;</span>))</span><br><span class="line"></span><br><span class="line">links=getLinks(<span class="string">&quot;/wiki/Kevin_Bacon&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> len(links)&gt;<span class="number">0</span>:</span><br><span class="line">	newArticle=links[random.randint(<span class="number">0</span>,len(links)<span class="number">-1</span>)].attrs[<span class="string">&quot;href&quot;</span>]</span><br><span class="line">	print(newArticle)</span><br><span class="line">	links=getLinks(newArticle)</span><br></pre></td></tr></table></figure>
+<p>首先这里导入了一些需要的库，<code>datetime</code>和<code>random</code>分别是为了生成一个随机数生成器。第7行中就是通过当前时间为值实现了一个随机数生成器。接着定义了一个函数<code>getLitle</code>我们传入的是以<code>http://en.wikipedia.org</code>为开头的<code>url</code>然后传入<code>Beautifulsoup</code>，最后返回在<strong>当前</strong>网页（用的是<code>find</code>）中的在<code>div</code>标签下的<code>id</code>是<code>bodyContent</code>的，且不包含<code>:</code>的以<code>/wiki/</code>开头的<strong>所有</strong><code>url</code>链接（返回的是一个列表，这里用了正则表达式来匹配所要满足条件的链接）。</p>
+<p>第14行写到以<code>Kevin_Bacon</code>为开始页面，调用<code>getLinks</code>函数。16行往下是指在返回的列表不为空的情况下，以随机数生成器生成的随机数作为列表的序号，去访问另一个链接，跳转到另一个页面，打印这个链接，最后又将此链接传给<code>getLitle</code>函数。</p>
+<hr>
+<p>接下面再看一个代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlopen</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">pages=set()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getLinks</span>(<span class="params">pageUrl</span>):</span></span><br><span class="line">	<span class="keyword">global</span> pages</span><br><span class="line">	html = urlopen(<span class="string">&quot;http://wikipedia.org&quot;</span>+pageUrl)</span><br><span class="line">	bsObj=BeautifulSoup(html)</span><br><span class="line">	<span class="keyword">for</span> link <span class="keyword">in</span> bsObj.findAll(<span class="string">&quot;a&quot;</span>,href=re.compile(<span class="string">&quot;^(/wiki/)&quot;</span>)):</span><br><span class="line">		<span class="keyword">if</span> <span class="string">&#x27;href&#x27;</span> <span class="keyword">in</span> link.attrs:</span><br><span class="line">			<span class="keyword">if</span> link.attrs[<span class="string">&#x27;href&#x27;</span>] <span class="keyword">not</span> <span class="keyword">in</span> pages:</span><br><span class="line">				newPage=link.attrs[<span class="string">&#x27;href&#x27;</span>]</span><br><span class="line">				print(newPage)</span><br><span class="line">				pages.add(newPage)</span><br><span class="line">				getLinks(newPage)</span><br><span class="line">getLinks(<span class="string">&quot;&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>由于链接之间很多都是重复的，所以自然就会有需要“链接去重”的功能。<br>首先定义了一个<code>set</code>集合类型的变量<code>pages</code>，接着我们看<code>getLinks</code>函数，第7行是定义全局变量<code>pages</code>，然后找到以<code>/wiki/</code>开头的链接。第12行是判断这个链接是否在<code>pages</code>中，如果不在就说明是新链接，打印且将他增加到<code>pages</code>中，最后将这个<code>newPage</code>又传入<code>getLinks</code>函数,递归处理。</p>
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  owner: 'fanandli',  //改你自己的名字
+  repo: 'Comments',  //专门储存评论一个GitHub仓库
+  oauth: {
+    client_id: '07907d02b088f1358f34', 
+    client_secret: 'd9f8fe0bb6f746db6e0d7b9478e7c907871c790d', 
+  },
+})
+gitment.render('container')
+</script>
+
+
+        </div>
+         
+        <div class="post-footer__meta">
+    <p>
+        updated at 2019-03-31
+    </p>
+</div> 
+        <div class="post-meta__cats">
+    
+    
+        <a href="/tags/python/" class="post-tags__link button"># python</a>
+    
+        <a href="/tags/crawler/" class="post-tags__link button"># crawler</a>
+    
+</div> 
+    </article>
+    
+
+
+</main>
+
+            <footer class="footer">
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright&nbsp;©&nbsp;2020&nbsp;<a href="/">Hexo</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+  
+
+
+
+ 
+
+
+    
+
+
+ 
+
+
+
+
+
+
+
+
+    </body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    <link rel="shortcut icon" type='image/x-icon' href="/favicon.ico">
+
+
+    <!-- meta -->
+
+
+<title>data structure 杂物间 | Hexo</title>
+
+
+    <meta name="keywords" content="data-structure">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="小插曲：写作风格想渐渐地由便于理解的语言向最精简的叙述方式转变。（严谨的风格保持不变且在努力提高中：））  整理一下数据结构所涉及到的一些C或C++中的基础知识。  结构型  结构型的作用就是满足对数据类型的需求的补充，我们可以自己创造合适自己的数据类型，例如现有int,char等数据类型，我们可以：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="data structure 杂物间">
+<meta property="og:url" content="http://example.com/2018/04/06/data-structure-1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="小插曲：写作风格想渐渐地由便于理解的语言向最精简的叙述方式转变。（严谨的风格保持不变且在努力提高中：））  整理一下数据结构所涉及到的一些C或C++中的基础知识。  结构型  结构型的作用就是满足对数据类型的需求的补充，我们可以自己创造合适自己的数据类型，例如现有int,char等数据类型，我们可以：">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-04-06T01:47:57.000Z">
+<meta property="article:modified_time" content="2019-03-31T15:49:27.198Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="data-structure">
+<meta name="twitter:card" content="summary_large_image">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" onload="if(getComputedStyle(document.documentElement).getPropertyValue('--color-mode').indexOf('dark')===-1)this.media='all'">
+        
+    
+
+    
+    
+
+    
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">
+                Demo
+            </span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="navbar-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="navbar-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="navbar-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="navbar-menu button">
+                        Page
+                    </a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+
+        
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
+                </svg>
+            </a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                <a class="dropback-icon button" id="btn-dropback">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                        <path fill="currentColor" d="M11.469,10l7.08-7.08c0.406-0.406,0.406-1.064,0-1.469c-0.406-0.406-1.063-0.406-1.469,0L10,8.53l-7.081-7.08c-0.406-0.406-1.064-0.406-1.469,0c-0.406,0.406-0.406,1.063,0,1.469L8.531,10L1.45,17.081c-0.406,0.406-0.406,1.064,0,1.469c0.203,0.203,0.469,0.304,0.735,0.304c0.266,0,0.531-0.101,0.735-0.304L10,11.469l7.08,7.081c0.203,0.203,0.469,0.304,0.735,0.304c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"></path>
+                    </svg>
+                </a>
+                
+                    <a href="/" class="dropdown-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="dropdown-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="dropdown-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="dropdown-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="dropdown-menu button">
+                        Page
+                    </a>
+                
+            </div>
+            <script>
+                document.getElementById('btn-dropdown').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    requestAnimationFrame(() => {
+                        dd.style.display = 'flex';
+                        requestAnimationFrame(() => {
+                            dd.style.transform = 'translateY(0)';
+                            dd.style.opacity = '1';
+                        });
+                    });
+                });
+                document.getElementById('btn-dropback').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    dd.style.transform = 'translateY(2.25rem)';                    
+                    dd.style.opacity = '0';
+                    setTimeout(() => {dd.style.display = 'none';}, 350);
+                });
+            </script>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+<div class="post-title">
+    <h1 class="post-title__text">
+        data structure 杂物间
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2018/04/" class="post-meta__date button">
+    2018-04-06
+</a>
+        
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <article class="post content-card">
+        <div class="post__header"> </div>
+        <div class="post__content">
+            <blockquote>
+<p>小插曲：写作风格想渐渐地由便于理解的语言向最精简的叙述方式转变。（严谨的风格保持不变且在努力提高中：））</p>
+</blockquote>
+<p>整理一下数据结构所涉及到的一些<code>C</code>或<code>C++</code>中的基础知识。</p>
+<ul>
+<li>结构型</li>
+</ul>
+<p>结构型的作用就是满足对数据类型的需求的补充，我们可以自己创造合适自己的数据类型，例如现有<code>int</code>,<code>char</code>等数据类型，我们可以：</p>
+<a id="more"></a>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> a ;</span><br><span class="line">	<span class="keyword">char</span> b ;</span><br><span class="line">&#125;typeA;</span><br></pre></td></tr></table></figure>
+<p>这样就定义了一个<code>typeA</code>类型的数据类型。</p>
+<p>他的使用需要注意：<code>typeA a[3]</code>这句话是定义了一个<code>typeA</code>类型的数组<code>a[]</code>。这个数组是由<code>a[0]</code>，<code>a[1]</code>，<code>a[2]</code>组成，且<code>a[0]</code>中由2个分别为<code>int</code>，<code>char</code>组成。使用<code>a[0].a</code>调用。</p>
+<p>所以，这里的<code>a[]</code>可以理解为是一个二维数组了。需要理解一下。</p>
+<ul>
+<li>使用自己定义的结构型构造结点</li>
+</ul>
+<p>构造一个链表结点，分为两步：<br>第一步：构造出需要的结构型（链表结点的定义）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">Node</span> *<span class="title">next</span>;</span>	</span><br><span class="line">&#125;Node;</span><br></pre></td></tr></table></figure>
+<p>构造出一个<code>Node</code>型，里面是一个<code>int</code>型的数据域，一个是<code>Node</code>型的指针。</p>
+<p>第二步：构造出结点（用一个指针指向他）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Node *p;</span><br><span class="line">p=(Node*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(Node));</span><br></pre></td></tr></table></figure>
+<p>定义了一个<code>p</code>指针指向了结点，结点构造成功。结点的名字为<code>p</code>，这里的第2句的意思自行<code>google</code>。<br>如果我们想要取出这个结点的<code>data</code>赋给<code>x</code>，那么应该这样做：<code>x=p-&gt;data</code>，或者可以这样<code>x=(*p).data</code><br>这里主要是指针的使用注意点。<br><strong>注意</strong>，这里的<code>p</code>命名了两个东西：一个是结点，另一个是指向这个结点的指针。所以<code>p</code>既是指针名又是结点名。</p>
+<ul>
+<li><code>#define</code>和<code>typedef</code>的使用</li>
+</ul>
+<p>请看实例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> <span class="meta-keyword">error</span> 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ok 0</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">bool</span> status</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> elemtype</span><br><span class="line"></span><br><span class="line"><span class="function">status <span class="title">f</span><span class="params">(elemtype a)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (a&gt;<span class="number">0</span>)</span><br><span class="line">		<span class="keyword">return</span> error;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">return</span> ok;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面这个代码其实就是这个意思：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span> a )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (a&gt;<span class="number">0</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>typedef</code>是为变量起一个新名字，<code>#define</code>则是定义一个常量，也可以理解为为常量起一个新名字。<br>这样的用法的意义是可以当你有多个地方的<code>int</code>型的变量想要修改为<code>char</code>型的时候，不要一个一个的去修改，直接将<code>typedef int xx</code>改成<code>typedef int yy</code>就可以一下子全部修改了。</p>
+<p>还有需要补充的小知识点再补充。。</p>
+
+        </div>
+         
+        <div class="post-footer__meta">
+    <p>
+        updated at 2019-03-31
+    </p>
+</div> 
+        <div class="post-meta__cats">
+    
+    
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
+    
+</div> 
+    </article>
+    
+
+
+</main>
+
+            <footer class="footer">
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright&nbsp;©&nbsp;2020&nbsp;<a href="/">Hexo</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+  
+
+
+
+ 
+
+
+    
+
+
+ 
+
+
+
+
+
+
+
+
+    </body>
+</html>

@@ -21,7 +21,7 @@
     <!-- meta -->
 
 
-<title>Archive: 2020 | Hexo</title>
+<title>Tag: algorithm | Hexo</title>
 
 
 
@@ -31,7 +31,7 @@
  
     <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/2020/index.html">
+<meta property="og:url" content="http://example.com/tags/algorithm/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="John Doe">
@@ -172,9 +172,10 @@
     </div>
 
             
-<main class='main'>
+
     
-		
+        <main class="main">
+            
     <div class="posts">
         
             
@@ -182,48 +183,31 @@
                     <div class="post-entry__header"></div>
 <div class="post-entry__content">
     <h2 class="post-entry__title">
-        Hello World
+        直接插入，简单选择和冒泡排序
     </h2>
+    
+        <ul>
+<li>直接插入排序</li>
+</ul>
+<p>insertSort[]数组用来存储我们要排的关键字，n为关键字的个数，temp用来暂时存储我们当前要插入的排序的关键字。<br>第一个for循环是从i=1开始，是因为我们规定认为初始状态的第0个元素为有序序列，第0个元素之后的元素为无序序列。我们的思路是从无序序列中逐次扫描，与有序序列中的大小进行比较，从而将他们插入到合适的位置中去。<br>因为箭头总是指向带插入位置的前一个位置，所以我们要arr[j+1]=temp</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insertSort</span><span class="params">(<span class="keyword">int</span> arr[],<span class="keyword">int</span> n)</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">	<span class="keyword">int</span> temp,i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;n;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		temp=arr[i]；</span><br><span class="line">		j=i<span class="number">-1</span>; <span class="comment">//j指向有序序列中的最右边的一个元素</span></span><br><span class="line">		<span class="keyword">while</span>(j&gt;=<span class="number">0</span>&amp;&amp;temp&lt;arr[j])</span><br><span class="line">		&#123;</span><br><span class="line">			arr[j+<span class="number">1</span>]=arr[j];</span><br><span class="line">			--j; <span class="comment">//j是从右往左扫描有序序列</span></span><br><span class="line">		&#125;</span><br><span class="line">		arr[j+<span class="number">1</span>]=temp; <span class="comment">//将temp中的待排关键字插入</span></span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
     
 </div>
 <div class="post-entry__meta">
-    <a href="/archives/2020/09/" class="post-meta__date button">
-    2020-09-03
+    <a href="/archives/2018/05/" class="post-meta__date button">
+    2018-05-17
 </a>
     
  
 </div>
 <div class="post-entry__tags">
     
-</div> 
-<a href="/2020/09/03/hello-world/" class="post-entry__link">Link</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        STL-set/unordered_set
-    </h2>
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
     
-        <p>本文主要以代码示例的形式去呈现STL中set的常见用法：</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2020/01/" class="post-meta__date button">
-    2020-01-19
-</a>
-    
- 
-</div>
-<div class="post-entry__tags">
-    
-        <a href="/tags/C/" class="post-tags__link button"># C++</a>
-    
-        <a href="/tags/STL/" class="post-tags__link button"># STL</a>
+        <a href="/tags/algorithm/" class="post-tags__link button"># algorithm</a>
     
 </div> 
-<a href="/2020/01/19/stl-set/" class="post-entry__link">Link</a>
+<a href="/2018/05/17/data-structure-12/" class="post-entry__link">Link</a>
                 </div>
             
         
@@ -233,8 +217,9 @@
     
 
 
-	
-</main>
+        </main>
+    
+
 
             <footer class="footer">
     

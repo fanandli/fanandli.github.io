@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    <link rel="shortcut icon" type='image/x-icon' href="/favicon.ico">
+
+
+    <!-- meta -->
+
+
+<title>Requests库详解 | Hexo</title>
+
+
+    <meta name="keywords" content="python, web-scraping">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="真正危险的不是计算机开始像人那样去思考，而是人类开始像计算机一样思考。&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Requests库详解">
+<meta property="og:url" content="http://example.com/2018/04/03/Requests-webscraping/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="真正危险的不是计算机开始像人那样去思考，而是人类开始像计算机一样思考。&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-04-03T01:52:53.000Z">
+<meta property="article:modified_time" content="2019-03-31T15:49:27.197Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="web-scraping">
+<meta name="twitter:card" content="summary_large_image">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" onload="if(getComputedStyle(document.documentElement).getPropertyValue('--color-mode').indexOf('dark')===-1)this.media='all'">
+        
+    
+
+    
+    
+
+    
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">
+                Demo
+            </span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="navbar-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="navbar-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="navbar-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="navbar-menu button">
+                        Page
+                    </a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+
+        
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
+                </svg>
+            </a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                <a class="dropback-icon button" id="btn-dropback">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                        <path fill="currentColor" d="M11.469,10l7.08-7.08c0.406-0.406,0.406-1.064,0-1.469c-0.406-0.406-1.063-0.406-1.469,0L10,8.53l-7.081-7.08c-0.406-0.406-1.064-0.406-1.469,0c-0.406,0.406-0.406,1.063,0,1.469L8.531,10L1.45,17.081c-0.406,0.406-0.406,1.064,0,1.469c0.203,0.203,0.469,0.304,0.735,0.304c0.266,0,0.531-0.101,0.735-0.304L10,11.469l7.08,7.081c0.203,0.203,0.469,0.304,0.735,0.304c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"></path>
+                    </svg>
+                </a>
+                
+                    <a href="/" class="dropdown-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="dropdown-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="dropdown-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="dropdown-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="dropdown-menu button">
+                        Page
+                    </a>
+                
+            </div>
+            <script>
+                document.getElementById('btn-dropdown').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    requestAnimationFrame(() => {
+                        dd.style.display = 'flex';
+                        requestAnimationFrame(() => {
+                            dd.style.transform = 'translateY(0)';
+                            dd.style.opacity = '1';
+                        });
+                    });
+                });
+                document.getElementById('btn-dropback').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    dd.style.transform = 'translateY(2.25rem)';                    
+                    dd.style.opacity = '0';
+                    setTimeout(() => {dd.style.display = 'none';}, 350);
+                });
+            </script>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+<div class="post-title">
+    <h1 class="post-title__text">
+        Requests库详解
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2018/04/" class="post-meta__date button">
+    2018-04-03
+</a>
+        
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <article class="post content-card">
+        <div class="post__header"> </div>
+        <div class="post__content">
+            <blockquote>
+<p>真正危险的不是计算机开始像人那样去思考，而是人类开始像计算机一样思考。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——西德尼·哈里斯（Sydney Harris）</p>
+</blockquote>
+<p><code>python</code><strong><em>爬虫之旅之第二站~~</em></strong></p>
+<p><code>Requests</code>库是经常用的库，比<code>urllib</code>更加方便。<br>首先先领略一下使用<code>Requests</code>的方便之处：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">response=requests.get(<span class="string">&#x27;http://aisleep.xyz&#x27;</span>)</span><br><span class="line">print(type(response))</span><br><span class="line">print(response.status_code)</span><br><span class="line">print(type(response.text))</span><br><span class="line">print(response.text)</span><br><span class="line">print(response.cookies)</span><br></pre></td></tr></table></figure>
+<p>这里的第6行和在<code>urllib</code>中使用<code>read</code>的作用是一样的，在<code>urllib</code>中还要使用<code>.decode</code>使得其变成字符串类型。在<code>Requests</code>中就很方便了，直接使用<code>text</code>就可以了。在最后一行中的<code>cookies</code>获取中也比在<code>urllib</code>中方便很多。</p>
+<a id="more"></a>
+
+<p>再看<code>requests</code>中还提供了很多比较方便的各种请求方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">requests.post(<span class="string">&quot;http://httpbin.org/post&quot;</span>)</span><br><span class="line">requests.put(<span class="string">&quot;http://httpbin.org/put&quot;</span>)</span><br><span class="line">requests.delete(<span class="string">&quot;http://httpbin.org/delete&quot;</span>)</span><br><span class="line">requests.head(<span class="string">&quot;http://httpbin.org/get&quot;</span>)</span><br><span class="line">requests.options(<span class="string">&quot;http://htpbin.org/get&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>可见想要进行一个<code>post</code>请求，直接<code>requests.post</code>就好。</p>
+<hr>
+<p>好，<code>Requsets</code>的方便之处你现在也稍微感受到一点了，现在在仔细的看一下他的使用。</p>
+<ul>
+<li><code>get</code>请求</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">response=requests.get(<span class="string">&#x27;http://aisleep.xyz&#x27;</span>)</span><br><span class="line">print(response.text)</span><br></pre></td></tr></table></figure>
+<p>这里就是一个最简单的一个<code>get</code>请求。那如果我们还要传一些自己的参数怎么设置呢：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">response=requests.get(<span class="string">&quot;http://httpbin.org/get?name=lifan&amp;age=23&quot;</span>)</span><br><span class="line">print(response.text)</span><br></pre></td></tr></table></figure>
+<p>也可以这样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">data=&#123;</span><br><span class="line">	<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;lifan&#x27;</span>,</span><br><span class="line">	<span class="string">&#x27;age&#x27;</span>:<span class="number">23</span></span><br><span class="line">&#125;</span><br><span class="line">response=requests.get(<span class="string">&quot;http://httpbin.org/get&quot;</span>,params=data)</span><br><span class="line">print(response.text)</span><br></pre></td></tr></table></figure>
+<p>第一种方法比较繁琐一点，需要加一个<code>?</code>再在多个参数之间再加上<code>&amp;</code>就可以。第二种方法就是自己先构造一个字典，然后传给<code>params</code>就可以方便的构造一个<code>get</code>请求的<code>url</code>，不需要再手动输入了。</p>
+<ul>
+<li>解析<code>json</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">response=requests.get(<span class="string">&quot;http://httpbin.org/get&quot;</span>)</span><br><span class="line">print(type(response.text))</span><br><span class="line">print(response.json())</span><br><span class="line">print(type(response.json()))</span><br></pre></td></tr></table></figure>
+<p>这是直接提供的了个解析<code>json</code>格式的方式，其实第4行就相当于进行一个这样的调用：<code>print(json.load(response.text))</code>(在前面再加一句<code>import json</code>)</p>
+<ul>
+<li>获取二进制数据</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">response=requests.get(<span class="string">&quot;https://github.com/favicon.ico&quot;</span>)</span><br><span class="line">print(type(response.text),type(response.content))</span><br><span class="line">print(response.text)</span><br><span class="line">print(response.content)</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">&#x27;favicon.ico&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">	f.write(response.content)</span><br><span class="line">	f.close()</span><br></pre></td></tr></table></figure>
+<p>这里使用<code>content</code>获取二进制数据，比如图片，视频等，第6行开始到结束做的是保存这个二进制文件的工作：打开一个文件，<code>wb</code>是说明对这个文件进行操作的方式为“以二进制格式打开一个文件只用于写入”，<code>as f</code>是帮这个文件起了一个别名，<code>f.write</code>是写入到打开的文件中，最后要关闭文件。</p>
+<ul>
+<li><code>header</code>添加</li>
+</ul>
+<p>添加<code>headers</code>主要是模拟成你是浏览器要求的访问，防止被浏览网站所禁止。这里添加一个浏览器信息就好</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">headers=&#123;</span><br><span class="line">	<span class="string">&#x27;User-Agent&#x27;</span>:<span class="string">&#x27;Mozilla/5.0 (Macintosh; intel Mac OS X 10_11_4) AppleWebKit/537.36(KHTML,like Gecko)Chrome/52.0.2743.116 Safari/537.36&#x27;</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">response=requests.get(<span class="string">&#x27;http://www.zhihu.com&#x27;</span>,headers=headers)</span><br><span class="line">print(response.text)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>基本的<code>post</code>请求</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">data=&#123;<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;lifan&#x27;</span>,<span class="string">&#x27;age&#x27;</span>:<span class="string">&#x27;23&#x27;</span>&#125;</span><br><span class="line">response=requests.post(<span class="string">&quot;http://httpbin.org/post&quot;</span>,data=data)</span><br><span class="line">print(response.text)</span><br></pre></td></tr></table></figure>
+<p>这里就明显看出比<code>urllib</code>中的操作方便很多。</p>
+<ul>
+<li><code>response</code>属性</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">response=requests.get(<span class="string">&#x27;http://www.baidu.com&#x27;</span>)</span><br><span class="line">print(type(response.status_code),response.status_code)</span><br><span class="line">print(type(response.headers),response.headers)</span><br><span class="line">print(type(response.cookies),response.cookies)</span><br><span class="line">print(type(response.url),response.url)</span><br><span class="line">print(type(response.history),response.history)</span><br></pre></td></tr></table></figure>
+<p>运行结果为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;class &#39;int&#39;&gt; 200</span><br><span class="line">&lt;class &#39;requests.structures.CaseInsensitiveDict&#39;&gt; &#123;&#39;Server&#39;: &#39;bfe&#x2F;1.0.8.18&#39;, &#39;Date&#39;: &#39;Tue, 03 Apr 2018 07:59:03 GMT&#39;, &#39;Content-Type&#39;: &#39;text&#x2F;html&#39;, &#39;Last-Modified&#39;: &#39;Mon, 23 Jan 2017 13:27:36 GMT&#39;, &#39;Transfer-Encoding&#39;: &#39;chunked&#39;, &#39;Connection&#39;: &#39;Keep-Alive&#39;, &#39;Cache-Control&#39;: &#39;private, no-cache, no-store, proxy-revalidate, no-transform&#39;, &#39;Pragma&#39;: &#39;no-cache&#39;, &#39;Set-Cookie&#39;: &#39;BDORZ&#x3D;27315; max-age&#x3D;86400; domain&#x3D;.baidu.com; path&#x3D;&#x2F;&#39;, &#39;Content-Encoding&#39;: &#39;gzip&#39;&#125;</span><br><span class="line">&lt;class &#39;requests.cookies.RequestsCookieJar&#39;&gt; &lt;RequestsCookieJar[&lt;Cookie BDORZ&#x3D;27315 for .baidu.com&#x2F;&gt;]&gt;</span><br><span class="line">&lt;class &#39;str&#39;&gt; http:&#x2F;&#x2F;www.baidu.com&#x2F;</span><br><span class="line">&lt;class &#39;list&#39;&gt; []</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>状态码判断</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">response=requests.get(<span class="string">&#x27;http://www.baidu.com&#x27;</span>)</span><br><span class="line">exit() <span class="keyword">if</span> <span class="keyword">not</span> response.status_code==requests.codes.ok <span class="keyword">else</span> print(<span class="string">&#x27;request successfully&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>这个状态码的判断的意思是，在<code>requests.codes</code>里面他将很多的状态码对应了一些方便记忆的单词，比如，将<code>200</code>对应了<code>ok</code>这个词，<code>404</code>对应了<code>not_found</code>这个词，这样我们只要查表不需要记住这些状态码就行了，第3行的代码的意思是：如果<code>response</code>的状态码不等于<code>ok</code>就退出，如果等于，就打印<code>request successfully</code>。</p>
+
+        </div>
+         
+        <div class="post-footer__meta">
+    <p>
+        updated at 2019-03-31
+    </p>
+</div> 
+        <div class="post-meta__cats">
+    
+    
+        <a href="/tags/python/" class="post-tags__link button"># python</a>
+    
+        <a href="/tags/web-scraping/" class="post-tags__link button"># web-scraping</a>
+    
+</div> 
+    </article>
+    
+
+
+</main>
+
+            <footer class="footer">
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright&nbsp;©&nbsp;2020&nbsp;<a href="/">Hexo</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+  
+
+
+
+ 
+
+
+    
+
+
+ 
+
+
+
+
+
+
+
+
+    </body>
+</html>

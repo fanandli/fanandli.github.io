@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    <link rel="shortcut icon" type='image/x-icon' href="/favicon.ico">
+
+
+    <!-- meta -->
+
+
+<title>排序算法习题 | Hexo</title>
+
+
+    <meta name="keywords" content="data-structure">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="1.设计一个算法指出在一个无序关键字序列中的某个关键字是该序列中的第几个关键字（从小到大数），序列中关键字均为整数类型，且各不相同，要求比较的次数尽可能的少。 12345678910111213141516171819int getPos(int arr[],int n,int k)&amp;#123;	int i&#x3D;0,j&#x3D;n-1;	int temp;	while(i&lt;&#x3D;j)	&amp;#123;		whi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序算法习题">
+<meta property="og:url" content="http://example.com/2018/05/23/data-structure-20/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1.设计一个算法指出在一个无序关键字序列中的某个关键字是该序列中的第几个关键字（从小到大数），序列中关键字均为整数类型，且各不相同，要求比较的次数尽可能的少。 12345678910111213141516171819int getPos(int arr[],int n,int k)&amp;#123;	int i&#x3D;0,j&#x3D;n-1;	int temp;	while(i&lt;&#x3D;j)	&amp;#123;		whi">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-05-23T07:48:19.000Z">
+<meta property="article:modified_time" content="2019-03-31T15:49:27.202Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="data-structure">
+<meta name="twitter:card" content="summary_large_image">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" onload="if(getComputedStyle(document.documentElement).getPropertyValue('--color-mode').indexOf('dark')===-1)this.media='all'">
+        
+    
+
+    
+    
+
+    
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">
+                Demo
+            </span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="navbar-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="navbar-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="navbar-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="navbar-menu button">
+                        Page
+                    </a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+
+        
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
+                </svg>
+            </a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                <a class="dropback-icon button" id="btn-dropback">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                        <path fill="currentColor" d="M11.469,10l7.08-7.08c0.406-0.406,0.406-1.064,0-1.469c-0.406-0.406-1.063-0.406-1.469,0L10,8.53l-7.081-7.08c-0.406-0.406-1.064-0.406-1.469,0c-0.406,0.406-0.406,1.063,0,1.469L8.531,10L1.45,17.081c-0.406,0.406-0.406,1.064,0,1.469c0.203,0.203,0.469,0.304,0.735,0.304c0.266,0,0.531-0.101,0.735-0.304L10,11.469l7.08,7.081c0.203,0.203,0.469,0.304,0.735,0.304c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"></path>
+                    </svg>
+                </a>
+                
+                    <a href="/" class="dropdown-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="dropdown-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="dropdown-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="dropdown-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="dropdown-menu button">
+                        Page
+                    </a>
+                
+            </div>
+            <script>
+                document.getElementById('btn-dropdown').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    requestAnimationFrame(() => {
+                        dd.style.display = 'flex';
+                        requestAnimationFrame(() => {
+                            dd.style.transform = 'translateY(0)';
+                            dd.style.opacity = '1';
+                        });
+                    });
+                });
+                document.getElementById('btn-dropback').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    dd.style.transform = 'translateY(2.25rem)';                    
+                    dd.style.opacity = '0';
+                    setTimeout(() => {dd.style.display = 'none';}, 350);
+                });
+            </script>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+<div class="post-title">
+    <h1 class="post-title__text">
+        排序算法习题
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2018/05/" class="post-meta__date button">
+    2018-05-23
+</a>
+        
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <article class="post content-card">
+        <div class="post__header"> </div>
+        <div class="post__content">
+            <p>1.设计一个算法指出在一个无序关键字序列中的某个关键字是该序列中的第几个关键字（从小到大数），序列中关键字均为整数类型，且各不相同，要求比较的次数尽可能的少。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getPos</span><span class="params">(<span class="keyword">int</span> arr[],<span class="keyword">int</span> n,<span class="keyword">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i=<span class="number">0</span>,j=n<span class="number">-1</span>;</span><br><span class="line">	<span class="keyword">int</span> temp;</span><br><span class="line">	<span class="keyword">while</span>(i&lt;=j)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">while</span>(i&lt;n&amp;&amp;arr[i]&lt;=k) ++i; <span class="comment">//把比这个数小的放在左边</span></span><br><span class="line">		<span class="keyword">while</span>(j&gt;=<span class="number">0</span>&amp;&amp;arr[j]&gt;k) --j; <span class="comment">//把比这个数大的放在右边</span></span><br><span class="line">		<span class="keyword">if</span>(i&lt;j)</span><br><span class="line">		&#123;</span><br><span class="line">			temp=arr[i]; <span class="comment">//逻辑上为啥就能找到这个数的位置的原因不知道。。</span></span><br><span class="line">			arr[i]=arr[j];</span><br><span class="line">			arr[j]=temp;</span><br><span class="line">			++i;</span><br><span class="line">			--j;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> j+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>2.设计一个用<strong>二分查找法</strong>来找插入位置的改进的**插入排序算法??**。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BSSort</span><span class="params">(<span class="keyword">int</span> arr[],<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> low,high,mid,place;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		low=<span class="number">1</span>;high=i<span class="number">-1</span>;</span><br><span class="line">		arr[<span class="number">0</span>]=arr[i];</span><br><span class="line">		<span class="keyword">while</span>(low&lt;=high) <span class="comment">// 二分查找</span></span><br><span class="line">		&#123;</span><br><span class="line">			mid=(low+high)/<span class="number">2</span>;</span><br><span class="line">			<span class="keyword">if</span>(arr[<span class="number">0</span>]&lt;arr[mid])</span><br><span class="line">				high=mid+<span class="number">1</span>;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">				low=mid+<span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		place=low;  <span class="comment">//插入arr[i]的位置？？</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=i<span class="number">-1</span>;j&gt;=place;--j)</span><br><span class="line">			arr[j+<span class="number">1</span>]=arr[j];</span><br><span class="line">		arr[place]=arr[<span class="number">0</span>];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.设计<strong>快速排序</strong>的递归和非递归算法**??**</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">partition</span><span class="params">(<span class="keyword">int</span> arr[],<span class="keyword">int</span> low,<span class="keyword">int</span> high,<span class="keyword">int</span> &amp;i)</span> <span class="comment">//划分函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i; <span class="comment">//初始化</span></span><br><span class="line">	<span class="keyword">int</span> temp;</span><br><span class="line">	i=low;</span><br><span class="line">	j=high;</span><br><span class="line">	temp=arr[i];</span><br><span class="line">	<span class="keyword">while</span>(i&lt;j)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">while</span>(i&lt;j&amp;&amp;arr[j]&gt;=temp) --j;</span><br><span class="line">		<span class="keyword">if</span>(i&lt;j)</span><br><span class="line">		&#123;</span><br><span class="line">			arr[i]=arr[j];</span><br><span class="line">			++i;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">while</span>(i&lt;j&amp;&amp;arr[i]&lt;temp) ++i;</span><br><span class="line">		<span class="keyword">if</span>(i&lt;j)</span><br><span class="line">		&#123;</span><br><span class="line">			arr[j]=arr[i];</span><br><span class="line">			--j;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	arr[i]=temp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span> arr[],<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span> <span class="comment">//递归</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">if</span>(low&lt;high)</span><br><span class="line">	&#123;</span><br><span class="line">		partition(arr,low,high,i);</span><br><span class="line">		quickSort(arr,low,i<span class="number">-1</span>);</span><br><span class="line">		quickSort(arr,i+<span class="number">1</span>,high);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quickSortNonrecursion</span><span class="params">(<span class="keyword">int</span> arr[],<span class="keyword">int</span> n)</span> <span class="comment">//非递归？？</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,low,high;</span><br><span class="line">	<span class="keyword">int</span> <span class="built_in">stack</span>[maxSize][<span class="number">2</span>],top=<span class="number">-1</span>; <span class="comment">//自己申请栈空间</span></span><br><span class="line">	low0;high=n<span class="number">-1</span>;</span><br><span class="line">	++top;  <span class="comment">//入栈</span></span><br><span class="line">	<span class="built_in">stack</span>[top][<span class="number">0</span>]=low;</span><br><span class="line">	<span class="built_in">stack</span>[top][<span class="number">1</span>]=high;</span><br><span class="line">	<span class="keyword">while</span>(top&gt;=<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		low=<span class="built_in">stack</span>[top][<span class="number">0</span>]; <span class="comment">//出栈</span></span><br><span class="line">		high=<span class="built_in">stack</span>[top][<span class="number">1</span>];</span><br><span class="line">		--top;</span><br><span class="line">		partition(arr,low,high,i)</span><br><span class="line">		<span class="keyword">if</span>(low&lt;high)</span><br><span class="line">		&#123;</span><br><span class="line">			++top;  <span class="comment">//入栈</span></span><br><span class="line">			<span class="built_in">stack</span>[top][<span class="number">0</span>]=low;</span><br><span class="line">			<span class="built_in">stack</span>[top][<span class="number">1</span>]=i<span class="number">-1</span>;</span><br><span class="line">			++top;  <span class="comment">//出栈</span></span><br><span class="line">			<span class="built_in">stack</span>[top][<span class="number">0</span>]=i+<span class="number">1</span>;</span><br><span class="line">			<span class="built_in">stack</span>[top][<span class="number">1</span>]=high;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4.设有整数0~n-1存放在整形数组A[0,1,2,…n-1]中，请设计一个时间复杂度为O(n),空间复杂度为O(1)的算法来是实现对A的排序（要求从小到大）。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">order</span><span class="params">(<span class="keyword">int</span> A[],<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;++i)</span><br><span class="line">		A[A[i]]=A[i]; <span class="comment">//???</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>5.编写一个是实现在排序二叉树中将data域（整型）值小于x的结点全部删除的算法。树中存在data域为x的结点且不存在data域值相同的结点。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">deleteBT</span><span class="params">(BTNode *&amp;t)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(t!=<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		deleteBT(t-&gt;lChild);</span><br><span class="line">		deleteBT(t-&gt;rChild);</span><br><span class="line">		<span class="built_in">free</span>(t);</span><br><span class="line">		t=<span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">findAndDeleteBT</span><span class="params">(BTNode *&amp;t,<span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(t!=<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(t-&gt;data==x)</span><br><span class="line">		&#123;</span><br><span class="line">			deleteBT(t-&gt;lChild);</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(t-&gt;data&lt;x)</span><br><span class="line">			t=t-&gt;rChild;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			t=t-&gt;lChild;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+         
+        <div class="post-footer__meta">
+    <p>
+        updated at 2019-03-31
+    </p>
+</div> 
+        <div class="post-meta__cats">
+    
+    
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
+    
+</div> 
+    </article>
+    
+
+
+</main>
+
+            <footer class="footer">
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright&nbsp;©&nbsp;2020&nbsp;<a href="/">Hexo</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+  
+
+
+
+ 
+
+
+    
+
+
+ 
+
+
+
+
+
+
+
+
+    </body>
+</html>

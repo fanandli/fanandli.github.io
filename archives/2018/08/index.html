@@ -21,7 +21,7 @@
     <!-- meta -->
 
 
-<title>Archive: 2020 | Hexo</title>
+<title>Archive: 2018/8 | Hexo</title>
 
 
 
@@ -31,7 +31,7 @@
  
     <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/2020/index.html">
+<meta property="og:url" content="http://example.com/archives/2018/08/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="John Doe">
@@ -182,48 +182,53 @@
                     <div class="post-entry__header"></div>
 <div class="post-entry__content">
     <h2 class="post-entry__title">
-        Hello World
+        有关栈的问题
     </h2>
+    
+        <p><strong>1、利用栈将中缀表达式求值：</strong><br>计算规则：设两个栈，s1用来存储操作数，s2用来存储运算符。从左往右扫描表达式，遇到操作数就将入栈s1,遇到运算符就入栈s2。<br>当前扫描到的运算符优先级大于栈顶的运算符的优先级，则入栈，否则，就出栈s1中的两个操作数，进行计算，将计算结果入栈s1。<strong>且栈顶的操作数先出栈，放在运算符的右边，栈顶下面的一个操作数后出栈，放在运算符的左边</strong>。<br>如果遇到左括号就直接入栈s2，直到遇到右括号，此时，从栈顶到左括号的运算符都出栈进行计算。出栈的运算符都不再入栈。<br>如果表达式全部扫描完毕，s2栈中还有运算符的话就挨个出栈进行计算，计算结果依次放入s1栈中。</p>
     
 </div>
 <div class="post-entry__meta">
-    <a href="/archives/2020/09/" class="post-meta__date button">
-    2020-09-03
+    <a href="/archives/2018/08/" class="post-meta__date button">
+    2018-08-19
 </a>
     
  
 </div>
 <div class="post-entry__tags">
     
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
+    
 </div> 
-<a href="/2020/09/03/hello-world/" class="post-entry__link">Link</a>
+<a href="/2018/08/19/zhan-prc/" class="post-entry__link">Link</a>
                 </div>
             
                 <div class='post-entry content-card'>
                     <div class="post-entry__header"></div>
 <div class="post-entry__content">
     <h2 class="post-entry__title">
-        STL-set/unordered_set
+        线性表问题总结
     </h2>
     
-        <p>本文主要以代码示例的形式去呈现STL中set的常见用法：</p>
+        <p><strong>逆置问题：</strong><br>例1：<br>1、将一长度为n的数组的前端K（k&lt;n）个元素逆序后移动到数组后段，要求原数组总数据不丢失。<br>2、将一长度为n的数组的前端K（k&lt;n）个元素保持原序后移动到数组后段，要求原数组总数据不丢失。<br>3、将数组中的元素循环左移p（0&lt;p&lt;n）个位置。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span> a[],<span class="keyword">int</span> left,<span class="keyword">int</span> right,<span class="keyword">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> temp;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=left,j=right;i&lt;left+k &amp;&amp; i&lt;j;++i,--j) <span class="comment">//因为k的长度有可能超过数组长度的一半         </span></span><br><span class="line">	&#123;                                                <span class="comment">//所以i&lt;j这个条件还是要加上去的</span></span><br><span class="line">		temp=a[i];</span><br><span class="line">		a[i]=a[j];</span><br><span class="line">		a[j]=temp;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">moveToEnd</span><span class="params">(<span class="keyword">int</span> a [],<span class="keyword">int</span> n ,<span class="keyword">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	reverse(a,<span class="number">0</span>,k<span class="number">-1</span>,k);</span><br><span class="line">	reverse(a,<span class="number">0</span>,n<span class="number">-1</span>,k);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">moveP</span><span class="params">(<span class="keyword">int</span> a [],<span class="keyword">int</span> n,<span class="keyword">int</span> p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	reverse(a,<span class="number">0</span>,p<span class="number">-1</span>,p);</span><br><span class="line">	reverse(a,p,n<span class="number">-1</span>,n-p);</span><br><span class="line">	reverse(a,<span class="number">0</span>,n<span class="number">-1</span>,n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
     
 </div>
 <div class="post-entry__meta">
-    <a href="/archives/2020/01/" class="post-meta__date button">
-    2020-01-19
+    <a href="/archives/2018/08/" class="post-meta__date button">
+    2018-08-03
 </a>
     
  
 </div>
 <div class="post-entry__tags">
     
-        <a href="/tags/C/" class="post-tags__link button"># C++</a>
-    
-        <a href="/tags/STL/" class="post-tags__link button"># STL</a>
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
     
 </div> 
-<a href="/2020/01/19/stl-set/" class="post-entry__link">Link</a>
+<a href="/2018/08/03/xianxingbiao-prac1/" class="post-entry__link">Link</a>
                 </div>
             
         

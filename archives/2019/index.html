@@ -21,7 +21,7 @@
     <!-- meta -->
 
 
-<title>Hexo</title>
+<title>Archive: 2019 | Hexo</title>
 
 
 
@@ -31,7 +31,7 @@
  
     <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:url" content="http://example.com/archives/2019/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="John Doe">
@@ -171,58 +171,12 @@
         
     </div>
 
-            <main class="main">
+            
+<main class='main'>
     
+		
     <div class="posts">
         
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        Hello World
-    </h2>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2020/09/" class="post-meta__date button">
-    2020-09-03
-</a>
-    
- 
-</div>
-<div class="post-entry__tags">
-    
-</div> 
-<a href="/2020/09/03/hello-world/" class="post-entry__link">Link</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        STL-set/unordered_set
-    </h2>
-    
-        <p>本文主要以代码示例的形式去呈现STL中set的常见用法：</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2020/01/" class="post-meta__date button">
-    2020-01-19
-</a>
-    
- 
-</div>
-<div class="post-entry__tags">
-    
-        <a href="/tags/C/" class="post-tags__link button"># C++</a>
-    
-        <a href="/tags/STL/" class="post-tags__link button"># STL</a>
-    
-</div> 
-<a href="/2020/01/19/stl-set/" class="post-entry__link">Link</a>
-                </div>
             
                 <div class='post-entry content-card'>
                     <div class="post-entry__header"></div>
@@ -453,6 +407,57 @@
 <a href="/2019/05/28/c-duotai/" class="post-entry__link">Link</a>
                 </div>
             
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        C++中的友元
+    </h2>
+    
+        <p>友元的功能是让一个函数或者类，能够访问另一个类中的私有成员。</p>
+<p>实现方法：</p>
+<p>1.全局函数作为友元：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Building</span>&#123;</span><span class="comment">//类</span></span><br><span class="line"><span class="function"><span class="keyword">friend</span> <span class="keyword">void</span> <span class="title">goodfri</span><span class="params">(Building *building)</span></span>;<span class="comment">//这句话就是让全局函数做Building类的友元</span></span><br><span class="line"><span class="comment">//这样，private的m_bedroom才可以被goodfri访问</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        Buliding()&#123;<span class="comment">//构造函数</span></span><br><span class="line">            <span class="keyword">this</span>-&gt;m_sittingroom=<span class="string">&quot;keting&quot;</span>;<span class="comment">//在其中赋值</span></span><br><span class="line">            <span class="keyword">this</span>-&gt;m_bedroom=<span class="string">&quot;woshi&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">string</span> m_sittingroom;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        <span class="built_in">string</span> m_bedroom;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">goodfri</span><span class="params">(Building *building)</span></span>&#123;<span class="comment">//全局函数</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;now is:&quot;</span>&lt;&lt;building-&gt;m_sittingroom&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;now is:&quot;</span>&lt;&lt;building-&gt;m_bedroom&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test01</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Building b;<span class="comment">//创建一个Building型的b</span></span><br><span class="line">    goodfri(&amp;b);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    test01();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2019/05/" class="post-meta__date button">
+    2019-05-27
+</a>
+    
+ 
+</div>
+<div class="post-entry__tags">
+    
+        <a href="/tags/C/" class="post-tags__link button"># C++</a>
+    
+</div> 
+<a href="/2019/05/27/c-friend/" class="post-entry__link">Link</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        C++中的重载
+    </h2>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2019/05/" class="post-meta__date button">
+    2019-05-23
+</a>
+    
+ 
+</div>
+<div class="post-entry__tags">
+    
+        <a href="/tags/C/" class="post-tags__link button"># C++</a>
+    
+</div> 
+<a href="/2019/05/23/c-chongzai/" class="post-entry__link">Link</a>
+                </div>
+            
         
     </div>
     
@@ -461,7 +466,7 @@
                 
                 
                     <div class="pagination_next">
-                        <a href="/page/2/" class="button">
+                        <a href="/archives/2019/page/2/" class="button">
                             Next&nbsp;&gt;
                         </a>
                     </div>
@@ -471,6 +476,7 @@
     
 
 
+	
 </main>
 
             <footer class="footer">

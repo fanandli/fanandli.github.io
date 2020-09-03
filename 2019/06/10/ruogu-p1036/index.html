@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    <link rel="shortcut icon" type='image/x-icon' href="/favicon.ico">
+
+
+    <!-- meta -->
+
+
+<title>洛谷p1036-选数 | Hexo</title>
+
+
+    <meta name="keywords" content="OJ, C/C++, NOI/NOIP">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="题目链接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="洛谷p1036-选数">
+<meta property="og:url" content="http://example.com/2019/06/10/ruogu-p1036/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="题目链接">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-06-10T03:36:27.000Z">
+<meta property="article:modified_time" content="2019-06-10T13:02:28.552Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="OJ">
+<meta property="article:tag" content="C&#x2F;C++">
+<meta property="article:tag" content="NOI&#x2F;NOIP">
+<meta name="twitter:card" content="summary_large_image">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" onload="if(getComputedStyle(document.documentElement).getPropertyValue('--color-mode').indexOf('dark')===-1)this.media='all'">
+        
+    
+
+    
+    
+
+    
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">
+                Demo
+            </span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="navbar-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="navbar-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="navbar-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="navbar-menu button">
+                        Page
+                    </a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+
+        
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
+                </svg>
+            </a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                <a class="dropback-icon button" id="btn-dropback">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                        <path fill="currentColor" d="M11.469,10l7.08-7.08c0.406-0.406,0.406-1.064,0-1.469c-0.406-0.406-1.063-0.406-1.469,0L10,8.53l-7.081-7.08c-0.406-0.406-1.064-0.406-1.469,0c-0.406,0.406-0.406,1.063,0,1.469L8.531,10L1.45,17.081c-0.406,0.406-0.406,1.064,0,1.469c0.203,0.203,0.469,0.304,0.735,0.304c0.266,0,0.531-0.101,0.735-0.304L10,11.469l7.08,7.081c0.203,0.203,0.469,0.304,0.735,0.304c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"></path>
+                    </svg>
+                </a>
+                
+                    <a href="/" class="dropdown-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="dropdown-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="dropdown-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="dropdown-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="dropdown-menu button">
+                        Page
+                    </a>
+                
+            </div>
+            <script>
+                document.getElementById('btn-dropdown').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    requestAnimationFrame(() => {
+                        dd.style.display = 'flex';
+                        requestAnimationFrame(() => {
+                            dd.style.transform = 'translateY(0)';
+                            dd.style.opacity = '1';
+                        });
+                    });
+                });
+                document.getElementById('btn-dropback').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    dd.style.transform = 'translateY(2.25rem)';                    
+                    dd.style.opacity = '0';
+                    setTimeout(() => {dd.style.display = 'none';}, 350);
+                });
+            </script>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+<div class="post-title">
+    <h1 class="post-title__text">
+        洛谷p1036-选数
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2019/06/" class="post-meta__date button">
+    2019-06-10
+</a>
+        
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <article class="post content-card">
+        <div class="post__header"> </div>
+        <div class="post__content">
+            <p><a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P1036">题目链接</a></p>
+<a id="more"></a>
+
+<h4 id="题解一："><a href="#题解一：" class="headerlink" title="题解一："></a>题解一：</h4><p>此题是从n个数中选出k个不同的数字出来，然后按要求计算，看k个数的和有多少个数素数。<br>思考一下，无非难点就是，如何在n个数字中取出k个不同的数字，<strong>且不能重复</strong>。这里不能重复，一是说取出的数字不能相同，二是说取得方案不能重复。比如：<br>4 3<br>3 7 12 19<br>是说4个数字中取出3个数字，可以这样取<br>3 7 12<br>3 7 19<br>3 12 19<br>7 12 19<br>但是不能这样取：<br>3 3 7之类，<br>也不能这样取：<br>3 7 12<br>3 7 19<br>3 7 19<br>3 12 19<br>7 12 19<br>即：一组内不能有相同得数字，且不能有相同得两组。</p>
+<p>好了，重点是：<strong>如何去重</strong>！<br>如果我们有规律得枚举，就能有效得避免重复列举得出现。也即达到了去重得目的。</p>
+<p>我们要这样：<br>3 7 12<br>3 7 19<br>3 12 19<br>7 12 19<br>这样取，第一个位置，先取最小得数字3，后面递增取出。第一个位置选择为3得排列选完了，那么：第一个位置换为第二小得数字，再进行排列。即选7排列。<br>这样枚举，就有秩序了。</p>
+<p>题解思路是用dfs，和上述文章中提到得降重得方法。<br>其中startx参数是用来储存当前升序排序时的初始值。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isprime</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;<span class="comment">//判断素数</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i*i&lt;=a;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(a%i==<span class="number">0</span>)  <span class="keyword">return</span> <span class="literal">false</span>;<span class="comment">//如果能整除，说明不是素数</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;<span class="comment">//若能走到这里了，就说明不能整除，说明是素数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> n,k;<span class="comment">//n为n个数，k为要选取的个数</span></span><br><span class="line"><span class="keyword">int</span> a[<span class="number">25</span>];<span class="comment">//存储输入的每个数字</span></span><br><span class="line"><span class="keyword">bool</span> vis[<span class="number">25</span>];<span class="comment">//标记这个数是否有没被选中</span></span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> ans=<span class="number">0</span>;<span class="comment">//统计部分和为素数的情况个数</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> m,<span class="keyword">int</span> sum,<span class="keyword">int</span> startx)</span></span>&#123;<span class="comment">//递归处</span></span><br><span class="line">    <span class="comment">//m代表了select了多少个数</span></span><br><span class="line">    <span class="comment">//sum表示当前的和</span></span><br><span class="line">    <span class="comment">//startx表示升序排列的起始值，就是用上面所说得按一定规律有序得枚举</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(m==k)&#123;<span class="comment">//如果选完了的情况</span></span><br><span class="line">        <span class="keyword">if</span>(isprime(sum))    ans++;<span class="comment">//如果选取的数的和不为素数，那么就ans++</span></span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=startx;i&lt;n;i++)&#123; <span class="comment">//这里就为上述中写的有规律的排列的实现</span></span><br><span class="line">        <span class="keyword">if</span>(vis[i])  <span class="keyword">continue</span>;<span class="comment">//如果被选过，直接进入下一次循环</span></span><br><span class="line">        vis[i]=<span class="literal">true</span>;<span class="comment">//如果没有被选过，选择之，即标记为选过</span></span><br><span class="line">        dfs(m+<span class="number">1</span>,sum+a[i],i+<span class="number">1</span>);<span class="comment">//递归</span></span><br><span class="line"><span class="comment">//m+1为被选择了的数的个数加一，sum+a[i]计算被选中的数字的和，i+1升序初始值加一，以防止重复排列</span></span><br><span class="line">        vis[i]=<span class="literal">false</span>;<span class="comment">//递归出来后，让这个数的标记重新设为未选择状态</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ;<span class="comment">//这里，所有都已枚举完，直接返回</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;k;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    <span class="built_in">cin</span>&gt;&gt;a[i];<span class="comment">//读入输入的数</span></span><br><span class="line">    dfs(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans;<span class="comment">//输出结果</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+        </div>
+         
+        <div class="post-footer__meta">
+    <p>
+        updated at 2019-06-10
+    </p>
+</div> 
+        <div class="post-meta__cats">
+    
+    
+        <a href="/tags/OJ/" class="post-tags__link button"># OJ</a>
+    
+        <a href="/tags/C-C/" class="post-tags__link button"># C/C++</a>
+    
+        <a href="/tags/NOI-NOIP/" class="post-tags__link button"># NOI/NOIP</a>
+    
+</div> 
+    </article>
+    
+
+
+</main>
+
+            <footer class="footer">
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright&nbsp;©&nbsp;2020&nbsp;<a href="/">Hexo</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+  
+
+
+
+ 
+
+
+    
+
+
+ 
+
+
+
+
+
+
+
+
+    </body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    <link rel="shortcut icon" type='image/x-icon' href="/favicon.ico">
+
+
+    <!-- meta -->
+
+
+<title>由一个模板题引出的小总结-洛谷p1777快速排序 | Hexo</title>
+
+
+    <meta name="keywords" content="OJ, C/C++, NOI/NOIP">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="题目描述：利用快速排序算法将读入的N个数从小到大排序后输出。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="由一个模板题引出的小总结-洛谷p1777快速排序">
+<meta property="og:url" content="http://example.com/2019/06/18/ruogu-quicksort/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="题目描述：利用快速排序算法将读入的N个数从小到大排序后输出。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-06-18T05:09:23.000Z">
+<meta property="article:modified_time" content="2019-06-18T15:57:59.953Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="OJ">
+<meta property="article:tag" content="C&#x2F;C++">
+<meta property="article:tag" content="NOI&#x2F;NOIP">
+<meta name="twitter:card" content="summary_large_image">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" onload="if(getComputedStyle(document.documentElement).getPropertyValue('--color-mode').indexOf('dark')===-1)this.media='all'">
+        
+    
+
+    
+    
+
+    
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">
+                Demo
+            </span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="navbar-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="navbar-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="navbar-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="navbar-menu button">
+                        Page
+                    </a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+
+        
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
+                </svg>
+            </a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                <a class="dropback-icon button" id="btn-dropback">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                        <path fill="currentColor" d="M11.469,10l7.08-7.08c0.406-0.406,0.406-1.064,0-1.469c-0.406-0.406-1.063-0.406-1.469,0L10,8.53l-7.081-7.08c-0.406-0.406-1.064-0.406-1.469,0c-0.406,0.406-0.406,1.063,0,1.469L8.531,10L1.45,17.081c-0.406,0.406-0.406,1.064,0,1.469c0.203,0.203,0.469,0.304,0.735,0.304c0.266,0,0.531-0.101,0.735-0.304L10,11.469l7.08,7.081c0.203,0.203,0.469,0.304,0.735,0.304c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"></path>
+                    </svg>
+                </a>
+                
+                    <a href="/" class="dropdown-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="dropdown-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="dropdown-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="dropdown-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="dropdown-menu button">
+                        Page
+                    </a>
+                
+            </div>
+            <script>
+                document.getElementById('btn-dropdown').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    requestAnimationFrame(() => {
+                        dd.style.display = 'flex';
+                        requestAnimationFrame(() => {
+                            dd.style.transform = 'translateY(0)';
+                            dd.style.opacity = '1';
+                        });
+                    });
+                });
+                document.getElementById('btn-dropback').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    dd.style.transform = 'translateY(2.25rem)';                    
+                    dd.style.opacity = '0';
+                    setTimeout(() => {dd.style.display = 'none';}, 350);
+                });
+            </script>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+<div class="post-title">
+    <h1 class="post-title__text">
+        由一个模板题引出的小总结-洛谷p1777快速排序
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2019/06/" class="post-meta__date button">
+    2019-06-18
+</a>
+        
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <article class="post content-card">
+        <div class="post__header"> </div>
+        <div class="post__content">
+            <p>题目描述：<br>利用快速排序算法将读入的N个数从小到大排序后输出。</p>
+<a id="more"></a>
+<p><a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P1177">题目链接</a><br>快速排序是信息学竞赛的必备算法之一。对于快速排序不是很了解的同学可以自行上网查询相关资料，掌握后独立完成。（C++C++选手请不要试图使用STL，虽然你可以使用sort一遍过，但是你并没有掌握快速排序算法的精髓。）</p>
+<p>输入输出格式<br>输入格式：<br>第1行为一个正整数N，第2行包含N个空格隔开的正整数a<sub>i</sub> ,为你需要进行排序的数，数据保证了A<sub>i</sub>不超过1000000000.</p>
+<p>输出格式：<br>将给定的N个数从小到大输出，数之间空格隔开，行末换行且无空格。</p>
+<p>输入输出样例<br>输入样例#1：<br>5<br>4 2 4 5 1<br>输出样例#1：<br>1 2 4 4 5</p>
+<p>说明:<br>对于20%的数据，有N≤1000；</p>
+<p>对于100%的数据，有N≤100000。</p>
+<p>题解：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">int</span> a[<span class="number">100010</span>];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quick_sort</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i=x,j=y,t;</span><br><span class="line">    <span class="keyword">int</span> k=a[x];<span class="comment">//选取最左边一个书为基准数,这样数据量太大的时候就会超时</span></span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span>(i&gt;=j)    <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;j)&#123;</span><br><span class="line">        <span class="keyword">while</span>(i&lt;j&amp;&amp;a[j]&gt;=k) j--;</span><br><span class="line">        t=a[i];</span><br><span class="line">        a[i]=a[j];</span><br><span class="line">        a[j]=t;</span><br><span class="line">        <span class="keyword">while</span>(i&lt;j&amp;&amp;a[i]&lt;k)  i++;</span><br><span class="line">        t=a[i];</span><br><span class="line">        a[i]=a[j];</span><br><span class="line">        a[j]=t;</span><br><span class="line">    &#125;</span><br><span class="line">    quick_sort(x,i<span class="number">-1</span>);</span><br><span class="line">    quick_sort(i+<span class="number">1</span>,y);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);<span class="comment">//个数</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;a[i]);<span class="comment">//将输入的数据用数组存储起来</span></span><br><span class="line">    &#125;</span><br><span class="line">    quick_sort(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果用上面的快速排序，有些测试数据此程序会<strong>运行超时</strong>，过不了。<br>基于此，我们可以对<strong>快速排序进行优化</strong>：</p>
+<p><strong>方法一：随机化</strong><br>上面的快排中总是选择第一个元素作为基准数，在数字已经有序的情况下每次划分都将得到最坏的结果，时间复杂度退化为O(n^2)因为子序列比原序列只少一个元素，这样的话，递归深度就很大。快排的分治思想的优势一点都没有了。<br>所以，我们可以随机的选择一个元素作为基准数，然后让这个元素与第一个元素交换位置，这样就可以继续用原来的方法来处理。<br>如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> &amp;a,<span class="keyword">int</span> &amp;b)</span></span>&#123;<span class="comment">//交换函数</span></span><br><span class="line">	<span class="keyword">int</span> temp=a;</span><br><span class="line">	a=b;</span><br><span class="line">	b=temp;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quicksort</span><span class="params">(<span class="keyword">int</span> left,<span class="keyword">int</span> right)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(left&gt;right)	<span class="keyword">return</span>;</span><br><span class="line">	<span class="keyword">int</span> i=left,j=right;</span><br><span class="line">	<span class="keyword">int</span> ranw=rand()%(right-left+<span class="number">1</span>)+left;<span class="comment">//此处为随机化</span></span><br><span class="line">	swap(a[left],a[ranw]);<span class="comment">//此处为将随机取得元素与第一个元素互换位置</span></span><br><span class="line">	<span class="keyword">while</span>(i&lt;j)&#123;</span><br><span class="line">		<span class="keyword">while</span>(j&gt;i&amp;&amp;a[j]&gt;=a[left])	j--;</span><br><span class="line">		<span class="keyword">while</span>(i&lt;j&amp;&amp;a[i]&lt;=a[left])	i++;</span><br><span class="line">		swap(a[i],(i==j)?a[left]:a[j]);<span class="comment">//如果i==j说明，i，j相遇，</span></span><br><span class="line"><span class="comment">//此时要将基准元素与此位置交换，即swap(a[i],a[left])或者swap(a[j],a[left])</span></span><br><span class="line"><span class="comment">//（因为这个时候i，j都指向同一个位置）</span></span><br><span class="line">		<span class="comment">//如果i不等j，说明还没有相遇，此时只要转换swap(a[i],a[j])</span></span><br><span class="line">	&#125;</span><br><span class="line">	quicksort(a,left,i<span class="number">-1</span>);<span class="comment">//递归</span></span><br><span class="line">	quicksort(a,j+<span class="number">1</span>,right);</span><br><span class="line">&#125;	</span><br></pre></td></tr></table></figure>
+<p><strong>方法二：小区间使用插入排序</strong><br>当递归到了一定程度之后，序列长度足够小了，我们就可以对其较小的序列改用插入排序，因为长度较好后，分治递归的处理速度比直接插入慢。<br>如下：</p>
+<pre><code class="c++">void insertsort(int left,int right)&#123;//直接插入排序
+    for(int i=left+1;i&lt;=right;i++)&#123;
+        for(int j=i;j&gt;0&amp;&amp;a[j]&lt;a[j-1];j--)    swap(a[j],a[j-1]);
+    &#125;
+
+void quicksort(int left,int right)&#123;
+    if(left&gt;=right)    return;
+    if(right-left+1&lt;10)&#123;  //这里就是如果长度小于10，就使用直接插入排序
+        insertsort(left,right);
+        return;
+    &#125;
+    int ranw=rand()%(right-left+1)+left;//此处为随机化
+    swap(a[left],a[ranw]);//此处为将随机取得元素与第一个元素互换位置
+    while(i&lt;j)&#123;
+        while(j&gt;i&amp;&amp;a[j]&gt;=a[left])    j--;
+        while(i&lt;j&amp;&amp;a[i]&lt;=a[left])    i++;
+        swap(a[i],(i==j)?a[left]:a[j]);
+    &#125;
+    quicksort(a,left,i-1);//递归
+    quicksort(a,j+1,right);
+&#125;```
+**方法三：聚拢重复元素**
+待补充
+===========================================我是可爱的分割线===========================================
+除了上述三种对快速排序的优化，我们还可以使用堆排序。
+**方法四：堆排序**
+
+```c++
+#include&lt;cstdio&gt;
+#include&lt;iostream&gt;
+using namespace std;
+int num=0;
+int n;
+int a[1000100];
+void up(int x)&#123;//上浮操作
+    while(a[x/2]&gt;a[x]&amp;&amp;x!=1)&#123;
+        swap(a[x],a[x/2]);
+        x/=2;
+    &#125;
+&#125;
+void down(int x)&#123;//下沉操作
+    while((a[x*2]&lt;=a[x]&amp;&amp;x*2&lt;=num)||(a[x*2+1]&lt;=a[x]&amp;&amp;x*2+1&lt;=num))&#123;
+        if(a[x*2]&lt;=a[2*x+1])&#123;
+            swap(a[x],a[x*2]);
+            x*=2;
+        &#125;else&#123;
+            swap(a[x],a[x*2+1]);
+            x=x*2+1;
+        &#125;
+    &#125;
+&#125;
+
+void insert(int x)&#123;//向堆中插入元素，建堆的核心操作所在   
+    num++;
+    a[num]=x;//数组a是从下标1开始存储数据
+    up(num);
+&#125;
+
+void work()&#123;//建堆成功后，将堆顶元素和最后一个元素互换位置
+//堆顶元素先输出，然后被最后一个元素覆盖，
+//就相当于将堆顶元素删除了，（即不再参与排序）
+    printf(&quot;%d &quot;,a[1]);//打印堆顶元素
+    a[1]=a[num--];//堆顶元素被覆盖
+    //上面一句话可以这样写,更好理解
+    //a[1]=a[num];
+    //num--;
+    //因为堆顶元素被覆盖了，自然的堆中元素的个数要减一，即num--
+    down(1);//元素变化后，重新通过下沉，排序成一个新的堆
+&#125;
+
+void build()&#123;//输入数字，调用插入函数，建堆
+    for(int i=1;i&lt;=n;i++)&#123;
+        int z;
+        scanf(&quot;%d&quot;,&amp;z);
+        insert(z);
+    &#125;
+&#125;
+
+void shuchu()&#123;
+    while(num!=1)   work();
+    printf(&quot;%d&quot;,a[1]);
+&#125;
+
+
+int main()&#123;  
+    scanf(&quot;%d&quot;,&amp;n);
+    build();
+    shuchu();
+    return 0;
+&#125;```
+</code></pre>
+
+        </div>
+         
+        <div class="post-footer__meta">
+    <p>
+        updated at 2019-06-18
+    </p>
+</div> 
+        <div class="post-meta__cats">
+    
+    
+        <a href="/tags/OJ/" class="post-tags__link button"># OJ</a>
+    
+        <a href="/tags/C-C/" class="post-tags__link button"># C/C++</a>
+    
+        <a href="/tags/NOI-NOIP/" class="post-tags__link button"># NOI/NOIP</a>
+    
+</div> 
+    </article>
+    
+
+
+</main>
+
+            <footer class="footer">
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright&nbsp;©&nbsp;2020&nbsp;<a href="/">Hexo</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+  
+
+
+
+ 
+
+
+    
+
+
+ 
+
+
+
+
+
+
+
+
+    </body>
+</html>

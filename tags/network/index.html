@@ -21,7 +21,7 @@
     <!-- meta -->
 
 
-<title>Archive: 2020 | Hexo</title>
+<title>Tag: network | Hexo</title>
 
 
 
@@ -31,7 +31,7 @@
  
     <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/2020/index.html">
+<meta property="og:url" content="http://example.com/tags/network/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="John Doe">
@@ -172,9 +172,10 @@
     </div>
 
             
-<main class='main'>
+
     
-		
+        <main class="main">
+            
     <div class="posts">
         
             
@@ -182,48 +183,61 @@
                     <div class="post-entry__header"></div>
 <div class="post-entry__content">
     <h2 class="post-entry__title">
-        Hello World
+        tcp协议概念辨析
     </h2>
+    
+        <p>之前学的网络这块的知识感觉都忘得差不多了，加之网络本来也比较理论抽象的。。。概念都有点模糊了。。趁复习之余就整理一下<del>暂时先准备从几个方面谈一下tcp协议吧。。。这个太多了，一点一点写吧</del>想到再加。</p>
+<p>主要从：特点，握手协议，arq协议，流量控制，拥塞控制，可靠传输的原理等方面去谈起。<br>首先：</p>
+<h3 id="tcp协议的特点"><a href="#tcp协议的特点" class="headerlink" title="tcp协议的特点:"></a>tcp协议的特点:</h3><p><strong>(这里只主要讲解tcp是面向字节流的这一特点)</strong></p>
+<ul>
+<li><p>首先tcp是面向连接的。在使用tcp协议之前一定要先建立tcp连接，传输数据完毕之后也要释放tcp的连接。</p>
+</li>
+<li><p>每一条tcp的连接只能有两个端点，每一个tcp的连接都是点对点的连接。</p>
     
 </div>
 <div class="post-entry__meta">
-    <a href="/archives/2020/09/" class="post-meta__date button">
-    2020-09-03
+    <a href="/archives/2018/03/" class="post-meta__date button">
+    2018-03-15
 </a>
     
  
 </div>
 <div class="post-entry__tags">
     
+        <a href="/tags/network/" class="post-tags__link button"># network</a>
+    
+        <a href="/tags/tcp/" class="post-tags__link button"># tcp</a>
+    
 </div> 
-<a href="/2020/09/03/hello-world/" class="post-entry__link">Link</a>
+<a href="/2018/03/15/tcp-introduction/" class="post-entry__link">Link</a>
                 </div>
             
                 <div class='post-entry content-card'>
                     <div class="post-entry__header"></div>
 <div class="post-entry__content">
     <h2 class="post-entry__title">
-        STL-set/unordered_set
+        windump使用注意事项
     </h2>
     
-        <p>本文主要以代码示例的形式去呈现STL中set的常见用法：</p>
+        <p>之前在准备的时候需要用到windump这个软件，这里就主要记录一下使用过程中遇到的坑吧。。</p>
+<p>首先使用windump是需要安装winpcap的，安装就好，然后在命令行下直接使用windump。（要先打开到windump所处的位置）</p>
     
 </div>
 <div class="post-entry__meta">
-    <a href="/archives/2020/01/" class="post-meta__date button">
-    2020-01-19
+    <a href="/archives/2018/03/" class="post-meta__date button">
+    2018-03-09
 </a>
     
  
 </div>
 <div class="post-entry__tags">
     
-        <a href="/tags/C/" class="post-tags__link button"># C++</a>
+        <a href="/tags/network/" class="post-tags__link button"># network</a>
     
-        <a href="/tags/STL/" class="post-tags__link button"># STL</a>
+        <a href="/tags/windump/" class="post-tags__link button"># windump</a>
     
 </div> 
-<a href="/2020/01/19/stl-set/" class="post-entry__link">Link</a>
+<a href="/2018/03/09/windump-use/" class="post-entry__link">Link</a>
                 </div>
             
         
@@ -233,8 +247,9 @@
     
 
 
-	
-</main>
+        </main>
+    
+
 
             <footer class="footer">
     

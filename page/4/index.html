@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    <link rel="shortcut icon" type='image/x-icon' href="/favicon.ico">
+
+
+    <!-- meta -->
+
+
+<title>Hexo</title>
+
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+
+
+    
+    
+    
+
+    
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">
+                Demo
+            </span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="navbar-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="navbar-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="navbar-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="navbar-menu button">
+                        Page
+                    </a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+
+        
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
+                </svg>
+            </a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                <a class="dropback-icon button" id="btn-dropback">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                        <path fill="currentColor" d="M11.469,10l7.08-7.08c0.406-0.406,0.406-1.064,0-1.469c-0.406-0.406-1.063-0.406-1.469,0L10,8.53l-7.081-7.08c-0.406-0.406-1.064-0.406-1.469,0c-0.406,0.406-0.406,1.063,0,1.469L8.531,10L1.45,17.081c-0.406,0.406-0.406,1.064,0,1.469c0.203,0.203,0.469,0.304,0.735,0.304c0.266,0,0.531-0.101,0.735-0.304L10,11.469l7.08,7.081c0.203,0.203,0.469,0.304,0.735,0.304c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"></path>
+                    </svg>
+                </a>
+                
+                    <a href="/" class="dropdown-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="dropdown-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="dropdown-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="dropdown-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="dropdown-menu button">
+                        Page
+                    </a>
+                
+            </div>
+            <script>
+                document.getElementById('btn-dropdown').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    requestAnimationFrame(() => {
+                        dd.style.display = 'flex';
+                        requestAnimationFrame(() => {
+                            dd.style.transform = 'translateY(0)';
+                            dd.style.opacity = '1';
+                        });
+                    });
+                });
+                document.getElementById('btn-dropback').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    dd.style.transform = 'translateY(2.25rem)';                    
+                    dd.style.opacity = '0';
+                    setTimeout(() => {dd.style.display = 'none';}, 350);
+                });
+            </script>
+        
+    </div>
+</header>
+
+
+    <div class="cover">
+        <div class="cover__logo">
+            
+                <h1>Demo</h1>
+            
+        </div>
+        
+            <div class="cover__intro">
+                <p>Hi, nice to meet you!</p>
+ 
+            </div>
+        
+    </div>
+
+            <main class="main">
+    
+    <div class="posts">
+        
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        希尔排序
+    </h2>
+    
+        <p>首先我们来先看一个过程，</p>
+<p><img src="https://github.com/fanandli/picblog/blob/master/sier2.png?raw=true" width = "300" height = "200" alt="xier" align=center /><img src="https://github.com/fanandli/picblog/blob/master/xier3.png?raw=true" width = "300" height = "200" alt="xier2" align=center /></p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2018/05/" class="post-meta__date button">
+    2018-05-18
+</a>
+    
+ 
+</div>
+<div class="post-entry__tags">
+    
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
+    
+</div> 
+<a href="/2018/05/18/data-structure-14/" class="post-entry__link">Link</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        直接插入，简单选择和冒泡排序
+    </h2>
+    
+        <ul>
+<li>直接插入排序</li>
+</ul>
+<p>insertSort[]数组用来存储我们要排的关键字，n为关键字的个数，temp用来暂时存储我们当前要插入的排序的关键字。<br>第一个for循环是从i=1开始，是因为我们规定认为初始状态的第0个元素为有序序列，第0个元素之后的元素为无序序列。我们的思路是从无序序列中逐次扫描，与有序序列中的大小进行比较，从而将他们插入到合适的位置中去。<br>因为箭头总是指向带插入位置的前一个位置，所以我们要arr[j+1]=temp</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insertSort</span><span class="params">(<span class="keyword">int</span> arr[],<span class="keyword">int</span> n)</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">	<span class="keyword">int</span> temp,i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;n;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		temp=arr[i]；</span><br><span class="line">		j=i<span class="number">-1</span>; <span class="comment">//j指向有序序列中的最右边的一个元素</span></span><br><span class="line">		<span class="keyword">while</span>(j&gt;=<span class="number">0</span>&amp;&amp;temp&lt;arr[j])</span><br><span class="line">		&#123;</span><br><span class="line">			arr[j+<span class="number">1</span>]=arr[j];</span><br><span class="line">			--j; <span class="comment">//j是从右往左扫描有序序列</span></span><br><span class="line">		&#125;</span><br><span class="line">		arr[j+<span class="number">1</span>]=temp; <span class="comment">//将temp中的待排关键字插入</span></span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2018/05/" class="post-meta__date button">
+    2018-05-17
+</a>
+    
+ 
+</div>
+<div class="post-entry__tags">
+    
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
+    
+        <a href="/tags/algorithm/" class="post-tags__link button"># algorithm</a>
+    
+</div> 
+<a href="/2018/05/17/data-structure-12/" class="post-entry__link">Link</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        图——关键路径
+    </h2>
+    
+        <p><strong>关键路径</strong><br>AOE网，(activate on edge)<br>1为源点，6为汇点。所谓关键路径，就是在AOE网中从源点开始到汇点结束的具有最大路径长度的那个路径就为关键路径。<br><img src="https://github.com/fanandli/picblog/blob/master/AOE.png?raw=true" width = "600" height = "350" alt="AOE" align=center /></p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2018/05/" class="post-meta__date button">
+    2018-05-15
+</a>
+    
+ 
+</div>
+<div class="post-entry__tags">
+    
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
+    
+</div> 
+<a href="/2018/05/15/data-structure-11/" class="post-entry__link">Link</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        图——拓扑排序
+    </h2>
+    
+        <p><strong>拓扑排序</strong></p>
+<p>AOV网，描述了一种有实际意义的过程，所以结点之间有了先后顺序，其次是结点之间是没有环的。<br>如何导出正确的结点之间的顺序，就需要拓扑排序。三个步骤:</p>
+<img src="https://github.com/fanandli/picblog/blob/master/AOV1.png?raw=true" width = "600" height = "350" alt="tuopu" align=center />
+
+
+
+
+
+
+
+<p>用邻接表来存储图，且修改顶点结构体为</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> data;</span><br><span class="line">	<span class="keyword">int</span> count; <span class="comment">//指示当前结点的入度</span></span><br><span class="line">	ArcNode* first;</span><br><span class="line">&#125;VNode;</span><br></pre></td></tr></table></figure>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2018/05/" class="post-meta__date button">
+    2018-05-15
+</a>
+    
+ 
+</div>
+<div class="post-entry__tags">
+    
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
+    
+</div> 
+<a href="/2018/05/15/data-structure-10/" class="post-entry__link">Link</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        图——Floyd算法
+    </h2>
+    
+        <p>最短路径：<br><strong>弗洛伊德算法</strong><br>我们先看一下我们举例的图，如下图中右边的图，其中左边的Av[]数组存储的任意两个顶点之间的当前最短路径长度，pathv[]数组存储了任意两个顶点他们所在最短路径之间的中间点(v为下标)。</p>
+<img src="https://github.com/fanandli/picblog/blob/master/%E5%BC%97%E6%B4%9B%E4%BC%8A%E5%BE%B71.png?raw=true" width = "600" height = "350" alt="floyd1" align=center />
+
+<p>执行思路：<br>对于每个顶点v，和任意一顶点对（i,j）,i不等于j,v不等于i,v不等于j，如果A[i][j]&gt;A[i][v]+A[v][j],则将A[i][j]更新为A[i][v]+A[v][j]的值，并将path[i][j]改为v。</p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2018/05/" class="post-meta__date button">
+    2018-05-15
+</a>
+    
+ 
+</div>
+<div class="post-entry__tags">
+    
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
+    
+</div> 
+<a href="/2018/05/15/data-structure-9/" class="post-entry__link">Link</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        图——Dijkstra算法
+    </h2>
+    
+        <p>最短路径问题</p>
+<p><strong>迪杰斯特拉算法</strong><br>求某一个顶点到其余各顶点的最短路径，也为单元最短路径算法。</p>
+<img src="https://github.com/fanandli/picblog/blob/master/ef0e63b9977341e4513cd67239c5b25.png?raw=true" width = "600" height = "350" alt="Dijkstra1" align=center />
+
+
+
+<p>dict[]数组存储了当前起点到其余各顶点的最短路径长度（是长度，数值），path[]存储了当前起点到其余各顶点的最短路径（是上一个顶点的下标）。set[]标记哪些顶点被选入了最短路径（是标记）。</p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2018/05/" class="post-meta__date button">
+    2018-05-11
+</a>
+    
+ 
+</div>
+<div class="post-entry__tags">
+    
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
+    
+</div> 
+<a href="/2018/05/11/data-structure-8/" class="post-entry__link">Link</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        图——最小生成树
+    </h2>
+    
+        <p>由一个图按照某种规则导出的一个树，叫生成树。最小生成树：构成这个生成树的所有分支的权值和最小。</p>
+<p><strong>prime算法</strong><br>求最小生成树的代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Prim</span><span class="params">(<span class="keyword">int</span> n ,<span class="keyword">float</span> MGraph[][n],<span class="keyword">int</span> v0,<span class="keyword">float</span> &amp;sum)</span>  <span class="comment">//顶点个数，带权图，构造生成树的起始顶点，存储最小权值和（代价）</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> lowCost[n],vSet[n];  </span><br><span class="line">	<span class="keyword">int</span> v,k,<span class="built_in">min</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		lowCost[i]=MGraph[v0][i];  <span class="comment">//lowCost[]指向vo初始点的同一行的不同列的顶点</span></span><br><span class="line">		vSet[i]=<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	v=v0;  <span class="comment">//v指向第一个结点，</span></span><br><span class="line">	vSet[v]=<span class="number">1</span>;  <span class="comment">//已经并入，所以标记设置为1</span></span><br><span class="line">	sum=<span class="number">0</span>;  <span class="comment">//初始化</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n<span class="number">-1</span>;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">min</span>=INF; <span class="comment">//min初始化为无穷大</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;n,++j)</span><br><span class="line">			<span class="keyword">if</span>(vSet[j]==<span class="number">0</span>&amp;&amp;lowCost[j]&lt;<span class="built_in">min</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">min</span>=lowCost[j];</span><br><span class="line">				k=j;</span><br><span class="line">			&#125;</span><br><span class="line">			vSet[k]=<span class="number">1</span>;</span><br><span class="line">			v=k;  <span class="comment">//v指向如今刚进入的结点</span></span><br><span class="line">			sum+=<span class="built_in">min</span>;  <span class="comment">//min的值累加到sum</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;n;++j)  <span class="comment">//更新lowCost数组</span></span><br><span class="line">				<span class="keyword">if</span>(vSet[j]==<span class="number">0</span>&amp;&amp;MGraph[v][j]&lt;lowCost[j])</span><br><span class="line">					lowCost[j]=MGraph[v][j];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2018/05/" class="post-meta__date button">
+    2018-05-01
+</a>
+    
+ 
+</div>
+<div class="post-entry__tags">
+    
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
+    
+</div> 
+<a href="/2018/05/01/data-structure-13/" class="post-entry__link">Link</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        data structure——图
+    </h2>
+    
+        <p><strong>图的存储结构：</strong></p>
+<ul>
+<li>图的顺序存储结构：邻接矩阵的结构型<br>有两个数组：一个一维数组存储图中的顶点信息；一个二维数组存储图中的边或弧的信息。<br>缺点：如果边数相对于顶点数较少，那么边数组的存储空间是一个很大的浪费。<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> no;  <span class="comment">//顶点编号</span></span><br><span class="line">	<span class="keyword">char</span> info;  <span class="comment">//顶点的其他信息，视情况而定写不写</span></span><br><span class="line">&#125;VertexType;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> //图的定义</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> edges[maxSize][maxSize];  <span class="comment">//邻接矩阵定义，可看做边表</span></span><br><span class="line">	<span class="keyword">int</span> n,e;  <span class="comment">//顶点数和边数</span></span><br><span class="line">	VertexType vex[maxSize];  <span class="comment">//顶点表，存放结点信息</span></span><br><span class="line">&#125;MGraph;  <span class="comment">//图的邻接矩阵类型</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2018/04/" class="post-meta__date button">
+    2018-04-30
+</a>
+    
+ 
+</div>
+<div class="post-entry__tags">
+    
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
+    
+</div> 
+<a href="/2018/04/30/data-structure-7/" class="post-entry__link">Link</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        data structure——树的例题
+    </h2>
+    
+        <p>1.假设二叉树采用二叉链表存储结构，设计一个算法，计算一棵给定二叉树的所有结点数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n=<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">count</span><span class="params">(BTNode *p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(p!=<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		++n;</span><br><span class="line">		count(p-&gt;lChild);</span><br><span class="line">		count(p-&gt;rChild);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2018/04/" class="post-meta__date button">
+    2018-04-28
+</a>
+    
+ 
+</div>
+<div class="post-entry__tags">
+    
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
+    
+</div> 
+<a href="/2018/04/28/data-sturcture-practise-1/" class="post-entry__link">Link</a>
+                </div>
+            
+                <div class='post-entry content-card'>
+                    <div class="post-entry__header"></div>
+<div class="post-entry__content">
+    <h2 class="post-entry__title">
+        data structure——数组、矩阵与广义表
+    </h2>
+    
+        <p><strong>数组：</strong></p>
+<p><em>1.两种逻辑结构</em></p>
+<ul>
+<li>一维数组<br><code>dataType a[n];</code></li>
+</ul>
+<ul>
+<li>二维数组<br><code>dataType a[m][n];</code><br>元素为一维数组的数组</li>
+</ul>
+<p><em>2.行优先和列优先储存</em><br>这里要区分数组在定义的时候例如：<code>int a[2][3]</code>中<code>2</code>和<code>3</code>就是又两行，有三列的意思，<br>而在说数组中的某一个元素是例如<code>a[2][1]</code>这里的<code>2</code>和<code>1</code>编号，是不一样的，因为编号是从<code>0</code>开始编号的。</p>
+    
+</div>
+<div class="post-entry__meta">
+    <a href="/archives/2018/04/" class="post-meta__date button">
+    2018-04-14
+</a>
+    
+ 
+</div>
+<div class="post-entry__tags">
+    
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
+    
+</div> 
+<a href="/2018/04/14/data-structure-5/" class="post-entry__link">Link</a>
+                </div>
+            
+        
+    </div>
+    
+        
+            <nav role="navigation" aria-label="Pagination Navigation">
+                
+                    <div class="pagination_prev">
+                        <a href="/page/3/" class="button">
+                            &lt;&nbsp;Previous
+                        </a>
+                    </div>
+                
+                
+                    <div class="pagination_next">
+                        <a href="/page/5/" class="button">
+                            Next&nbsp;&gt;
+                        </a>
+                    </div>
+                
+            </nav>
+        
+    
+
+
+</main>
+
+            <footer class="footer">
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright&nbsp;©&nbsp;2020&nbsp;<a href="/">Hexo</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+  
+
+
+
+ 
+
+
+    
+
+
+ 
+
+
+
+
+
+
+
+
+    </body>
+</html>

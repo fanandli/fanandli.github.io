@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    <link rel="shortcut icon" type='image/x-icon' href="/favicon.ico">
+
+
+    <!-- meta -->
+
+
+<title>线性表问题总结 | Hexo</title>
+
+
+    <meta name="keywords" content="data-structure">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="逆置问题：例1：1、将一长度为n的数组的前端K（k&lt;n）个元素逆序后移动到数组后段，要求原数组总数据不丢失。2、将一长度为n的数组的前端K（k&lt;n）个元素保持原序后移动到数组后段，要求原数组总数据不丢失。3、将数组中的元素循环左移p（0&lt;p&lt;n）个位置。 1234567891011void reverse(int a[],int left,int right,int k)&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线性表问题总结">
+<meta property="og:url" content="http://example.com/2018/08/03/xianxingbiao-prac1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="逆置问题：例1：1、将一长度为n的数组的前端K（k&lt;n）个元素逆序后移动到数组后段，要求原数组总数据不丢失。2、将一长度为n的数组的前端K（k&lt;n）个元素保持原序后移动到数组后段，要求原数组总数据不丢失。3、将数组中的元素循环左移p（0&lt;p&lt;n）个位置。 1234567891011void reverse(int a[],int left,int right,int k)&amp;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-08-03T12:06:52.000Z">
+<meta property="article:modified_time" content="2019-03-31T15:49:27.209Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="data-structure">
+<meta name="twitter:card" content="summary_large_image">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" onload="if(getComputedStyle(document.documentElement).getPropertyValue('--color-mode').indexOf('dark')===-1)this.media='all'">
+        
+    
+
+    
+    
+
+    
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">
+                Demo
+            </span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="navbar-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="navbar-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="navbar-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="navbar-menu button">
+                        Page
+                    </a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+
+        
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
+                </svg>
+            </a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                <a class="dropback-icon button" id="btn-dropback">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+                        <path fill="currentColor" d="M11.469,10l7.08-7.08c0.406-0.406,0.406-1.064,0-1.469c-0.406-0.406-1.063-0.406-1.469,0L10,8.53l-7.081-7.08c-0.406-0.406-1.064-0.406-1.469,0c-0.406,0.406-0.406,1.063,0,1.469L8.531,10L1.45,17.081c-0.406,0.406-0.406,1.064,0,1.469c0.203,0.203,0.469,0.304,0.735,0.304c0.266,0,0.531-0.101,0.735-0.304L10,11.469l7.08,7.081c0.203,0.203,0.469,0.304,0.735,0.304c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"></path>
+                    </svg>
+                </a>
+                
+                    <a href="/" class="dropdown-menu button">
+                        首页
+                    </a>
+                
+                    <a href="/tags/" class="dropdown-menu button">
+                        标签
+                    </a>
+                
+                    <a href="/archives/" class="dropdown-menu button">
+                        归档
+                    </a>
+                
+                    <a href="/friends/" class="dropdown-menu button">
+                        友链
+                    </a>
+                
+                    <a href="/page/" class="dropdown-menu button">
+                        Page
+                    </a>
+                
+            </div>
+            <script>
+                document.getElementById('btn-dropdown').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    requestAnimationFrame(() => {
+                        dd.style.display = 'flex';
+                        requestAnimationFrame(() => {
+                            dd.style.transform = 'translateY(0)';
+                            dd.style.opacity = '1';
+                        });
+                    });
+                });
+                document.getElementById('btn-dropback').addEventListener('click', () => {
+                    const dd = document.getElementById('dropdown-menus');
+                    dd.style.transform = 'translateY(2.25rem)';                    
+                    dd.style.opacity = '0';
+                    setTimeout(() => {dd.style.display = 'none';}, 350);
+                });
+            </script>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+<div class="post-title">
+    <h1 class="post-title__text">
+        线性表问题总结
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2018/08/" class="post-meta__date button">
+    2018-08-03
+</a>
+        
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <article class="post content-card">
+        <div class="post__header"> </div>
+        <div class="post__content">
+            <p><strong>逆置问题：</strong><br>例1：<br>1、将一长度为n的数组的前端K（k&lt;n）个元素逆序后移动到数组后段，要求原数组总数据不丢失。<br>2、将一长度为n的数组的前端K（k&lt;n）个元素保持原序后移动到数组后段，要求原数组总数据不丢失。<br>3、将数组中的元素循环左移p（0&lt;p&lt;n）个位置。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span> a[],<span class="keyword">int</span> left,<span class="keyword">int</span> right,<span class="keyword">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> temp;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=left,j=right;i&lt;left+k &amp;&amp; i&lt;j;++i,--j) <span class="comment">//因为k的长度有可能超过数组长度的一半         </span></span><br><span class="line">	&#123;                                                <span class="comment">//所以i&lt;j这个条件还是要加上去的</span></span><br><span class="line">		temp=a[i];</span><br><span class="line">		a[i]=a[j];</span><br><span class="line">		a[j]=temp;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">moveToEnd</span><span class="params">(<span class="keyword">int</span> a [],<span class="keyword">int</span> n ,<span class="keyword">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	reverse(a,<span class="number">0</span>,k<span class="number">-1</span>,k);</span><br><span class="line">	reverse(a,<span class="number">0</span>,n<span class="number">-1</span>,k);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">moveP</span><span class="params">(<span class="keyword">int</span> a [],<span class="keyword">int</span> n,<span class="keyword">int</span> p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	reverse(a,<span class="number">0</span>,p<span class="number">-1</span>,p);</span><br><span class="line">	reverse(a,p,n<span class="number">-1</span>,n-p);</span><br><span class="line">	reverse(a,<span class="number">0</span>,n<span class="number">-1</span>,n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p><strong>最值问题：</strong><br><em>1：在线性表中找最值</em></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> <span class="built_in">max</span>=a[<span class="number">0</span>];  </span><br><span class="line"><span class="keyword">int</span> maxIdx=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++i)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">max</span>&lt;a[i])</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">max</span>=a[i]; <span class="comment">//max值</span></span><br><span class="line">		maxIdx=i;  <span class="comment">//最大值的位置</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个是最大值，最小值同理。</p>
+<p><em>2：在链表中找最小值：</em></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">LNode *p,*q;</span><br><span class="line"><span class="keyword">int</span> <span class="built_in">min</span>=head-&gt;next-&gt;data;</span><br><span class="line">q=p=head-&gt;next;</span><br><span class="line"><span class="keyword">while</span>(p!=<span class="literal">NULL</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">min</span>&gt;p-&gt;data)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">min</span>=p-&gt;data;</span><br><span class="line">		q=p;</span><br><span class="line">	&#125;</span><br><span class="line">	p=p-&gt;data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在链表中找最大值同理。</p>
+<p>例：一双链表非空，有head指针指出，结点结构为{llink,data,rlink},请设计一个将结点数据域data值最大的那个结点（最大值结点只有一个）移动到链表最前边的算法，要求不得申请新结点空间。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">maxFirst</span><span class="params">(DLNode *head)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	DLNode *p=head-&gt;rlink,*q=p;</span><br><span class="line">	<span class="keyword">int</span> <span class="built_in">max</span>=p-&gt;data;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span>(p!=<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(<span class="built_in">max</span>&lt;p-&gt;data)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">max</span>=p-&gt;data;</span><br><span class="line">			q=p;</span><br><span class="line">		&#125;</span><br><span class="line">		p=p-&gt;rlink;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	DLNode *l=q-&gt;llink; *r=q-&gt;rlink;</span><br><span class="line">	l-&gt;rlink=r;</span><br><span class="line">	<span class="keyword">if</span>(r!=<span class="literal">NULL</span>) <span class="comment">//防止最大值为最后一个结点</span></span><br><span class="line">		r-&gt;llink=l;</span><br><span class="line"></span><br><span class="line">	q-&gt;llink=head;</span><br><span class="line">	q-&gt;rlink=head-&gt;rlink;</span><br><span class="line">	head-&gt;rlink=q;</span><br><span class="line">	q-&gt;rlink-&gt;llink=q;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>归并问题：</strong><br><em>1：顺序表归并</em></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">mergearray</span><span class="params">(<span class="keyword">int</span> a [],<span class="keyword">int</span> m,<span class="keyword">int</span> b[],<span class="keyword">int</span> n,<span class="keyword">int</span> c[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> k=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(i&lt;m&amp;&amp;j&lt;n)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(a[i]&lt;b[j])</span><br><span class="line">			c[k++]=a[i++];  <span class="comment">//c[k]=a[i];k++;i++</span></span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			c[k++]=b[j++];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span>(i&lt;m)</span><br><span class="line">		c[k++]=a[i++];</span><br><span class="line">	<span class="keyword">while</span>(j&lt;n)</span><br><span class="line">		c[k++]=b[j++];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>分别将a[]和b[]的数组有小到大的归并为数组c[]，m,n分别为两个数组的长度，c数组的长度为两个长度的之和，所以不需要再来一个变量来存储了。i,j分别是数组下标用来指出哪个元素在进行比较，k是指向c数组的下标。如果a[i]&lt;b[j]则将a[i]赋值给c[k]，且k向后移一位，i也向后移一位。下一个while是在一个数组全部比较完而另一个数组还有剩余的时候，将剩余的数组中的每一个元素都移动到数组c中去。</p>
+<p><em>2：链表归并</em><br>–顺序归并</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge</span><span class="params">(LNode *A,LNode *B,LNode *&amp;C)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	LNode *p=A-&gt;next;</span><br><span class="line">	LNode *q=B-&gt;next;</span><br><span class="line">	LNode *r;</span><br><span class="line">	C=A;</span><br><span class="line">	C-&gt;next=<span class="literal">NULL</span>;</span><br><span class="line">	<span class="built_in">free</span>(B);</span><br><span class="line">	r=C;</span><br><span class="line">	<span class="keyword">while</span>(p!=<span class="literal">NULL</span>&amp;&amp;q!=<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(p-&gt;data&lt;=q-&gt;data)</span><br><span class="line">		&#123;</span><br><span class="line">			r-&gt;next=p;</span><br><span class="line">			p=p-&gt;next;</span><br><span class="line">			r=r-&gt;next;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			r-&gt;next=q;</span><br><span class="line">			q=q-&gt;next;</span><br><span class="line">			r=r-&gt;next;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(p!=<span class="literal">NULL</span>)</span><br><span class="line">			r-&gt;next=p;</span><br><span class="line">		<span class="keyword">if</span>(q!=<span class="literal">NULL</span>)</span><br><span class="line">			r-&gt;next=q;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>p,q是指向两个链表的指针，C是指向新链表的指针，r是指向新链表表尾的指针。C=A是以A链表的头结点作为新链表的头结点。然后释放B结点（头结点）。此时新链表为空链表，所以r指针指向此时的头结点r=C。</p>
+<p>–逆序归并</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">mergeR</span><span class="params">(LNode *A,LNode *B,LNode *&amp;C)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	LNode *p=A-&gt;next;</span><br><span class="line">	LNode *q=B-&gt;next;</span><br><span class="line">	LNode *s;</span><br><span class="line">	C=A;</span><br><span class="line">	C-&gt;next=<span class="literal">NULL</span>;</span><br><span class="line">	<span class="built_in">free</span>(B);</span><br><span class="line">	<span class="keyword">while</span>(p!=<span class="literal">NULL</span>&amp;&amp;q!=<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(p-&gt;data&lt;=q-&gt;data)</span><br><span class="line">		&#123;</span><br><span class="line">			s=p;</span><br><span class="line">			p=p-&gt;next;</span><br><span class="line">			s-&gt;next=C-&gt;next;</span><br><span class="line">			C-&gt;next=s;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			s=q;</span><br><span class="line">			q=q-&gt;next;</span><br><span class="line">			s-&gt;nexr=C-&gt;next;</span><br><span class="line">			c-&gt;next=s;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">while</span>(p!=<span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			s=p;</span><br><span class="line">			p=p-&gt;next;</span><br><span class="line">			s-&gt;next=C-&gt;next;</span><br><span class="line">			C-&gt;next=s;</span><br><span class="line">		&#125;</span><br><span class="line">			</span><br><span class="line">		<span class="keyword">while</span>(q!=<span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			s=q;</span><br><span class="line">			q=q-&gt;next;</span><br><span class="line">			s-&gt;next=C-&gt;next;</span><br><span class="line">			C-&gt;next=s;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用头插法的形式重新进行归并，这样就得到了逆序。在一个链表的元素全部取完之后，逆序的话剩余的元素就不能直接修改指针了，要用循环将剩余的元素一个一个的以头插法的形式插入到新链表中。</p>
+<p><strong>划分问题：</strong><br><strong>取什么数作为树轴，这个数的大小是关键，这个数的由来不是关键。</strong><br><em>1：以数组中的第一个元素为树轴，左边的元素为小于树轴的元素，右边的元素为大于树轴的元素。</em></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">partition</span><span class="params">(<span class="keyword">int</span> arr[],<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> temp;</span><br><span class="line">	<span class="keyword">int</span> i=<span class="number">0</span>;j=n<span class="number">-1</span>;</span><br><span class="line">	temp=arr[i];</span><br><span class="line">	<span class="keyword">while</span>(i&lt;j)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">while</span>(i&lt;j&amp;&amp;arr[j]&gt;=temp)</span><br><span class="line">			--j;</span><br><span class="line">		<span class="keyword">if</span>(i&lt;j)</span><br><span class="line">		&#123;</span><br><span class="line">			arr[i]=arr[j];</span><br><span class="line">			++i;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">while</span>(i&lt;j&amp;&amp;arr[i]&lt;temp)</span><br><span class="line">			++i;</span><br><span class="line">		<span class="keyword">if</span>(i&lt;j)</span><br><span class="line">		&#123;</span><br><span class="line">			arr[j]=arr[i];</span><br><span class="line">			--j;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	arr[i]=temp;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>2：以任意一个数作为树轴，左边的元素为小于树轴的元素，右边的元素为大于树轴的元素。</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">void partition(int arr[],int n,int comp)</span><br><span class="line">&#123;</span><br><span class="line">	int temp;</span><br><span class="line">	int i&#x3D;0;j&#x3D;n-1;</span><br><span class="line">	temp&#x3D;arr[i];</span><br><span class="line">	while(i&lt;j)</span><br><span class="line">	&#123;</span><br><span class="line">		while(i&lt;j&amp;&amp;arr[j]&gt;&#x3D;comp)</span><br><span class="line">			--j;</span><br><span class="line">		if(i&lt;j)</span><br><span class="line">		&#123;</span><br><span class="line">			arr[i]&#x3D;arr[j];</span><br><span class="line">			++i;</span><br><span class="line">		&#125;</span><br><span class="line">		while(i&lt;j&amp;&amp;arr[i]&lt;comp)</span><br><span class="line">			++i;</span><br><span class="line">		if(i&lt;j)</span><br><span class="line">		&#123;</span><br><span class="line">			arr[j]&#x3D;arr[i];</span><br><span class="line">			--j;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	arr[i]&#x3D;temp;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里i和j共同指向的还是temp，comp只是一个比较大小的标准，comp都不一定是数组中存在的元素。理解最前面的黑体字就懂这个类型了。<br><em>3：以数组元素中的任意一个元素作为树轴，左边小于树轴，右边大于树轴。</em></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">partition</span><span class="params">(<span class="keyword">int</span> arr[],<span class="keyword">int</span> n ,<span class="keyword">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> temp;</span><br><span class="line">	<span class="keyword">int</span> i=<span class="number">0</span>;j=n<span class="number">-1</span>;</span><br><span class="line">	temp=arr[<span class="number">0</span>]; <span class="comment">//区别就在这三句话，1</span></span><br><span class="line">	arr[<span class="number">0</span>]=arr[k]; <span class="comment">//2</span></span><br><span class="line">	arr[k]=temp; <span class="comment">//3</span></span><br><span class="line">	temp=arr[i];</span><br><span class="line">	<span class="keyword">while</span>(i&lt;j)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">while</span>(i&lt;j&amp;&amp;arr[j]&gt;=temp)</span><br><span class="line">			--j;</span><br><span class="line">		<span class="keyword">if</span>(i&lt;j)</span><br><span class="line">		&#123;</span><br><span class="line">			arr[i]=arr[j];</span><br><span class="line">			++i;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">while</span>(i&lt;j&amp;&amp;arr[i]&lt;temp)</span><br><span class="line">			++i;</span><br><span class="line">		<span class="keyword">if</span>(i&lt;j)</span><br><span class="line">		&#123;</span><br><span class="line">			arr[j]=arr[i];</span><br><span class="line">			--j;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	arr[i]=temp;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将这个数组中k位置的值直接放在数组中的第一个位置那就行。之所以放在第一个那，只是后面的代码和第一种情况的一个统一，更方便的去操作。</p>
+
+        </div>
+         
+        <div class="post-footer__meta">
+    <p>
+        updated at 2019-03-31
+    </p>
+</div> 
+        <div class="post-meta__cats">
+    
+    
+        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
+    
+</div> 
+    </article>
+    
+
+
+</main>
+
+            <footer class="footer">
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright&nbsp;©&nbsp;2020&nbsp;<a href="/">Hexo</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+  
+
+
+
+ 
+
+
+    
+
+
+ 
+
+
+
+
+
+
+
+
+    </body>
+</html>
