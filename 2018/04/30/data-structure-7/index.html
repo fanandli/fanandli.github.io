@@ -1,210 +1,124 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-    <meta charset="utf-8">
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>data structure——图 | 湍流的时空</title><meta name="description" content="图的存储结构：  图的顺序存储结构：邻接矩阵的结构型有两个数组：一个一维数组存储图中的顶点信息；一个二维数组存储图中的边或弧的信息。缺点：如果边数相对于顶点数较少，那么边数组的存储空间是一个很大的浪费。12345678910111213typedef struct&amp;#123;	int no;  &#x2F;&#x2F;顶点编号	char info;  &#x2F;&#x2F;顶点的其他信息，视情况而定写不写&amp;#125;VertexTyp"><meta name="keywords" content="data-structure"><meta name="author" content="turlee"><meta name="copyright" content="turlee"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2018/04/30/data-structure-7/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="data structure——图"><meta property="og:url" content="http://example.com/2018/04/30/data-structure-7/"><meta property="og:site_name" content="湍流的时空"><meta property="og:description" content="图的存储结构：  图的顺序存储结构：邻接矩阵的结构型有两个数组：一个一维数组存储图中的顶点信息；一个二维数组存储图中的边或弧的信息。缺点：如果边数相对于顶点数较少，那么边数组的存储空间是一个很大的浪费。12345678910111213typedef struct&amp;#123;	int no;  &#x2F;&#x2F;顶点编号	char info;  &#x2F;&#x2F;顶点的其他信息，视情况而定写不写&amp;#125;VertexTyp"><meta property="og:image" content="http://example.com/null"><meta property="article:published_time" content="2018-04-30T01:17:32.000Z"><meta property="article:modified_time" content="2019-03-31T15:49:27.204Z"><meta name="twitter:card" content="summary"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.1.1',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime: '',
+  date_suffix: {"one_hour":"Just","hours":"hours ago","day":"days ago"},
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
 
-    
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+      const now = new Date()
+      const expiryDay = ttl * 86400000
+      const item = {
+        value: value,
+        expiry: now.getTime() + expiryDay,
+      }
+      localStorage.setItem(key, JSON.stringify(item))
+    },
+  
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
 
-    <!-- 渲染优化 -->
-    <meta name="renderer" content="webkit">
-    <meta name="force-rendering" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <meta name="HandheldFriendly" content="True" >
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
 
-    <!--icon-->
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: false,
+  postUpdate: '2019-03-31 23:49:27'
+}</script><noscript><style type="text/css">
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
 
-    <link rel="shortcut icon" type='image/x-icon' href="/favicon.ico">
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
 
-
-    <!-- meta -->
-
-
-<title>data structure——图 | Hexo</title>
-
-
-    <meta name="keywords" content="data-structure">
-
-
-
-
-    <!-- OpenGraph -->
- 
-    <meta name="description" content="图的存储结构：  图的顺序存储结构：邻接矩阵的结构型有两个数组：一个一维数组存储图中的顶点信息；一个二维数组存储图中的边或弧的信息。缺点：如果边数相对于顶点数较少，那么边数组的存储空间是一个很大的浪费。12345678910111213typedef struct&amp;#123;	int no;  &#x2F;&#x2F;顶点编号	char info;  &#x2F;&#x2F;顶点的其他信息，视情况而定写不写&amp;#125;VertexTyp">
-<meta property="og:type" content="article">
-<meta property="og:title" content="data structure——图">
-<meta property="og:url" content="http://example.com/2018/04/30/data-structure-7/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="图的存储结构：  图的顺序存储结构：邻接矩阵的结构型有两个数组：一个一维数组存储图中的顶点信息；一个二维数组存储图中的边或弧的信息。缺点：如果边数相对于顶点数较少，那么边数组的存储空间是一个很大的浪费。12345678910111213typedef struct&amp;#123;	int no;  &#x2F;&#x2F;顶点编号	char info;  &#x2F;&#x2F;顶点的其他信息，视情况而定写不写&amp;#125;VertexTyp">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://github.com/fanandli/picblog/blob/master/linjiejuzhen.jpg?raw=true">
-<meta property="og:image" content="https://github.com/fanandli/picblog/blob/master/linjiebiao.jpg?raw=true">
-<meta property="og:image" content="https://github.com/fanandli/picblog/blob/master/linjiebiao&nilinjiebiao.jpg?raw=true">
-<meta property="og:image" content="https://github.com/fanandli/picblog/blob/master/shizilianbiao.jpg?raw=true">
-<meta property="og:image" content="https://github.com/fanandli/picblog/blob/master/linjieduochongbiao.jpg?raw=true">
-<meta property="og:image" content="https://github.com/fanandli/picblog/blob/master/dfs.png?raw=true">
-<meta property="og:image" content="https://github.com/fanandli/picblog/blob/master/bfs.png?raw=true">
-<meta property="article:published_time" content="2018-04-30T01:17:32.000Z">
-<meta property="article:modified_time" content="2019-03-31T15:49:27.204Z">
-<meta property="article:author" content="John Doe">
-<meta property="article:tag" content="data-structure">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://github.com/fanandli/picblog/blob/master/linjiejuzhen.jpg?raw=true">
-
-
-    
-<link rel="stylesheet" href="/css/style/main.css">
- 
-
-
-
-    
-    
-        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" onload="if(getComputedStyle(document.documentElement).getPropertyValue('--color-mode').indexOf('dark')===-1)this.media='all'">
-        
-    
-
-    
-    
-
-    
-
-     
-
-    <!-- custom head -->
-
-<meta name="generator" content="Hexo 5.1.1"></head>
-
-    <body>
-        <div id="app">
-            <header class="header">
-    <div class="header__left">
-        <a href="/" class="button">
-            <span class="logo__text">
-                Demo
-            </span>
-        </a>
-    </div>
-    <div class="header__right">
-        
-            <div class="navbar__menus">
-                
-                    <a href="/" class="navbar-menu button">
-                        首页
-                    </a>
-                
-                    <a href="/tags/" class="navbar-menu button">
-                        标签
-                    </a>
-                
-                    <a href="/archives/" class="navbar-menu button">
-                        归档
-                    </a>
-                
-                    <a href="/friends/" class="navbar-menu button">
-                        友链
-                    </a>
-                
-                    <a href="/page/" class="navbar-menu button">
-                        Page
-                    </a>
-                
-            </div>
-        
-        
-        
-
-        
-        
-
-        
-
-        
-            <a class="dropdown-icon button" id="btn-dropdown">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
-                    <path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
-                </svg>
-            </a>
-            <div class="dropdown-menus" id="dropdown-menus">
-                <a class="dropback-icon button" id="btn-dropback">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
-                        <path fill="currentColor" d="M11.469,10l7.08-7.08c0.406-0.406,0.406-1.064,0-1.469c-0.406-0.406-1.063-0.406-1.469,0L10,8.53l-7.081-7.08c-0.406-0.406-1.064-0.406-1.469,0c-0.406,0.406-0.406,1.063,0,1.469L8.531,10L1.45,17.081c-0.406,0.406-0.406,1.064,0,1.469c0.203,0.203,0.469,0.304,0.735,0.304c0.266,0,0.531-0.101,0.735-0.304L10,11.469l7.08,7.081c0.203,0.203,0.469,0.304,0.735,0.304c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"></path>
-                    </svg>
-                </a>
-                
-                    <a href="/" class="dropdown-menu button">
-                        首页
-                    </a>
-                
-                    <a href="/tags/" class="dropdown-menu button">
-                        标签
-                    </a>
-                
-                    <a href="/archives/" class="dropdown-menu button">
-                        归档
-                    </a>
-                
-                    <a href="/friends/" class="dropdown-menu button">
-                        友链
-                    </a>
-                
-                    <a href="/page/" class="dropdown-menu button">
-                        Page
-                    </a>
-                
-            </div>
-            <script>
-                document.getElementById('btn-dropdown').addEventListener('click', () => {
-                    const dd = document.getElementById('dropdown-menus');
-                    requestAnimationFrame(() => {
-                        dd.style.display = 'flex';
-                        requestAnimationFrame(() => {
-                            dd.style.transform = 'translateY(0)';
-                            dd.style.opacity = '1';
-                        });
-                    });
-                });
-                document.getElementById('btn-dropback').addEventListener('click', () => {
-                    const dd = document.getElementById('dropdown-menus');
-                    dd.style.transform = 'translateY(2.25rem)';                    
-                    dd.style.opacity = '0';
-                    setTimeout(() => {dd.style.display = 'none';}, 350);
-                });
-            </script>
-        
-    </div>
-</header>
-
-
-            <main class="main">
-    
-<div class="post-title">
-    <h1 class="post-title__text">
-        data structure——图
-    </h1>
-    <div class="post-title__meta">
-        <a href="/archives/2018/04/" class="post-meta__date button">
-    2018-04-30
-</a>
-        
- 
-        
-    
-    
-
-
- 
-
- 
-    </div>
-</div>
-
-
-    <article class="post content-card">
-        <div class="post__header"> </div>
-        <div class="post__content">
-            <p><strong>图的存储结构：</strong></p>
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 5.1.1"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/null" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">Articles</div><div class="length_num">52</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">Tags</div><div class="length_num">19</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/xingjiahui/CDN/index_01.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">湍流的时空</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">data structure——图</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2018-04-30T01:17:32.000Z" title="Created 2018-04-30 09:17:32">2018-04-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2019-03-31T15:49:27.204Z" title="Updated 2019-03-31 23:49:27">2019-03-31</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p><strong>图的存储结构：</strong></p>
 <ul>
 <li>图的顺序存储结构：邻接矩阵的结构型<br>有两个数组：一个一维数组存储图中的顶点信息；一个二维数组存储图中的边或弧的信息。<br>缺点：如果边数相对于顶点数较少，那么边数组的存储空间是一个很大的浪费。<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> no;  <span class="comment">//顶点编号</span></span><br><span class="line">	<span class="keyword">char</span> info;  <span class="comment">//顶点的其他信息，视情况而定写不写</span></span><br><span class="line">&#125;VertexType;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> //图的定义</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> edges[maxSize][maxSize];  <span class="comment">//邻接矩阵定义，可看做边表</span></span><br><span class="line">	<span class="keyword">int</span> n,e;  <span class="comment">//顶点数和边数</span></span><br><span class="line">	VertexType vex[maxSize];  <span class="comment">//顶点表，存放结点信息</span></span><br><span class="line">&#125;MGraph;  <span class="comment">//图的邻接矩阵类型</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <a id="more"></a>
@@ -272,72 +186,36 @@
 <p>kruskal算法</p>
 <p>把当前未被并入的，且并入后不会产生环的最小边进行并入。<br>如何检测并入后到底会不会产生环呢？就用到了“并查集”。所谓的并查集，就是通过这些图中的点构造出来的树，每一个结点在相连的时候，要一直查到到根结点，如果根结点不相同，说明图中选取边之后不会产生环，所以可以选择这个这个结点的边。</p>
 <p>相关的存储结构：</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">turlee</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2018/04/30/data-structure-7/">http://example.com/2018/04/30/data-structure-7/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/data-structure/">data-structure</a></div><div class="post_share"><div class="social-share" data-image="/null" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2018/05/01/data-structure-13/"><img class="prev-cover" src="/" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">图——最小生成树</div></div></a></div><div class="next-post pull-right"><a href="/2018/04/28/data-sturcture-practise-1/"><img class="next-cover" src="/" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">data structure——树的例题</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> Comment</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer" style="background-image: url(https://cdn.jsdelivr.net/gh/xingjiahui/CDN/index_01.png)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 By turlee</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="Scroll To Comments"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    window.valine = new Valine({
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+    });
+    if ('nick,mail') { valine.config.requiredFields= 'nick,mail'.split(',') }
+  }
 
-        </div>
-         
-        <div class="post-footer__meta">
-    <p>
-        updated at 2019-03-31
-    </p>
-</div> 
-        <div class="post-meta__cats">
-    
-    
-        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
-    
-</div> 
-    </article>
-    
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
 
-
-</main>
-
-            <footer class="footer">
-    
-
-
-    
-     
- 
-
- 
-    
-        
-        <p class="footer-copyright">
-            Copyright&nbsp;©&nbsp;2020&nbsp;<a href="/">Hexo</a>
-        </p>
-    
-    
-    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
-</footer>
-
-        </div>
-         
-
- 
-
- 
-
- 
-
-  
-
-
-
- 
-
-
-    
-
-
- 
-
-
-
-
-
-
-
-
-    </body>
-</html>
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script defer="defer" id="ribbon_piao" mobile="false" src="/js/third-party/piao.js"></script></div></body></html>

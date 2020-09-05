@@ -1,543 +1,246 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-    <meta charset="utf-8">
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>湍流的时空</title><meta name="description"><meta name="author" content="turlee"><meta name="copyright" content="turlee"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/page/4/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="website"><meta property="og:title" content="湍流的时空"><meta property="og:url" content="http://example.com/page/4/"><meta property="og:site_name" content="湍流的时空"><meta property="og:description"><meta property="og:image" content="http://example.com/null"><meta property="article:published_time" content="2020-09-05T16:00:12.370Z"><meta property="article:modified_time" content="2020-09-05T16:00:12.370Z"><meta name="twitter:card" content="summary"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.1.1',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime: '',
+  date_suffix: {"one_hour":"Just","hours":"hours ago","day":"days ago"},
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
 
-    
-
-    <!-- 渲染优化 -->
-    <meta name="renderer" content="webkit">
-    <meta name="force-rendering" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <meta name="HandheldFriendly" content="True" >
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    <!--icon-->
-
-    <link rel="shortcut icon" type='image/x-icon' href="/favicon.ico">
-
-
-    <!-- meta -->
-
-
-<title>Hexo</title>
-
-
-
-
-
-    <!-- OpenGraph -->
- 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/page/4/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary_large_image">
-
-
-    
-<link rel="stylesheet" href="/css/style/main.css">
- 
-
-
-
-    
-    
-    
-
-    
-
-     
-
-    <!-- custom head -->
-
-<meta name="generator" content="Hexo 5.1.1"></head>
-
-    <body>
-        <div id="app">
-            <header class="header">
-    <div class="header__left">
-        <a href="/" class="button">
-            <span class="logo__text">
-                Demo
-            </span>
-        </a>
-    </div>
-    <div class="header__right">
-        
-            <div class="navbar__menus">
-                
-                    <a href="/" class="navbar-menu button">
-                        首页
-                    </a>
-                
-                    <a href="/tags/" class="navbar-menu button">
-                        标签
-                    </a>
-                
-                    <a href="/archives/" class="navbar-menu button">
-                        归档
-                    </a>
-                
-                    <a href="/friends/" class="navbar-menu button">
-                        友链
-                    </a>
-                
-                    <a href="/page/" class="navbar-menu button">
-                        Page
-                    </a>
-                
-            </div>
-        
-        
-        
-
-        
-        
-
-        
-
-        
-            <a class="dropdown-icon button" id="btn-dropdown">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
-                    <path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
-                </svg>
-            </a>
-            <div class="dropdown-menus" id="dropdown-menus">
-                <a class="dropback-icon button" id="btn-dropback">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
-                        <path fill="currentColor" d="M11.469,10l7.08-7.08c0.406-0.406,0.406-1.064,0-1.469c-0.406-0.406-1.063-0.406-1.469,0L10,8.53l-7.081-7.08c-0.406-0.406-1.064-0.406-1.469,0c-0.406,0.406-0.406,1.063,0,1.469L8.531,10L1.45,17.081c-0.406,0.406-0.406,1.064,0,1.469c0.203,0.203,0.469,0.304,0.735,0.304c0.266,0,0.531-0.101,0.735-0.304L10,11.469l7.08,7.081c0.203,0.203,0.469,0.304,0.735,0.304c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"></path>
-                    </svg>
-                </a>
-                
-                    <a href="/" class="dropdown-menu button">
-                        首页
-                    </a>
-                
-                    <a href="/tags/" class="dropdown-menu button">
-                        标签
-                    </a>
-                
-                    <a href="/archives/" class="dropdown-menu button">
-                        归档
-                    </a>
-                
-                    <a href="/friends/" class="dropdown-menu button">
-                        友链
-                    </a>
-                
-                    <a href="/page/" class="dropdown-menu button">
-                        Page
-                    </a>
-                
-            </div>
-            <script>
-                document.getElementById('btn-dropdown').addEventListener('click', () => {
-                    const dd = document.getElementById('dropdown-menus');
-                    requestAnimationFrame(() => {
-                        dd.style.display = 'flex';
-                        requestAnimationFrame(() => {
-                            dd.style.transform = 'translateY(0)';
-                            dd.style.opacity = '1';
-                        });
-                    });
-                });
-                document.getElementById('btn-dropback').addEventListener('click', () => {
-                    const dd = document.getElementById('dropdown-menus');
-                    dd.style.transform = 'translateY(2.25rem)';                    
-                    dd.style.opacity = '0';
-                    setTimeout(() => {dd.style.display = 'none';}, 350);
-                });
-            </script>
-        
-    </div>
-</header>
-
-
-    <div class="cover">
-        <div class="cover__logo">
-            
-                <h1>Demo</h1>
-            
-        </div>
-        
-            <div class="cover__intro">
-                <p>Hi, nice to meet you!</p>
- 
-            </div>
-        
-    </div>
-
-            <main class="main">
-    
-    <div class="posts">
-        
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        希尔排序
-    </h2>
-    
-        <p>首先我们来先看一个过程，</p>
-<p><img src="https://github.com/fanandli/picblog/blob/master/sier2.png?raw=true" width = "300" height = "200" alt="xier" align=center /><img src="https://github.com/fanandli/picblog/blob/master/xier3.png?raw=true" width = "300" height = "200" alt="xier2" align=center /></p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2018/05/" class="post-meta__date button">
-    2018-05-18
-</a>
-    
- 
-</div>
-<div class="post-entry__tags">
-    
-        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
-    
-</div> 
-<a href="/2018/05/18/data-structure-14/" class="post-entry__link">Link</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        直接插入，简单选择和冒泡排序
-    </h2>
-    
-        <ul>
-<li>直接插入排序</li>
-</ul>
-<p>insertSort[]数组用来存储我们要排的关键字，n为关键字的个数，temp用来暂时存储我们当前要插入的排序的关键字。<br>第一个for循环是从i=1开始，是因为我们规定认为初始状态的第0个元素为有序序列，第0个元素之后的元素为无序序列。我们的思路是从无序序列中逐次扫描，与有序序列中的大小进行比较，从而将他们插入到合适的位置中去。<br>因为箭头总是指向带插入位置的前一个位置，所以我们要arr[j+1]=temp</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insertSort</span><span class="params">(<span class="keyword">int</span> arr[],<span class="keyword">int</span> n)</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">	<span class="keyword">int</span> temp,i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;n;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		temp=arr[i]；</span><br><span class="line">		j=i<span class="number">-1</span>; <span class="comment">//j指向有序序列中的最右边的一个元素</span></span><br><span class="line">		<span class="keyword">while</span>(j&gt;=<span class="number">0</span>&amp;&amp;temp&lt;arr[j])</span><br><span class="line">		&#123;</span><br><span class="line">			arr[j+<span class="number">1</span>]=arr[j];</span><br><span class="line">			--j; <span class="comment">//j是从右往左扫描有序序列</span></span><br><span class="line">		&#125;</span><br><span class="line">		arr[j+<span class="number">1</span>]=temp; <span class="comment">//将temp中的待排关键字插入</span></span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2018/05/" class="post-meta__date button">
-    2018-05-17
-</a>
-    
- 
-</div>
-<div class="post-entry__tags">
-    
-        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
-    
-        <a href="/tags/algorithm/" class="post-tags__link button"># algorithm</a>
-    
-</div> 
-<a href="/2018/05/17/data-structure-12/" class="post-entry__link">Link</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        图——关键路径
-    </h2>
-    
-        <p><strong>关键路径</strong><br>AOE网，(activate on edge)<br>1为源点，6为汇点。所谓关键路径，就是在AOE网中从源点开始到汇点结束的具有最大路径长度的那个路径就为关键路径。<br><img src="https://github.com/fanandli/picblog/blob/master/AOE.png?raw=true" width = "600" height = "350" alt="AOE" align=center /></p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2018/05/" class="post-meta__date button">
-    2018-05-15
-</a>
-    
- 
-</div>
-<div class="post-entry__tags">
-    
-        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
-    
-</div> 
-<a href="/2018/05/15/data-structure-11/" class="post-entry__link">Link</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        图——拓扑排序
-    </h2>
-    
-        <p><strong>拓扑排序</strong></p>
-<p>AOV网，描述了一种有实际意义的过程，所以结点之间有了先后顺序，其次是结点之间是没有环的。<br>如何导出正确的结点之间的顺序，就需要拓扑排序。三个步骤:</p>
-<img src="https://github.com/fanandli/picblog/blob/master/AOV1.png?raw=true" width = "600" height = "350" alt="tuopu" align=center />
-
-
-
-
-
-
-
-<p>用邻接表来存储图，且修改顶点结构体为</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> data;</span><br><span class="line">	<span class="keyword">int</span> count; <span class="comment">//指示当前结点的入度</span></span><br><span class="line">	ArcNode* first;</span><br><span class="line">&#125;VNode;</span><br></pre></td></tr></table></figure>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2018/05/" class="post-meta__date button">
-    2018-05-15
-</a>
-    
- 
-</div>
-<div class="post-entry__tags">
-    
-        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
-    
-</div> 
-<a href="/2018/05/15/data-structure-10/" class="post-entry__link">Link</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        图——Floyd算法
-    </h2>
-    
-        <p>最短路径：<br><strong>弗洛伊德算法</strong><br>我们先看一下我们举例的图，如下图中右边的图，其中左边的Av[]数组存储的任意两个顶点之间的当前最短路径长度，pathv[]数组存储了任意两个顶点他们所在最短路径之间的中间点(v为下标)。</p>
-<img src="https://github.com/fanandli/picblog/blob/master/%E5%BC%97%E6%B4%9B%E4%BC%8A%E5%BE%B71.png?raw=true" width = "600" height = "350" alt="floyd1" align=center />
-
-<p>执行思路：<br>对于每个顶点v，和任意一顶点对（i,j）,i不等于j,v不等于i,v不等于j，如果A[i][j]&gt;A[i][v]+A[v][j],则将A[i][j]更新为A[i][v]+A[v][j]的值，并将path[i][j]改为v。</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2018/05/" class="post-meta__date button">
-    2018-05-15
-</a>
-    
- 
-</div>
-<div class="post-entry__tags">
-    
-        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
-    
-</div> 
-<a href="/2018/05/15/data-structure-9/" class="post-entry__link">Link</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        图——Dijkstra算法
-    </h2>
-    
-        <p>最短路径问题</p>
-<p><strong>迪杰斯特拉算法</strong><br>求某一个顶点到其余各顶点的最短路径，也为单元最短路径算法。</p>
-<img src="https://github.com/fanandli/picblog/blob/master/ef0e63b9977341e4513cd67239c5b25.png?raw=true" width = "600" height = "350" alt="Dijkstra1" align=center />
-
-
-
-<p>dict[]数组存储了当前起点到其余各顶点的最短路径长度（是长度，数值），path[]存储了当前起点到其余各顶点的最短路径（是上一个顶点的下标）。set[]标记哪些顶点被选入了最短路径（是标记）。</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2018/05/" class="post-meta__date button">
-    2018-05-11
-</a>
-    
- 
-</div>
-<div class="post-entry__tags">
-    
-        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
-    
-</div> 
-<a href="/2018/05/11/data-structure-8/" class="post-entry__link">Link</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        图——最小生成树
-    </h2>
-    
-        <p>由一个图按照某种规则导出的一个树，叫生成树。最小生成树：构成这个生成树的所有分支的权值和最小。</p>
-<p><strong>prime算法</strong><br>求最小生成树的代码：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Prim</span><span class="params">(<span class="keyword">int</span> n ,<span class="keyword">float</span> MGraph[][n],<span class="keyword">int</span> v0,<span class="keyword">float</span> &amp;sum)</span>  <span class="comment">//顶点个数，带权图，构造生成树的起始顶点，存储最小权值和（代价）</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> lowCost[n],vSet[n];  </span><br><span class="line">	<span class="keyword">int</span> v,k,<span class="built_in">min</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		lowCost[i]=MGraph[v0][i];  <span class="comment">//lowCost[]指向vo初始点的同一行的不同列的顶点</span></span><br><span class="line">		vSet[i]=<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	v=v0;  <span class="comment">//v指向第一个结点，</span></span><br><span class="line">	vSet[v]=<span class="number">1</span>;  <span class="comment">//已经并入，所以标记设置为1</span></span><br><span class="line">	sum=<span class="number">0</span>;  <span class="comment">//初始化</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n<span class="number">-1</span>;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">min</span>=INF; <span class="comment">//min初始化为无穷大</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;n,++j)</span><br><span class="line">			<span class="keyword">if</span>(vSet[j]==<span class="number">0</span>&amp;&amp;lowCost[j]&lt;<span class="built_in">min</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">min</span>=lowCost[j];</span><br><span class="line">				k=j;</span><br><span class="line">			&#125;</span><br><span class="line">			vSet[k]=<span class="number">1</span>;</span><br><span class="line">			v=k;  <span class="comment">//v指向如今刚进入的结点</span></span><br><span class="line">			sum+=<span class="built_in">min</span>;  <span class="comment">//min的值累加到sum</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;n;++j)  <span class="comment">//更新lowCost数组</span></span><br><span class="line">				<span class="keyword">if</span>(vSet[j]==<span class="number">0</span>&amp;&amp;MGraph[v][j]&lt;lowCost[j])</span><br><span class="line">					lowCost[j]=MGraph[v][j];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2018/05/" class="post-meta__date button">
-    2018-05-01
-</a>
-    
- 
-</div>
-<div class="post-entry__tags">
-    
-        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
-    
-</div> 
-<a href="/2018/05/01/data-structure-13/" class="post-entry__link">Link</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        data structure——图
-    </h2>
-    
-        <p><strong>图的存储结构：</strong></p>
-<ul>
-<li>图的顺序存储结构：邻接矩阵的结构型<br>有两个数组：一个一维数组存储图中的顶点信息；一个二维数组存储图中的边或弧的信息。<br>缺点：如果边数相对于顶点数较少，那么边数组的存储空间是一个很大的浪费。<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> no;  <span class="comment">//顶点编号</span></span><br><span class="line">	<span class="keyword">char</span> info;  <span class="comment">//顶点的其他信息，视情况而定写不写</span></span><br><span class="line">&#125;VertexType;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> //图的定义</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> edges[maxSize][maxSize];  <span class="comment">//邻接矩阵定义，可看做边表</span></span><br><span class="line">	<span class="keyword">int</span> n,e;  <span class="comment">//顶点数和边数</span></span><br><span class="line">	VertexType vex[maxSize];  <span class="comment">//顶点表，存放结点信息</span></span><br><span class="line">&#125;MGraph;  <span class="comment">//图的邻接矩阵类型</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2018/04/" class="post-meta__date button">
-    2018-04-30
-</a>
-    
- 
-</div>
-<div class="post-entry__tags">
-    
-        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
-    
-</div> 
-<a href="/2018/04/30/data-structure-7/" class="post-entry__link">Link</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        data structure——树的例题
-    </h2>
-    
-        <p>1.假设二叉树采用二叉链表存储结构，设计一个算法，计算一棵给定二叉树的所有结点数。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n=<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">count</span><span class="params">(BTNode *p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(p!=<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		++n;</span><br><span class="line">		count(p-&gt;lChild);</span><br><span class="line">		count(p-&gt;rChild);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2018/04/" class="post-meta__date button">
-    2018-04-28
-</a>
-    
- 
-</div>
-<div class="post-entry__tags">
-    
-        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
-    
-</div> 
-<a href="/2018/04/28/data-sturcture-practise-1/" class="post-entry__link">Link</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        data structure——数组、矩阵与广义表
-    </h2>
-    
-        <p><strong>数组：</strong></p>
-<p><em>1.两种逻辑结构</em></p>
-<ul>
-<li>一维数组<br><code>dataType a[n];</code></li>
-</ul>
-<ul>
-<li>二维数组<br><code>dataType a[m][n];</code><br>元素为一维数组的数组</li>
-</ul>
-<p><em>2.行优先和列优先储存</em><br>这里要区分数组在定义的时候例如：<code>int a[2][3]</code>中<code>2</code>和<code>3</code>就是又两行，有三列的意思，<br>而在说数组中的某一个元素是例如<code>a[2][1]</code>这里的<code>2</code>和<code>1</code>编号，是不一样的，因为编号是从<code>0</code>开始编号的。</p>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/archives/2018/04/" class="post-meta__date button">
-    2018-04-14
-</a>
-    
- 
-</div>
-<div class="post-entry__tags">
-    
-        <a href="/tags/data-structure/" class="post-tags__link button"># data-structure</a>
-    
-</div> 
-<a href="/2018/04/14/data-structure-5/" class="post-entry__link">Link</a>
-                </div>
-            
-        
-    </div>
-    
-        
-            <nav role="navigation" aria-label="Pagination Navigation">
-                
-                    <div class="pagination_prev">
-                        <a href="/page/3/" class="button">
-                            &lt;&nbsp;Previous
-                        </a>
-                    </div>
-                
-                
-                    <div class="pagination_next">
-                        <a href="/page/5/" class="button">
-                            Next&nbsp;&gt;
-                        </a>
-                    </div>
-                
-            </nav>
-        
-    
-
-
-</main>
-
-            <footer class="footer">
-    
-
-
-    
-     
- 
-
- 
-    
-        
-        <p class="footer-copyright">
-            Copyright&nbsp;©&nbsp;2020&nbsp;<a href="/">Hexo</a>
-        </p>
-    
-    
-    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
-</footer>
-
-        </div>
-         
-
- 
-
- 
-
- 
-
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+      const now = new Date()
+      const expiryDay = ttl * 86400000
+      const item = {
+        value: value,
+        expiry: now.getTime() + expiryDay,
+      }
+      localStorage.setItem(key, JSON.stringify(item))
+    },
   
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isSidebar: false,
+  postUpdate: '2020-09-06 00:00:12'
+}</script><noscript><style type="text/css">
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 5.1.1"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/null" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">Articles</div><div class="length_num">52</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">Tags</div><div class="length_num">19</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/xingjiahui/CDN/index_01.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">湍流的时空</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="site-info"><h1 id="site_title">湍流的时空</h1><div id="site_subtitle"><span id="subtitle"></span></div></div><div id="scroll_down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout_page" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2018/05/17/data-structure-12/" title="直接插入，简单选择和冒泡排序">直接插入，简单选择和冒泡排序</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-05-17T01:53:57.000Z" title="Created 2018-05-17 09:53:57">2018-05-17</time></span></div><div class="content">
+直接插入排序
+
+insertSort[]数组用来存储我们要排的关键字，n为关键字的个数，temp用来暂时存储我们当前要插入的排序的关键字。第一个for循环是从i=1开始，是因为我们规定认为初始状态的第0个元素为有序序列，第0个元素之后的元素为无序序列。我们的思路是从无序序列中逐次扫描，与有序序列中的大小进行比较，从而将他们插入到合适的位置中去。因为箭头总是指向带插入位置的前一个位置，所以我们要arr[j+1]=temp
+12345678910111213141516void insertSort(int arr[],int n) &#123; 	int temp,i,j;	for(i=1;i&lt;n;++i)	&#123;		temp=arr[i]；		j=i-1; //j指向有序序列中的最右边的一个元素		while(j&gt;=0&amp;&amp;temp&lt;arr[j])		&#123;			arr[j+1]=arr[j];			--j; //j是从右往左扫描有序序列		&#125;		arr[j+1]=temp; //将temp中的待排关键字插入	&#125;&#12 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2018/05/15/data-structure-11/" title="图——关键路径">图——关键路径</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-05-15T06:00:07.000Z" title="Created 2018-05-15 14:00:07">2018-05-15</time></span></div><div class="content">关键路径AOE网，(activate on edge)1为源点，6为汇点。所谓关键路径，就是在AOE网中从源点开始到汇点结束的具有最大路径长度的那个路径就为关键路径。
+
+首先由事件的拓扑排序和逆拓扑排序求出事件最早发生时间，规定第一个结点的最早发生时间为0，这里所谓的最早发生时间的最早，是指在这个事件可以发生的前提下最早发生的时间，例如结点6首先他要发生，得必须等到3,4结点都发生完了，才可以考虑发生，因为如在现实生活中是一样的，事件6可以在事件3,4完成的前提下发生，他只是有发生的条件了，并不是说就一定发生了，我可以先等一会，然后再发生，那样，只要事件6的发生时间大于等于6他都可以发生，所以，他最早发生时间为6，这里所谓的最早是指在这个结点能有发生的前提下，不再等待任何多余的时间，即最早。
+事件最晚发生时间：这个概念，首先我们由上面可知事件6的发生时间只要大于等于6就可，可是在现实生活中，一个事件一直拖着毫无意义。所以我们人为规定最后一个事件的（这里为事件6）最晚发生时间就等于最早发生时间。在此前提下我们再去求之前事件的最晚发生时间。如果没有这个规定，事件6之前的事件都可以往后拖了。 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2018/05/15/data-structure-10/" title="图——拓扑排序">图——拓扑排序</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-05-15T02:20:29.000Z" title="Created 2018-05-15 10:20:29">2018-05-15</time></span></div><div class="content">拓扑排序
+AOV网，描述了一种有实际意义的过程，所以结点之间有了先后顺序，其次是结点之间是没有环的。如何导出正确的结点之间的顺序，就需要拓扑排序。三个步骤:
 
 
 
- 
-
-
-    
-
-
- 
 
 
 
 
 
+用邻接表来存储图，且修改顶点结构体为
+123456typedef struct&#123;	int data;	int count; //指示当前结点的入度	ArcNode* first;&#125;VNode;
+
+
+拓扑排序的代码实现：
+int TopSort(AGraph *G)
+&#123;
+    int i ,j ,n=0; //n统计当前已经输出的顶点个数
+    int stack[maxSize],top=-1; //定义一个栈，保存所有入度为0的顶点
+    ArcNode* p; //遍历
+
+    for(i=0;i&lt;G-&gt;n;++i)
+        if(G-&gt;adjList[i].count==0)
+            stack[++top]=i; //将入度为0的压栈
+
+    while(top!=-1)//若栈不为0，
+    &#123;
+         ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2018/05/15/data-structure-9/" title="图——Floyd算法">图——Floyd算法</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-05-15T01:00:44.000Z" title="Created 2018-05-15 09:00:44">2018-05-15</time></span></div><div class="content">最短路径：弗洛伊德算法我们先看一下我们举例的图，如下图中右边的图，其中左边的Av[]数组存储的任意两个顶点之间的当前最短路径长度，pathv[]数组存储了任意两个顶点他们所在最短路径之间的中间点(v为下标)。
+
+
+执行思路：对于每个顶点v，和任意一顶点对（i,j）,i不等于j,v不等于i,v不等于j，如果A[i][j]&gt;A[i][v]+A[v][j],则将A[i][j]更新为A[i][v]+A[v][j]的值，并将path[i][j]改为v。
+
+
+执行过程：
+首先我们一共所有的情况为{0,1}，{0,2}……初始化后，第一次，即当v=0时，发现所有情况中的{0,1}，此时i=0,j=1,v=0,v=i了，不满足条件，所以这个点跳过。很好理解，因为此时：式子”A[0][1]&gt;A[0][0]+A[0][1]”明显不成立，所以这种类型跳过，同样的{0,2}，{0,3}，{0,4}，这几个点也跳过，这也是为什么上面有说i不等于j,v不等于i,v不等于j的原因。接着我们来到{1,2},此时对应的式子为“A[1][2]&gt;A[1][0]+A[0][2]”,我们需要去判断大小，A[1 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2018/05/11/data-structure-8/" title="图——Dijkstra算法">图——Dijkstra算法</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-05-11T01:48:43.000Z" title="Created 2018-05-11 09:48:43">2018-05-11</time></span></div><div class="content">最短路径问题
+迪杰斯特拉算法求某一个顶点到其余各顶点的最短路径，也为单元最短路径算法。
 
 
 
-    </body>
-</html>
+
+dict[]数组存储了当前起点到其余各顶点的最短路径长度（是长度，数值），path[]存储了当前起点到其余各顶点的最短路径（是上一个顶点的下标）。set[]标记哪些顶点被选入了最短路径（是标记）。
+
+
+dict[]数组中，将与其顶点直接相连的顶点的值直接记录下来，与其顶点没有直接相连的点就设为无穷大，自身就设为0。然后通过循环不断的更新其中的值。（存储的是起点和当前未被并入的顶点之间的距离）
+path[]存储了顶点到其所在最短路径上前一个顶点的信息 。如果某一个顶点的的path[]数组的值为-1，则说明，在此顶点之前没有其他顶点了。图中1,2,3对应的path[]数组的值为0，则说明1,2,3定点的前一个顶点为0。而4,5,6顶底在path[]数组中的值也为-1，是因为他们现在和当前最短路径上的顶点（现在为初始状态，此时最短路径上只有一个顶点0）没有直接关系。
+set[]数组中，当前只有顶点0已经被选为最短路径中的顶点，所以将他标记为1其他的顶点还没有选择，所以暂时都是标记为0。
+其中在执行 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2018/05/01/data-structure-13/" title="图——最小生成树">图——最小生成树</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-05-01T11:27:29.000Z" title="Created 2018-05-01 19:27:29">2018-05-01</time></span></div><div class="content">由一个图按照某种规则导出的一个树，叫生成树。最小生成树：构成这个生成树的所有分支的权值和最小。
+prime算法求最小生成树的代码：
+1234567891011121314151617181920212223242526272829void Prim(int n ,float MGraph[][n],int v0,float &amp;sum)  //顶点个数，带权图，构造生成树的起始顶点，存储最小权值和（代价）&#123;	int lowCost[n],vSet[n];  	int v,k,min;	for(int i=0;i&lt;n;++i)	&#123;		lowCost[i]=MGraph[v0][i];  //lowCost[]指向vo初始点的同一行的不同列的顶点		vSet[i]=0;	&#125;	v=v0;  //v指向第一个结点，	vSet[v]=1;  //已经并入，所以标记设置为1	sum=0;  //初始化	for(int i=0;i&lt;n-1;++i)	&#123;		min=INF; //min初始化为无穷大		for(int j=0;j&lt;n,++ ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2018/04/30/data-structure-7/" title="data structure——图">data structure——图</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-04-30T01:17:32.000Z" title="Created 2018-04-30 09:17:32">2018-04-30</time></span></div><div class="content">图的存储结构：
+
+图的顺序存储结构：邻接矩阵的结构型有两个数组：一个一维数组存储图中的顶点信息；一个二维数组存储图中的边或弧的信息。缺点：如果边数相对于顶点数较少，那么边数组的存储空间是一个很大的浪费。12345678910111213typedef struct&#123;	int no;  //顶点编号	char info;  //顶点的其他信息，视情况而定写不写&#125;VertexType;typedef struct //图的定义&#123;	int edges[maxSize][maxSize];  //邻接矩阵定义，可看做边表	int n,e;  //顶点数和边数	VertexType vex[maxSize];  //顶点表，存放结点信息&#125;MGraph;  //图的邻接矩阵类型
+
+邻接矩阵事例：
+
+
+
+
+
+
+
+
+图的链式存储结构：邻接表数组与链表相结合；图中顶点用一维数组来存储（也可用单链表）；图中的每个顶点的邻接点用单链表来存储。
+
+12345678910111213141516171819typedef struct ArcNode  //边表&#123 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2018/04/28/data-sturcture-practise-1/" title="data structure——树的例题">data structure——树的例题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-04-28T01:21:50.000Z" title="Created 2018-04-28 09:21:50">2018-04-28</time></span></div><div class="content">1.假设二叉树采用二叉链表存储结构，设计一个算法，计算一棵给定二叉树的所有结点数。
+1234567891011int n=0;void count(BTNode *p)&#123;	if(p!=NULL)	&#123;		++n;		count(p-&gt;lChild);		count(p-&gt;rChild);	&#125;&#125;
+
+2.假设二叉树采用二叉链表存储形式，设计一个算法，计算一棵给定二叉树的所有叶子结点数。
+123456789101112int n=0;void count(BTNode *p)&#123;	if(p!=NULL)	&#123;		if(p-&gt;lChild&amp;&amp;p-&gt;rChild==NULL)			++n;		count(p-&gt;lChild);		count(p-&gt;rChild);	&#125;&#125;
+3.假设二叉树采用二叉链表存储结构，设计一个算法，利用结点的右孩子指针rchild将一棵二叉树的叶子结点按照从左往右的顺序串成一个单链表（在题目中定义两个指针，head与tail，其中head指向第一个叶 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2018/04/14/data-structure-5/" title="data structure——数组、矩阵与广义表">data structure——数组、矩阵与广义表</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-04-14T06:48:10.000Z" title="Created 2018-04-14 14:48:10">2018-04-14</time></span></div><div class="content">数组：
+1.两种逻辑结构
+
+一维数组dataType a[n];
+
+
+二维数组dataType a[m][n];元素为一维数组的数组
+
+2.行优先和列优先储存这里要区分数组在定义的时候例如：int a[2][3]中2和3就是又两行，有三列的意思，而在说数组中的某一个元素是例如a[2][1]这里的2和1编号，是不一样的，因为编号是从0开始编号的。
+
+
+矩阵:
+1.概念矩阵可以理解为二维数组。
+2.操作
+
+矩阵转置
+12345678void trsmat(int A[][maxsize],int B[][maxsize],int m, int n)  /*这里二维数组声明时省略了行的个数，                                                               但是列数是不可以省略的*/&#123;	for(int i=0;i&lt;m;i++)		for(int j=0;j&lt;n;j++)			b[j][i]=A[i][j];&#125;
+矩阵相加
+123456void addmat(int A[][maxsize],int B[] ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2018/04/13/plan/" title="计划表">计划表</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-04-13T09:08:35.000Z" title="Created 2018-04-13 17:08:35">2018-04-13</time></span></div><div class="content">
+
+
+
+2018年硕士研究生入学考试专业基础课程考试大纲及题型分布
+题型分布
+一、选择题：（40道题，每题2分，共80分）
+操作系统：16道题数据结构：12道题组成原理：12道题
+二、综合问答题：（7道题，平均10分，共70分）操作系统：3道题（共28分）数据结构：2道题（共21分）组成原理：2道题（共21分）
+考试大纲
+操作系统【考查目标】
+
+掌握操作系统的基本概念、基本原理和基本功能，理解操作系统的整体运行。
+掌握操作系统进程、内存、文件和I/O管理的策略、算法、机制以及互相关系。
+能够运用所学的操作系统原理、方法与技术分析问题和解决问题，并能利用C或C++等高级语言描述相关算法。
+
+一、操作系统概述（一）操作系统的概念、特征、功能和提供的服务（二）操作系统的发展与分类（三）操作系统的运行环境
+
+内核态与用户态
+中断、异常
+系统调用（四）操作系统的结构
+
+二、进程管理（一）进程与线程
+
+进程概念
+进程的状态与转换
+进程控制和组织进程控制块；调度队列和调度器；进程的创建和终止。
+线程概念与多线程模型（二）CPU调度
+调度的基本概念
+调度时机、切换与过程
+调度的基本准则
+调度方式
+典型 ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/3/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside_content" id="aside_content"><div class="sticky_layout"><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">最近闲着没事会重新规化博客......</div></div></div><div class="card-widget card-newest-comments"><div class="card-content"><div class="item-headline"><i class="fas fa-bolt"></i><span>Newest Comments</span></div><div class="aside-list"><span>loading...</span></div></div></div><div class="card-widget card-tags"><div class="card-content"><div class="item-headline"><i class="fas fa-tags"></i><span>Tags</span></div><div class="card-tag-cloud"><a href='/tags/C/' style='font-size:1.43em; color:rgb(15, 9, 166)'>C++</a><a href='/tags/C-C/' style='font-size:1.29em; color:rgb(96, 99, 83)'>C/C++</a><a href='/tags/NOI-NOIP/' style='font-size:1.11em; color:rgb(163, 182, 35)'>NOI/NOIP</a><a href='/tags/OJ/' style='font-size:1.33em; color:rgb(169, 182, 179)'>OJ</a><a href='/tags/PAT/' style='font-size:1.21em; color:rgb(116, 118, 125)'>PAT</a><a href='/tags/STL/' style='font-size:1.20em; color:rgb(10, 56, 53)'>STL</a><a href='/tags/algorithm/' style='font-size:1.30em; color:rgb(42, 4, 92)'>algorithm</a><a href='/tags/crawler/' style='font-size:1.33em; color:rgb(178, 20, 99)'>crawler</a><a href='/tags/css/' style='font-size:1.15em; color:rgb(43, 146, 111)'>css</a><a href='/tags/data-structure/' style='font-size:1.39em; color:rgb(126, 191, 33)'>data-structure</a><a href='/tags/html/' style='font-size:1.10em; color:rgb(146, 179, 166)'>html</a><a href='/tags/life/' style='font-size:1.47em; color:rgb(110, 77, 13)'>life</a><a href='/tags/network/' style='font-size:1.21em; color:rgb(85, 32, 72)'>network</a><a href='/tags/python/' style='font-size:1.26em; color:rgb(200, 115, 192)'>python</a><a href='/tags/tcp/' style='font-size:1.45em; color:rgb(185, 81, 141)'>tcp</a><a href='/tags/tcp-ip/' style='font-size:1.35em; color:rgb(136, 148, 69)'>tcp/ip</a><a href='/tags/web/' style='font-size:1.46em; color:rgb(107, 175, 133)'>web</a><a href='/tags/web-scraping/' style='font-size:1.11em; color:rgb(99, 198, 156)'>web-scraping</a><a href='/tags/windump/' style='font-size:1.22em; color:rgb(164, 172, 71)'>windump</a></div></div></div><div class="card-widget card-webinfo"><div class="card-content"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article :</div><div class="item-count">52</div></div><div class="webinfo-item"><div class="item-name">UV :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">PV :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">Last Push :</div><div class="item-count" id="last-push-date" data-lastPushDate="2020-09-05T16:00:11.843Z"></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://cdn.jsdelivr.net/gh/xingjiahui/CDN/index_01.png)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 By turlee</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script defer="defer" id="ribbon_piao" mobile="false" src="/js/third-party/piao.js"></script></div></body></html>

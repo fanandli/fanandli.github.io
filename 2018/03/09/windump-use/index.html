@@ -1,205 +1,124 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-    <meta charset="utf-8">
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>windump使用注意事项 | 湍流的时空</title><meta name="description" content="之前在准备的时候需要用到windump这个软件，这里就主要记录一下使用过程中遇到的坑吧。。 首先使用windump是需要安装winpcap的，安装就好，然后在命令行下直接使用windump。（要先打开到windump所处的位置）  接着windump是直接监听网卡，所以你要选择你监听的网卡，这里也需要注意，你无线上网或者有线上网是不一样的，不然是捕获不到包的。有代理服务器的话也会多出来另外一个选择"><meta name="keywords" content="network,windump"><meta name="author" content="turlee"><meta name="copyright" content="turlee"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2018/03/09/windump-use/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="windump使用注意事项"><meta property="og:url" content="http://example.com/2018/03/09/windump-use/"><meta property="og:site_name" content="湍流的时空"><meta property="og:description" content="之前在准备的时候需要用到windump这个软件，这里就主要记录一下使用过程中遇到的坑吧。。 首先使用windump是需要安装winpcap的，安装就好，然后在命令行下直接使用windump。（要先打开到windump所处的位置）  接着windump是直接监听网卡，所以你要选择你监听的网卡，这里也需要注意，你无线上网或者有线上网是不一样的，不然是捕获不到包的。有代理服务器的话也会多出来另外一个选择"><meta property="og:image" content="http://example.com/null"><meta property="article:published_time" content="2018-03-09T08:15:32.000Z"><meta property="article:modified_time" content="2019-03-31T15:49:27.208Z"><meta name="twitter:card" content="summary"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.1.1',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime: '',
+  date_suffix: {"one_hour":"Just","hours":"hours ago","day":"days ago"},
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
 
-    
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+      const now = new Date()
+      const expiryDay = ttl * 86400000
+      const item = {
+        value: value,
+        expiry: now.getTime() + expiryDay,
+      }
+      localStorage.setItem(key, JSON.stringify(item))
+    },
+  
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
 
-    <!-- 渲染优化 -->
-    <meta name="renderer" content="webkit">
-    <meta name="force-rendering" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <meta name="HandheldFriendly" content="True" >
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
 
-    <!--icon-->
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: false,
+  postUpdate: '2019-03-31 23:49:27'
+}</script><noscript><style type="text/css">
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
 
-    <link rel="shortcut icon" type='image/x-icon' href="/favicon.ico">
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
 
-
-    <!-- meta -->
-
-
-<title>windump使用注意事项 | Hexo</title>
-
-
-    <meta name="keywords" content="network, windump">
-
-
-
-
-    <!-- OpenGraph -->
- 
-    <meta name="description" content="之前在准备的时候需要用到windump这个软件，这里就主要记录一下使用过程中遇到的坑吧。。 首先使用windump是需要安装winpcap的，安装就好，然后在命令行下直接使用windump。（要先打开到windump所处的位置）">
-<meta property="og:type" content="article">
-<meta property="og:title" content="windump使用注意事项">
-<meta property="og:url" content="http://example.com/2018/03/09/windump-use/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="之前在准备的时候需要用到windump这个软件，这里就主要记录一下使用过程中遇到的坑吧。。 首先使用windump是需要安装winpcap的，安装就好，然后在命令行下直接使用windump。（要先打开到windump所处的位置）">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://cdn.ttgtmedia.com/rms/misc/Wireshark-tutorial-Screenshot-3.jpg">
-<meta property="article:published_time" content="2018-03-09T08:15:32.000Z">
-<meta property="article:modified_time" content="2019-03-31T15:49:27.208Z">
-<meta property="article:author" content="John Doe">
-<meta property="article:tag" content="network">
-<meta property="article:tag" content="windump">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://cdn.ttgtmedia.com/rms/misc/Wireshark-tutorial-Screenshot-3.jpg">
-
-
-    
-<link rel="stylesheet" href="/css/style/main.css">
- 
-
-
-
-    
-    
-        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" onload="if(getComputedStyle(document.documentElement).getPropertyValue('--color-mode').indexOf('dark')===-1)this.media='all'">
-        
-    
-
-    
-    
-
-    
-
-     
-
-    <!-- custom head -->
-
-<meta name="generator" content="Hexo 5.1.1"></head>
-
-    <body>
-        <div id="app">
-            <header class="header">
-    <div class="header__left">
-        <a href="/" class="button">
-            <span class="logo__text">
-                Demo
-            </span>
-        </a>
-    </div>
-    <div class="header__right">
-        
-            <div class="navbar__menus">
-                
-                    <a href="/" class="navbar-menu button">
-                        首页
-                    </a>
-                
-                    <a href="/tags/" class="navbar-menu button">
-                        标签
-                    </a>
-                
-                    <a href="/archives/" class="navbar-menu button">
-                        归档
-                    </a>
-                
-                    <a href="/friends/" class="navbar-menu button">
-                        友链
-                    </a>
-                
-                    <a href="/page/" class="navbar-menu button">
-                        Page
-                    </a>
-                
-            </div>
-        
-        
-        
-
-        
-        
-
-        
-
-        
-            <a class="dropdown-icon button" id="btn-dropdown">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
-                    <path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
-                </svg>
-            </a>
-            <div class="dropdown-menus" id="dropdown-menus">
-                <a class="dropback-icon button" id="btn-dropback">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
-                        <path fill="currentColor" d="M11.469,10l7.08-7.08c0.406-0.406,0.406-1.064,0-1.469c-0.406-0.406-1.063-0.406-1.469,0L10,8.53l-7.081-7.08c-0.406-0.406-1.064-0.406-1.469,0c-0.406,0.406-0.406,1.063,0,1.469L8.531,10L1.45,17.081c-0.406,0.406-0.406,1.064,0,1.469c0.203,0.203,0.469,0.304,0.735,0.304c0.266,0,0.531-0.101,0.735-0.304L10,11.469l7.08,7.081c0.203,0.203,0.469,0.304,0.735,0.304c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"></path>
-                    </svg>
-                </a>
-                
-                    <a href="/" class="dropdown-menu button">
-                        首页
-                    </a>
-                
-                    <a href="/tags/" class="dropdown-menu button">
-                        标签
-                    </a>
-                
-                    <a href="/archives/" class="dropdown-menu button">
-                        归档
-                    </a>
-                
-                    <a href="/friends/" class="dropdown-menu button">
-                        友链
-                    </a>
-                
-                    <a href="/page/" class="dropdown-menu button">
-                        Page
-                    </a>
-                
-            </div>
-            <script>
-                document.getElementById('btn-dropdown').addEventListener('click', () => {
-                    const dd = document.getElementById('dropdown-menus');
-                    requestAnimationFrame(() => {
-                        dd.style.display = 'flex';
-                        requestAnimationFrame(() => {
-                            dd.style.transform = 'translateY(0)';
-                            dd.style.opacity = '1';
-                        });
-                    });
-                });
-                document.getElementById('btn-dropback').addEventListener('click', () => {
-                    const dd = document.getElementById('dropdown-menus');
-                    dd.style.transform = 'translateY(2.25rem)';                    
-                    dd.style.opacity = '0';
-                    setTimeout(() => {dd.style.display = 'none';}, 350);
-                });
-            </script>
-        
-    </div>
-</header>
-
-
-            <main class="main">
-    
-<div class="post-title">
-    <h1 class="post-title__text">
-        windump使用注意事项
-    </h1>
-    <div class="post-title__meta">
-        <a href="/archives/2018/03/" class="post-meta__date button">
-    2018-03-09
-</a>
-        
- 
-        
-    
-    
-
-
- 
-
- 
-    </div>
-</div>
-
-
-    <article class="post content-card">
-        <div class="post__header"> </div>
-        <div class="post__content">
-            <p>之前在准备的时候需要用到windump这个软件，这里就主要记录一下使用过程中遇到的坑吧。。</p>
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 5.1.1"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/null" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">Articles</div><div class="length_num">52</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">Tags</div><div class="length_num">19</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/xingjiahui/CDN/index_01.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">湍流的时空</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">windump使用注意事项</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2018-03-09T08:15:32.000Z" title="Created 2018-03-09 16:15:32">2018-03-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2019-03-31T15:49:27.208Z" title="Updated 2019-03-31 23:49:27">2019-03-31</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>之前在准备的时候需要用到windump这个软件，这里就主要记录一下使用过程中遇到的坑吧。。</p>
 <p>首先使用windump是需要安装winpcap的，安装就好，然后在命令行下直接使用windump。（要先打开到windump所处的位置）</p>
 <a id="more"></a>
 <p>接着windump是直接监听网卡，所以你要选择你监听的网卡，这里也需要注意，你无线上网或者有线上网是不一样的，不然是捕获不到包的。有代理服务器的话也会多出来另外一个选择，所以最好要先运行windump -D先把网卡列表显示出来。（这里切记是大写的D,坑~）之后你再选择了哪一个网卡之后在进行针对性操作。例如，你可以键入：</p>
@@ -265,74 +184,36 @@
 <p>18:19:45.769542 192.168.0.168.1148 &gt; 192.168.0.194.23: S 2869223552:2869223552(0) win 16384 &lt;mss 1460,nop,nop,sackOK&gt; (DF)<br>18:19:45.769757 192.168.0.194.23 &gt; 192.168.0.168.1148: R 0:0(0) ack 1 win 0<br>18:19:46.316397 192.168.0.168.1148 &gt; 192.168.0.194.23: S 2869223552:2869223552(0) win 16384 &lt;mss 1460,nop,nop,sackOK&gt; (DF)<br>18:19:46.316636 192.168.0.194.23 &gt; 192.168.0.168.1148: R 0:0(0) ack 1 win 0<br>以上是利用Windump对TCP的三次握手过程进行分析,Windump的参数很多，功能也非常强大,实际运用中根据实际的需求,来设置参数,获得你所需要的信息.相信每次使用都会有不同的收获．</p>
 <p>五、命令参数<br>-a<br>将网络和广播地址转化为名称<br>-c<br>接收指定数据包后退出<br>-d<br>接收人可读的包匹配编译代码到标准输出，然后停止<br>-dd<br>以C程序分段方式捕获包匹配代码<br>-ddd<br>以十进制数据形式捕获包匹配代码<br>-e<br>在每个捕获行打印链路层头标<br>-E<br>algo:secret为解密IPSE ESP包使用算法。算法可以是des-cbc, 3des-cbc, blowfish-cbc, rc3-cbc, cast128-cbc, 或none。默认值是desc-cbc。只有当TCPDUMP编译时使用激活加密选项时，才可以解密数据包。Secret是ESP密匙是ASCII码。当前还不能认为一定是二进制值。该选项是以RFC2406ESP为假设，而不是RFC1827 ESP。只用于调试，不鼓励用真正的密码作为选项。当你在PS或其他场合，把IPSEC密码写在命令行上时，会被他人看到。<br>-f<br>不用符号而用数字方式输出外部英特网地址<br>-F<br>使用文件作为过滤表达式的输入。命令行的其他部分会被忽略。<br>-i<br>在接口上监听。如果没有指定，TCPDUMP将搜索系统接口列表中最小，被配置激活的接口（LOOPBACK接口除外）。可用最先匹配替换这种关系。在WINDOWS中接口可以是网卡的名称，或是网卡的号码（-D参数可显示该号码）。 </p>
 <p>内核为2。2或其后的LINUX系统，参数“ANY”可以获取所有接口的数据。应注意的是在混乱模式下不能使用“ANY”参数。<br>-l<br>标准输出行缓存。如果你想在捕获数据时查看的话，这个参数很有用。例如：“tcpdump -l │ tee dat or <code>tcpdump -l &gt; dat &amp; tail -f dat.”  n  不要将地址（如主机地址，端口号）转换为名称  -N  不要打印主机名称的域名限定。如：如果你使用该参数，TCPDUMP会输出“NIC”而不是“NIC。DDN。MIL”。  -m  从文件模块中载入SMI MIB 模块定义。这个选项可以为TCPDUMP载入多个MIB模块  -O  不要运行包匹配代码优化器。只有在你怀疑优化器有问题时可以使用这个参数。  -p  不要让接口处于“混乱”模式。注意接口可能由于其他原因处于“混乱”模式；因此“-p”不能用作以太网络主机或广播的缩写。  -q  快速（安静？）输出。打印较少的协议信息，因此输出行更短。  -r  从文件中读取包（与参数据-W一起使用）。如果文件是“-”就使用标准输入。  -s  不使用默认的68个字节，更改从每个包中获取数据的字节数量（ SunOS系统实际最小为96）。对于IP，ICMP，TCP和UDP包68个字节已足够，但是对命名服务和NFS包，他们的协议会被截断（见下面）。包被截断是因为在使用参数</code>[│proto]输出时指定受限制的快照，proto是被截断协议层的名称。注意如果使用大的快照会增加处理包的时间，并且明显地减少包的缓存数量。也许会导致包的丢失。你应该将snaplen 设置成你感兴趣协议的最小数。当snaplen 为0时接收整个包。<br>-T<br>根据表达式将选中的数据包表达成指定的类型。当前已有的类型有CNFP（Cisco的网络流量协议），rpc（远端程序调用），rtp（实时程序协议），rtcp（实时程序控制协议），snmp（简单网络管理协议），vat（可视单频工具），和wb（分布式白板）。<br>-R<br>假设ESP/AH包遵守旧的说明（RFC1825到RFC1829）。如果该参数被指定，TCPDUMP不打输出域。因为在ESP/AH说明中没有协议版本，TCPDUMP就无法推断出其版本号。<br>-S<br>输出绝对TCP序列号，而不是相对号。<br>-t<br>每个捕获行不要显示时间戳。<br>-tt<br>每个捕获行显示非格式化的时间时间戳。<br>-v<br>详细输出。例如，显示生存时间TTL，标识符，总长度和IP数据包的选项。也进行额外的包完整性较验，如验证IP和ICMP的头标较验值。<br>-vv<br>更为详细的输出。例如，显示NFS中继包中的其他域。<br>-vvv<br>很详细的输出。如，完全输出TELNET SB… SE选项。带-X参数的TELNET，打印并以十六进制输出。<br>-w<br>不对原始数据包解析打印而是转到文件中去。以后可用-r选项打印。当文件名为“-”表示标准输出。<br>-x<br>以十六进制（去除链路层头标）输出每个数据包。输出整个包的小部分或snaplen 个字节。<br>-X<br>输出十六进制同时，输出ASCII码。如果-x也被设置，数据包会以十六制/ASCII码显示。这对于分析新协议非常方便。如果-x也没有设置，一些数据包的部分会以十六制/ASCII码显示。<br>Win32特殊扩展<br>-B<br>以千字节为单位设置驱动缓存。默认缓存为1M（即1000）。如果在获取数据包时有数据丢失，建议使用该参数增大核心缓存大小，因为驱动缓存大小对数据捕获性能有很大影响。<br>-D<br>显示系统上可用的网卡列表。该参数将返回每块网卡的号码，名称和描述。用户可以输入“WinDump –i 网卡名称”或“WinDump –i 网卡号码”。如果机器有多块网卡，不带参数的WINDUMP命令会从系统的第一块可用网卡开始。</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">turlee</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2018/03/09/windump-use/">http://example.com/2018/03/09/windump-use/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/network/">network</a><a class="post-meta__tags" href="/tags/windump/">windump</a></div><div class="post_share"><div class="social-share" data-image="/null" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2018/03/15/tcp-introduction/"><img class="prev-cover" src="/" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">tcp协议概念辨析</div></div></a></div><div class="next-post pull-right"><a href="/2018/03/07/life-1/"><img class="next-cover" src="/" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">纪念一下~</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> Comment</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer" style="background-image: url(https://cdn.jsdelivr.net/gh/xingjiahui/CDN/index_01.png)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 By turlee</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="Scroll To Comments"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    window.valine = new Valine({
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+    });
+    if ('nick,mail') { valine.config.requiredFields= 'nick,mail'.split(',') }
+  }
 
-        </div>
-         
-        <div class="post-footer__meta">
-    <p>
-        updated at 2019-03-31
-    </p>
-</div> 
-        <div class="post-meta__cats">
-    
-    
-        <a href="/tags/network/" class="post-tags__link button"># network</a>
-    
-        <a href="/tags/windump/" class="post-tags__link button"># windump</a>
-    
-</div> 
-    </article>
-    
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
 
-
-</main>
-
-            <footer class="footer">
-    
-
-
-    
-     
- 
-
- 
-    
-        
-        <p class="footer-copyright">
-            Copyright&nbsp;©&nbsp;2020&nbsp;<a href="/">Hexo</a>
-        </p>
-    
-    
-    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
-</footer>
-
-        </div>
-         
-
- 
-
- 
-
- 
-
-  
-
-
-
- 
-
-
-    
-
-
- 
-
-
-
-
-
-
-
-
-    </body>
-</html>
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script defer="defer" id="ribbon_piao" mobile="false" src="/js/third-party/piao.js"></script></div></body></html>
