@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="虽然DFS和BDFS都是搜索方法，但是在不同的问题中两者的效率还是会有差别的。dfs实现的方式是递归或者非递归，但是其本质还是栈。bfs的本质则是队列。本质不同，他们的搜索方式必然是不同的，dfs是在其中可选项中选择一个，然后再以其再递归如果不满足了就回溯。而bfs就不同，bfs是选择一个元素，其元素的周围的可选项全部入队，然后出队首元素，出对的元素的周围可选项再全部入队，如此。DFS类比于撞南墙">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搜索算法--DFS+BFS">
+<meta property="og:url" content="https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/index.html">
+<meta property="og:site_name" content="tuan_liu&#39;s blog">
+<meta property="og:description" content="虽然DFS和BDFS都是搜索方法，但是在不同的问题中两者的效率还是会有差别的。dfs实现的方式是递归或者非递归，但是其本质还是栈。bfs的本质则是队列。本质不同，他们的搜索方式必然是不同的，dfs是在其中可选项中选择一个，然后再以其再递归如果不满足了就回溯。而bfs就不同，bfs是选择一个元素，其元素的周围的可选项全部入队，然后出队首元素，出对的元素的周围可选项再全部入队，如此。DFS类比于撞南墙">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-07-01T09:19:05.000Z">
+<meta property="article:modified_time" content="2021-11-13T03:14:18.000Z">
+<meta property="article:author" content="tuan_liu">
+<meta property="article:tag" content="OJ">
+<meta property="article:tag" content="C&#x2F;C++">
+<meta property="article:tag" content="NOI&#x2F;NOIP">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>搜索算法--DFS+BFS</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2019/07/10/ruogu-shu/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2019/06/18/ruogu-quicksort/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/&text=搜索算法--DFS+BFS"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/&title=搜索算法--DFS+BFS"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/&is_video=false&description=搜索算法--DFS+BFS"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=搜索算法--DFS+BFS&body=Check out this article: https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/&title=搜索算法--DFS+BFS"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/&title=搜索算法--DFS+BFS"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/&title=搜索算法--DFS+BFS"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/&title=搜索算法--DFS+BFS"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/&name=搜索算法--DFS+BFS&description=&lt;p&gt;虽然DFS和BDFS都是搜索方法，但是在不同的问题中两者的效率还是会有差别的。&lt;br&gt;dfs实现的方式是递归或者非递归，但是其本质还是&lt;strong&gt;栈&lt;/strong&gt;。bfs的本质则是&lt;strong&gt;队列&lt;/strong&gt;。&lt;br&gt;本质不同，他们的搜索方式必然是不同的，dfs是在其中可选项中选择一个，然后再以其再递归如果不满足了就回溯。&lt;br&gt;而bfs就不同，bfs是选择一个元素，其元素的周围的可选项全部入队，然后出队首元素，出对的元素的周围可选项再全部入队，如此。&lt;br&gt;DFS类比于撞南墙（递归），撞到头不好走了就返回（回溯）；BFS就相当于水面上的涟漪，一圈一圈的扩散。&lt;br&gt;具体概念上的异同点可以查阅资料，下面举例几道题感受一下：&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/&t=搜索算法--DFS+BFS"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        搜索算法--DFS+BFS
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">tuan_liu</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-07-01T09:19:05.000Z" itemprop="datePublished">2019-07-01</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/C-C/" rel="tag">C/C++</a>, <a class="tag-link-link" href="/tags/NOI-NOIP/" rel="tag">NOI/NOIP</a>, <a class="tag-link-link" href="/tags/OJ/" rel="tag">OJ</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>虽然DFS和BDFS都是搜索方法，但是在不同的问题中两者的效率还是会有差别的。<br>dfs实现的方式是递归或者非递归，但是其本质还是<strong>栈</strong>。bfs的本质则是<strong>队列</strong>。<br>本质不同，他们的搜索方式必然是不同的，dfs是在其中可选项中选择一个，然后再以其再递归如果不满足了就回溯。<br>而bfs就不同，bfs是选择一个元素，其元素的周围的可选项全部入队，然后出队首元素，出对的元素的周围可选项再全部入队，如此。<br>DFS类比于撞南墙（递归），撞到头不好走了就返回（回溯）；BFS就相当于水面上的涟漪，一圈一圈的扩散。<br>具体概念上的异同点可以查阅资料，下面举例几道题感受一下：</p>
+<span id="more"></span>
+
+<p>首先看一道经典例题：<strong>八皇后问题</strong>。<br><a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P1219">题目链接</a><br>对于要求一个棋子，其对应的所在行，所在列，所在两个对角线都不能有其他的棋子存在。</p>
+<p>那么b[j]==0即为搜在列没有棋子。<br>c[i+j]==0代表其左下到右上的斜对角线上没有棋子，因为你会发现，i+j相同，即代表行+列的和相同，满足这样的情况，就是同一对角线上的棋子，且是左下到右上的斜对角线。<br>d[i-j+n]==0代表的是左上到右下的斜对角线的棋子们。i-j相同，即行-列的差相同，就是同一从左上到右下的斜对角线。因为i-j会有小于0的情况，所以，要+n。</p>
+<p>程序的思想是：从第一行开始，对每一行的每一个列递归查找。如果满足条件就标记此处，在此下棋。如果下的棋子的个数达到n，就按条件输出，如果没有达到，就递归搜索下一行。如果这一行的所有列都搜索过了，且没有满足条件的地方，那么就出递归，消除上一行中下棋的地方，重新再这一行中的下面没有寻找的列中找到满足下棋的地方，如果找到就向下递归，如果这行也没有找到，就回溯到上一行，取消掉这一行中所下的棋子。<br>如此过程即可。<br>这是一个典型的<strong>深度优先遍历</strong>的思想。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> a[<span class="number">1000</span>],b[<span class="number">1000</span>],c[<span class="number">1000</span>],d[<span class="number">1000</span>];</span><br><span class="line"><span class="comment">//a数组存行，b存列，c存左下到右上的对角线，d存右下到左上的对角线</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> n,s;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">shuchu</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	s++;</span><br><span class="line">	<span class="keyword">if</span>(s&lt;=<span class="number">3</span>)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">			cout&lt;&lt;a[i]&lt;&lt;<span class="string">&quot; &quot;</span>;<span class="comment">//按要求将行输出</span></span><br><span class="line">		&#125;</span><br><span class="line">		cout&lt;&lt;endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="keyword">int</span> i)</span></span>&#123;<span class="comment">//i 行</span></span><br><span class="line">	<span class="keyword">int</span> j;<span class="comment">//j 列</span></span><br><span class="line">	<span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(b[j]==<span class="number">0</span>&amp;&amp;c[i+j]==<span class="number">0</span>&amp;&amp;d[i-j+n]==<span class="number">0</span>)&#123;<span class="comment">//如果这个行的j列，两个写对角线都没有棋子</span></span><br><span class="line">			a[i]=j;<span class="comment">//那么就将这个棋子下到这，按题目要求，将j列写进去这个数组中</span></span><br><span class="line">			b[j]=<span class="number">1</span>;<span class="comment">//此行标记为已经下了棋子了</span></span><br><span class="line">			c[i+j]=<span class="number">1</span>;<span class="comment">//同上，只是是对角线</span></span><br><span class="line">			d[i-j+n]=<span class="number">1</span>;<span class="comment">//同上</span></span><br><span class="line">			<span class="keyword">if</span>(i==n)	<span class="built_in">shuchu</span>();<span class="comment">//满足条件输出</span></span><br><span class="line">			<span class="keyword">else</span>	<span class="built_in">search</span>(i+<span class="number">1</span>);<span class="comment">//递归</span></span><br><span class="line">			b[j]=<span class="number">0</span>;<span class="comment">//递归口出来，要消除他们的标记，回溯</span></span><br><span class="line">			c[i+j]=<span class="number">0</span>;</span><br><span class="line">			d[i-j+n]=<span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	cin&gt;&gt;n;</span><br><span class="line">	<span class="built_in">search</span>(<span class="number">1</span>);</span><br><span class="line">	cout&lt;&lt;s&lt;&lt;endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接着看一道题：<strong>单词方阵</strong><br><a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P1101">题目链接</a></p>
+<p>解题思路：首先先要找到一个字符串是’y’，然后以这个字符为循环起点，分别对这个点的八个不同的方向去循环。选择一个方向，循环这个方向上的所有字符串，如果所有的字符串都和所求字符串相同，就将这个方向保存在ans数组种，如果字符串有一个不同或者越界，就至标记flag=0,跳出字符串的循环，开始下一个方向的循环。</p>
+<p>其实这题<strong>不太算严谨的DFS</strong>，只能叫循环。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn=<span class="number">110</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> dx[]=&#123;<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>&#125;;<span class="comment">//方向数组</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> dy[]=&#123;<span class="number">1</span>,<span class="number">0</span>,<span class="number">-1</span>,<span class="number">1</span>,<span class="number">-1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">-1</span>&#125;;</span><br><span class="line"><span class="keyword">const</span> string cmp=<span class="string">&quot;yizhong&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> a[maxn][maxn],ans[maxn][maxn];</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;<span class="comment">//从这个点的不同的方向遍历</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">8</span>;i++)&#123;<span class="comment">//这里循环是，八个方向的循环</span></span><br><span class="line">        <span class="keyword">int</span> flag=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=<span class="number">6</span>;j++)&#123;<span class="comment">//这里循环，是字符串的循环，因为先找到了字符串的开头，</span></span><br><span class="line">				<span class="comment">//所以循环次数要字符串长度-1</span></span><br><span class="line">            <span class="keyword">int</span> xx=x+j*dx[i];<span class="comment">//新的方向</span></span><br><span class="line">            <span class="keyword">int</span> yy=y+j*dy[i];</span><br><span class="line">            <span class="keyword">if</span>(xx&lt;<span class="number">1</span>||xx&gt;n||yy&lt;<span class="number">1</span>||yy&gt;n)&#123;<span class="comment">//越界</span></span><br><span class="line">                flag=<span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(cmp[j]!=a[xx][yy])&#123;<span class="comment">//有一个字符不相同，就break</span></span><br><span class="line">                flag=<span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(flag==<span class="number">0</span>) <span class="keyword">continue</span>;<span class="comment">//如果flag==0，就继续循环下一个方向</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=<span class="number">6</span>;j++)&#123;<span class="comment">//将满足条件的路径用ans数组保存下来</span></span><br><span class="line">            <span class="keyword">int</span> xx=x+j*dx[i];</span><br><span class="line">            <span class="keyword">int</span> yy=y+j*dy[i];</span><br><span class="line">            ans[xx][yy]=a[xx][yy]; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            cin&gt;&gt;a[i][j];<span class="comment">//输入模块</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(a[i][j]==<span class="string">&#x27;y&#x27;</span>)    <span class="built_in">dfs</span>(i,j);<span class="comment">//如果找到了开头的字母y，</span></span><br><span class="line">			<span class="comment">//那么就从此位置开始深度遍历</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;<span class="comment">//输出</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(ans[i][j]==<span class="number">0</span>)    ans[i][j]=<span class="string">&#x27;*&#x27;</span>;</span><br><span class="line">            cout&lt;&lt;ans[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再看一个题：<strong>迷宫</strong><br><a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P1605">题目链接</a></p>
+<p>这题的思路无独有偶，可以用<strong>深度搜索遍历</strong>。<br>只是其中的tt数组有两个功能，一个是表示是否这个为陷阱，还有一个功能是要他来表示边界，因为tt数组定义在栈中，即为全局变量，所以默认都是0，所以又要表示出边界，只能初始化为1。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">int</span> dx[<span class="number">4</span>]=&#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">-1</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> dy[<span class="number">4</span>]=&#123;<span class="number">-1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> tt[<span class="number">6</span>][<span class="number">6</span>];<span class="comment">//这是存储地图中障碍点的信息</span></span><br><span class="line"><span class="keyword">bool</span> temp[<span class="number">6</span>][<span class="number">6</span>];<span class="comment">//temp是标记此点是否走过</span></span><br><span class="line"><span class="keyword">int</span> n,m,t;</span><br><span class="line"><span class="keyword">int</span> total;</span><br><span class="line"><span class="keyword">int</span> tx,ty;</span><br><span class="line"><span class="keyword">int</span> sx,sy,fx,fy;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(x==fx&amp;&amp;y==fy)&#123;<span class="comment">//如果能达到终点</span></span><br><span class="line">        total++;<span class="comment">//总数加1</span></span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=<span class="number">3</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(temp[x+dx[i]][y+dy[i]]==<span class="number">0</span>&amp;&amp;tt[x+dx[i]][y+dy[i]]==<span class="number">1</span>)&#123;</span><br><span class="line">                <span class="comment">//如果没有走过这个点，且他不是障碍点的话，</span></span><br><span class="line">                temp[x][y]=<span class="number">1</span>;<span class="comment">//就选择走这个点，即先将这个点标记为走过</span></span><br><span class="line">                <span class="built_in">dfs</span>(x+dx[i],y+dy[i]);<span class="comment">//然后递归</span></span><br><span class="line">                temp[x][y]=<span class="number">0</span>;<span class="comment">//递归出口，要将这个点的标记复原</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m&gt;&gt;t;<span class="comment">//输入长度宽度，障碍个数</span></span><br><span class="line">    cin&gt;&gt;sx&gt;&gt;sy&gt;&gt;fx&gt;&gt;fy;<span class="comment">//输入起始地点和结束地点</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">            tt[i][j]=<span class="number">1</span>;<span class="comment">//先默认标记地图中的点为1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">1</span>;k&lt;=t;k++)&#123;</span><br><span class="line">        cin&gt;&gt;tx&gt;&gt;ty;</span><br><span class="line">        tt[tx][ty]=<span class="number">0</span>;<span class="comment">//输入障碍点,如果是障碍点就将此处的标记设为0</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">dfs</span>(sx,sy);</span><br><span class="line">    cout&lt;&lt;total&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>填涂颜色</strong><br><a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P1162">题目链接</a><br><strong>DFS题解如下：</strong><br>注意下题再输入的时候是从i=1，j=1处输入的，但是数组的行，列都是从0，0开始的，所以，我们输入的数组，没有贴着数组输入，输入的数字是被外面一圈0包围着的。这样，就不会如果输入的数据一开始就是包围圈，递归就停止递归了。就不会出现上述这种情况。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> a[<span class="number">32</span>][<span class="number">32</span>],b[<span class="number">32</span>][<span class="number">32</span>];</span><br><span class="line"><span class="keyword">int</span> dx[<span class="number">5</span>]=&#123;<span class="number">0</span>,<span class="number">-1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> dy[<span class="number">5</span>]=&#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">-1</span>,<span class="number">1</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> n,j,i;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">if</span>(x&lt;<span class="number">0</span>||x&gt;n+<span class="number">1</span>||y&lt;<span class="number">0</span>||y&gt;n+<span class="number">1</span>||a[x][y]!=<span class="number">0</span>)  <span class="keyword">return</span>;<span class="comment">//如果越界或者碰到闭合圈，退出</span></span><br><span class="line">    a[x][y]=<span class="number">1</span>;<span class="comment">//染色</span></span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=<span class="number">4</span>;i++)&#123;</span><br><span class="line">        <span class="built_in">dfs</span>(x+dx[i],y+dy[i]);<span class="comment">//对当前位置的上下左右四个方位递归</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)&#123;<span class="comment">//注意是从1开始输入</span></span><br><span class="line">        <span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            cin&gt;&gt;b[i][j];</span><br><span class="line">            <span class="keyword">if</span>(b[i][j]==<span class="number">0</span>)  a[i][j]=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">else</span>    a[i][j]=<span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">dfs</span>(<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(a[i][j]==<span class="number">0</span>)  cout&lt;&lt;<span class="number">2</span>&lt;&lt;<span class="string">&#x27; &#x27;</span>;<span class="comment">//如果此时还是0，说明这些0是闭合圈里的</span></span><br><span class="line">            <span class="keyword">else</span>    cout&lt;&lt;b[i][j]&lt;&lt;<span class="string">&#x27; &#x27;</span>;<span class="comment">//输出闭合圈</span></span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;<span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>字串变化</strong><br><a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P1032">题目链接</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn=<span class="number">15</span>;</span><br><span class="line"></span><br><span class="line">string aa;<span class="comment">//</span></span><br><span class="line">string b;</span><br><span class="line"><span class="keyword">int</span> n,ans;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span>&#123;</span></span><br><span class="line">    string a;</span><br><span class="line">    <span class="keyword">int</span> step;</span><br><span class="line">&#125;;</span><br><span class="line">string shi[maxn];</span><br><span class="line">string zhong[maxn];</span><br><span class="line"></span><br><span class="line">map&lt;string,<span class="keyword">int</span>&gt; ma;<span class="comment">//建立string型与int型的映射,用来判重</span></span><br><span class="line"></span><br><span class="line"><span class="function">string <span class="title">pin</span><span class="params">(<span class="keyword">const</span> string &amp;a,<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span></span>&#123;<span class="comment">//拼接函数</span></span><br><span class="line">    <span class="comment">//对于要拼接的串a，我们试图在他的第i个位置用第j种手段去改变</span></span><br><span class="line">    <span class="comment">//然后去判断此改变是否合法，如果合法就压入队列，再次搜索</span></span><br><span class="line">    string ans=<span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">if</span>(i+shi[j].<span class="built_in">length</span>()&gt;a.<span class="built_in">length</span>())&#123;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;shi[j].<span class="built_in">length</span>();k++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(a[i+k]!=shi[j][k]) <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">    ans=a.<span class="built_in">substr</span>(<span class="number">0</span>,i);</span><br><span class="line">    ans+=zhong[j];</span><br><span class="line">    ans+=a.<span class="built_in">substr</span>(i+shi[j].<span class="built_in">length</span>());</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bfs</span><span class="params">()</span></span>&#123;</span><br><span class="line">    queue&lt;node&gt; q;</span><br><span class="line">    node s;</span><br><span class="line">    s.a=aa;<span class="comment">//先将输入的字符串，</span></span><br><span class="line">    s.step=<span class="number">0</span>;</span><br><span class="line">    q.<span class="built_in">push</span>(s);<span class="comment">//入队</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">        node u=q.<span class="built_in">front</span>();<span class="comment">//将队首结点赋给u</span></span><br><span class="line">        q.<span class="built_in">pop</span>();<span class="comment">//出队</span></span><br><span class="line">        string temp;</span><br><span class="line">        <span class="keyword">if</span>(ma.<span class="built_in">count</span>(u.a)==<span class="number">1</span>)&#123;<span class="comment">//count函数是map中判断关键字是否出现</span></span><br><span class="line">            <span class="comment">//优化一下，如果重复的路径就continue</span></span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(u.a==b)&#123;<span class="comment">//如果等于最后需要的字符串</span></span><br><span class="line">            ans=u.step;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        ma[u.a]=<span class="number">1</span>;<span class="comment">//标记为1</span></span><br><span class="line">        <span class="comment">//下面的双重for循环的含义是：</span></span><br><span class="line">        <span class="comment">//枚举当前队列中队头那个串的每一个字符，且对每一个字符</span></span><br><span class="line">        <span class="comment">//枚举所有的可能转换的情况，然后去尝试拼接</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;u.a.<span class="built_in">length</span>();i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;n;j++)&#123;</span><br><span class="line">                temp=<span class="built_in">pin</span>(u.a,i,j);</span><br><span class="line">                <span class="keyword">if</span>(temp!=<span class="string">&quot;&quot;</span>)&#123;</span><br><span class="line">                    node v;</span><br><span class="line">                    v.a=temp;</span><br><span class="line">                    v.step=u.step+<span class="number">1</span>;</span><br><span class="line">                    q.<span class="built_in">push</span>(v);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(ans&gt;<span class="number">10</span>||ans==<span class="number">0</span>)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;NO ANSWER!&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin&gt;&gt;aa&gt;&gt;b;<span class="comment">//输入两个字符串</span></span><br><span class="line">    <span class="keyword">while</span>(cin&gt;&gt;shi[n]&gt;&gt;zhong[n])    n++;<span class="comment">//因为不知道输入多少个转换条件，所以就用while判定</span></span><br><span class="line">    <span class="built_in">bfs</span>();<span class="comment">//调用bfs</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/&text=搜索算法--DFS+BFS"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/&title=搜索算法--DFS+BFS"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/&is_video=false&description=搜索算法--DFS+BFS"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=搜索算法--DFS+BFS&body=Check out this article: https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/&title=搜索算法--DFS+BFS"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/&title=搜索算法--DFS+BFS"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/&title=搜索算法--DFS+BFS"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/&title=搜索算法--DFS+BFS"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/&name=搜索算法--DFS+BFS&description=&lt;p&gt;虽然DFS和BDFS都是搜索方法，但是在不同的问题中两者的效率还是会有差别的。&lt;br&gt;dfs实现的方式是递归或者非递归，但是其本质还是&lt;strong&gt;栈&lt;/strong&gt;。bfs的本质则是&lt;strong&gt;队列&lt;/strong&gt;。&lt;br&gt;本质不同，他们的搜索方式必然是不同的，dfs是在其中可选项中选择一个，然后再以其再递归如果不满足了就回溯。&lt;br&gt;而bfs就不同，bfs是选择一个元素，其元素的周围的可选项全部入队，然后出队首元素，出对的元素的周围可选项再全部入队，如此。&lt;br&gt;DFS类比于撞南墙（递归），撞到头不好走了就返回（回溯）；BFS就相当于水面上的涟漪，一圈一圈的扩散。&lt;br&gt;具体概念上的异同点可以查阅资料，下面举例几道题感受一下：&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://aisleep.xyz/2019/07/01/ruogu-dfs-bfs/&t=搜索算法--DFS+BFS"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018-2021
+    tuan_liu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

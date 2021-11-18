@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="真正危险的不是计算机开始像人那样去思考，而是人类开始像计算机一样思考。&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Requests库详解">
+<meta property="og:url" content="https://aisleep.xyz/2018/04/03/Requests-webscraping/index.html">
+<meta property="og:site_name" content="tuan_liu&#39;s blog">
+<meta property="og:description" content="真正危险的不是计算机开始像人那样去思考，而是人类开始像计算机一样思考。&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-04-03T01:52:53.000Z">
+<meta property="article:modified_time" content="2021-11-13T03:14:18.000Z">
+<meta property="article:author" content="tuan_liu">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="web-scraping">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Requests库详解</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2018/04/06/data-structure-1/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2018/04/01/web-scraping-1/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://aisleep.xyz/2018/04/03/Requests-webscraping/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://aisleep.xyz/2018/04/03/Requests-webscraping/&text=Requests库详解"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://aisleep.xyz/2018/04/03/Requests-webscraping/&title=Requests库详解"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://aisleep.xyz/2018/04/03/Requests-webscraping/&is_video=false&description=Requests库详解"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Requests库详解&body=Check out this article: https://aisleep.xyz/2018/04/03/Requests-webscraping/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://aisleep.xyz/2018/04/03/Requests-webscraping/&title=Requests库详解"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://aisleep.xyz/2018/04/03/Requests-webscraping/&title=Requests库详解"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://aisleep.xyz/2018/04/03/Requests-webscraping/&title=Requests库详解"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://aisleep.xyz/2018/04/03/Requests-webscraping/&title=Requests库详解"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://aisleep.xyz/2018/04/03/Requests-webscraping/&name=Requests库详解&description=&lt;blockquote&gt;
+&lt;p&gt;真正危险的不是计算机开始像人那样去思考，而是人类开始像计算机一样思考。&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;      &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;——西德尼·哈里斯（Sydney Harris）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;python&lt;/code&gt;&lt;em&gt;&lt;strong&gt;爬虫之旅之第二站~~&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Requests&lt;/code&gt;库是经常用的库，比&lt;code&gt;urllib&lt;/code&gt;更加方便。&lt;br&gt;首先先领略一下使用&lt;code&gt;Requests&lt;/code&gt;的方便之处：&lt;/p&gt;
+&lt;figure class=&#34;highlight python&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;import&lt;/span&gt; requests&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;response=requests.get(&lt;span class=&#34;string&#34;&gt;&amp;#x27;http://aisleep.xyz&amp;#x27;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;built_in&#34;&gt;print&lt;/span&gt;(&lt;span class=&#34;built_in&#34;&gt;type&lt;/span&gt;(response))&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;built_in&#34;&gt;print&lt;/span&gt;(response.status_code)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;built_in&#34;&gt;print&lt;/span&gt;(&lt;span class=&#34;built_in&#34;&gt;type&lt;/span&gt;(response.text))&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;built_in&#34;&gt;print&lt;/span&gt;(response.text)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;built_in&#34;&gt;print&lt;/span&gt;(response.cookies)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这里的第6行和在&lt;code&gt;urllib&lt;/code&gt;中使用&lt;code&gt;read&lt;/code&gt;的作用是一样的，在&lt;code&gt;urllib&lt;/code&gt;中还要使用&lt;code&gt;.decode&lt;/code&gt;使得其变成字符串类型。在&lt;code&gt;Requests&lt;/code&gt;中就很方便了，直接使用&lt;code&gt;text&lt;/code&gt;就可以了。在最后一行中的&lt;code&gt;cookies&lt;/code&gt;获取中也比在&lt;code&gt;urllib&lt;/code&gt;中方便很多。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://aisleep.xyz/2018/04/03/Requests-webscraping/&t=Requests库详解"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Requests库详解
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">tuan_liu</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-04-03T01:52:53.000Z" itemprop="datePublished">2018-04-03</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/python/" rel="tag">python</a>, <a class="tag-link-link" href="/tags/web-scraping/" rel="tag">web-scraping</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>真正危险的不是计算机开始像人那样去思考，而是人类开始像计算机一样思考。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——西德尼·哈里斯（Sydney Harris）</p>
+</blockquote>
+<p><code>python</code><em><strong>爬虫之旅之第二站~~</strong></em></p>
+<p><code>Requests</code>库是经常用的库，比<code>urllib</code>更加方便。<br>首先先领略一下使用<code>Requests</code>的方便之处：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">response=requests.get(<span class="string">&#x27;http://aisleep.xyz&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(response))</span><br><span class="line"><span class="built_in">print</span>(response.status_code)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(response.text))</span><br><span class="line"><span class="built_in">print</span>(response.text)</span><br><span class="line"><span class="built_in">print</span>(response.cookies)</span><br></pre></td></tr></table></figure>
+<p>这里的第6行和在<code>urllib</code>中使用<code>read</code>的作用是一样的，在<code>urllib</code>中还要使用<code>.decode</code>使得其变成字符串类型。在<code>Requests</code>中就很方便了，直接使用<code>text</code>就可以了。在最后一行中的<code>cookies</code>获取中也比在<code>urllib</code>中方便很多。</p>
+<span id="more"></span>
+
+<p>再看<code>requests</code>中还提供了很多比较方便的各种请求方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">requests.post(<span class="string">&quot;http://httpbin.org/post&quot;</span>)</span><br><span class="line">requests.put(<span class="string">&quot;http://httpbin.org/put&quot;</span>)</span><br><span class="line">requests.delete(<span class="string">&quot;http://httpbin.org/delete&quot;</span>)</span><br><span class="line">requests.head(<span class="string">&quot;http://httpbin.org/get&quot;</span>)</span><br><span class="line">requests.options(<span class="string">&quot;http://htpbin.org/get&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>可见想要进行一个<code>post</code>请求，直接<code>requests.post</code>就好。</p>
+<hr>
+<p>好，<code>Requsets</code>的方便之处你现在也稍微感受到一点了，现在在仔细的看一下他的使用。</p>
+<ul>
+<li><code>get</code>请求</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">response=requests.get(<span class="string">&#x27;http://aisleep.xyz&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(response.text)</span><br></pre></td></tr></table></figure>
+<p>这里就是一个最简单的一个<code>get</code>请求。那如果我们还要传一些自己的参数怎么设置呢：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">response=requests.get(<span class="string">&quot;http://httpbin.org/get?name=lifan&amp;age=23&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(response.text)</span><br></pre></td></tr></table></figure>
+<p>也可以这样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">data=&#123;</span><br><span class="line">	<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;lifan&#x27;</span>,</span><br><span class="line">	<span class="string">&#x27;age&#x27;</span>:<span class="number">23</span></span><br><span class="line">&#125;</span><br><span class="line">response=requests.get(<span class="string">&quot;http://httpbin.org/get&quot;</span>,params=data)</span><br><span class="line"><span class="built_in">print</span>(response.text)</span><br></pre></td></tr></table></figure>
+<p>第一种方法比较繁琐一点，需要加一个<code>?</code>再在多个参数之间再加上<code>&amp;</code>就可以。第二种方法就是自己先构造一个字典，然后传给<code>params</code>就可以方便的构造一个<code>get</code>请求的<code>url</code>，不需要再手动输入了。</p>
+<ul>
+<li>解析<code>json</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">response=requests.get(<span class="string">&quot;http://httpbin.org/get&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(response.text))</span><br><span class="line"><span class="built_in">print</span>(response.json())</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(response.json()))</span><br></pre></td></tr></table></figure>
+<p>这是直接提供的了个解析<code>json</code>格式的方式，其实第4行就相当于进行一个这样的调用：<code>print(json.load(response.text))</code>(在前面再加一句<code>import json</code>)</p>
+<ul>
+<li>获取二进制数据</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">response=requests.get(<span class="string">&quot;https://github.com/favicon.ico&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(response.text),<span class="built_in">type</span>(response.content))</span><br><span class="line"><span class="built_in">print</span>(response.text)</span><br><span class="line"><span class="built_in">print</span>(response.content)</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;favicon.ico&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">	f.write(response.content)</span><br><span class="line">	f.close()</span><br></pre></td></tr></table></figure>
+<p>这里使用<code>content</code>获取二进制数据，比如图片，视频等，第6行开始到结束做的是保存这个二进制文件的工作：打开一个文件，<code>wb</code>是说明对这个文件进行操作的方式为“以二进制格式打开一个文件只用于写入”，<code>as f</code>是帮这个文件起了一个别名，<code>f.write</code>是写入到打开的文件中，最后要关闭文件。</p>
+<ul>
+<li><code>header</code>添加</li>
+</ul>
+<p>添加<code>headers</code>主要是模拟成你是浏览器要求的访问，防止被浏览网站所禁止。这里添加一个浏览器信息就好</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">headers=&#123;</span><br><span class="line">	<span class="string">&#x27;User-Agent&#x27;</span>:<span class="string">&#x27;Mozilla/5.0 (Macintosh; intel Mac OS X 10_11_4) AppleWebKit/537.36(KHTML,like Gecko)Chrome/52.0.2743.116 Safari/537.36&#x27;</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">response=requests.get(<span class="string">&#x27;http://www.zhihu.com&#x27;</span>,headers=headers)</span><br><span class="line"><span class="built_in">print</span>(response.text)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>基本的<code>post</code>请求</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">data=&#123;<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;lifan&#x27;</span>,<span class="string">&#x27;age&#x27;</span>:<span class="string">&#x27;23&#x27;</span>&#125;</span><br><span class="line">response=requests.post(<span class="string">&quot;http://httpbin.org/post&quot;</span>,data=data)</span><br><span class="line"><span class="built_in">print</span>(response.text)</span><br></pre></td></tr></table></figure>
+<p>这里就明显看出比<code>urllib</code>中的操作方便很多。</p>
+<ul>
+<li><code>response</code>属性</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">response=requests.get(<span class="string">&#x27;http://www.baidu.com&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(response.status_code),response.status_code)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(response.headers),response.headers)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(response.cookies),response.cookies)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(response.url),response.url)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(response.history),response.history)</span><br></pre></td></tr></table></figure>
+<p>运行结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;class &#x27;int&#x27;&gt; 200</span><br><span class="line">&lt;class &#x27;requests.structures.CaseInsensitiveDict&#x27;&gt; &#123;&#x27;Server&#x27;: &#x27;bfe/1.0.8.18&#x27;, &#x27;Date&#x27;: &#x27;Tue, 03 Apr 2018 07:59:03 GMT&#x27;, &#x27;Content-Type&#x27;: &#x27;text/html&#x27;, &#x27;Last-Modified&#x27;: &#x27;Mon, 23 Jan 2017 13:27:36 GMT&#x27;, &#x27;Transfer-Encoding&#x27;: &#x27;chunked&#x27;, &#x27;Connection&#x27;: &#x27;Keep-Alive&#x27;, &#x27;Cache-Control&#x27;: &#x27;private, no-cache, no-store, proxy-revalidate, no-transform&#x27;, &#x27;Pragma&#x27;: &#x27;no-cache&#x27;, &#x27;Set-Cookie&#x27;: &#x27;BDORZ=27315; max-age=86400; domain=.baidu.com; path=/&#x27;, &#x27;Content-Encoding&#x27;: &#x27;gzip&#x27;&#125;</span><br><span class="line">&lt;class &#x27;requests.cookies.RequestsCookieJar&#x27;&gt; &lt;RequestsCookieJar[&lt;Cookie BDORZ=27315 for .baidu.com/&gt;]&gt;</span><br><span class="line">&lt;class &#x27;str&#x27;&gt; http://www.baidu.com/</span><br><span class="line">&lt;class &#x27;list&#x27;&gt; []</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>状态码判断</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">response=requests.get(<span class="string">&#x27;http://www.baidu.com&#x27;</span>)</span><br><span class="line">exit() <span class="keyword">if</span> <span class="keyword">not</span> response.status_code==requests.codes.ok <span class="keyword">else</span> <span class="built_in">print</span>(<span class="string">&#x27;request successfully&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>这个状态码的判断的意思是，在<code>requests.codes</code>里面他将很多的状态码对应了一些方便记忆的单词，比如，将<code>200</code>对应了<code>ok</code>这个词，<code>404</code>对应了<code>not_found</code>这个词，这样我们只要查表不需要记住这些状态码就行了，第3行的代码的意思是：如果<code>response</code>的状态码不等于<code>ok</code>就退出，如果等于，就打印<code>request successfully</code>。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://aisleep.xyz/2018/04/03/Requests-webscraping/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://aisleep.xyz/2018/04/03/Requests-webscraping/&text=Requests库详解"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://aisleep.xyz/2018/04/03/Requests-webscraping/&title=Requests库详解"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://aisleep.xyz/2018/04/03/Requests-webscraping/&is_video=false&description=Requests库详解"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Requests库详解&body=Check out this article: https://aisleep.xyz/2018/04/03/Requests-webscraping/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://aisleep.xyz/2018/04/03/Requests-webscraping/&title=Requests库详解"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://aisleep.xyz/2018/04/03/Requests-webscraping/&title=Requests库详解"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://aisleep.xyz/2018/04/03/Requests-webscraping/&title=Requests库详解"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://aisleep.xyz/2018/04/03/Requests-webscraping/&title=Requests库详解"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://aisleep.xyz/2018/04/03/Requests-webscraping/&name=Requests库详解&description=&lt;blockquote&gt;
+&lt;p&gt;真正危险的不是计算机开始像人那样去思考，而是人类开始像计算机一样思考。&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;      &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;——西德尼·哈里斯（Sydney Harris）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;python&lt;/code&gt;&lt;em&gt;&lt;strong&gt;爬虫之旅之第二站~~&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Requests&lt;/code&gt;库是经常用的库，比&lt;code&gt;urllib&lt;/code&gt;更加方便。&lt;br&gt;首先先领略一下使用&lt;code&gt;Requests&lt;/code&gt;的方便之处：&lt;/p&gt;
+&lt;figure class=&#34;highlight python&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;import&lt;/span&gt; requests&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;response=requests.get(&lt;span class=&#34;string&#34;&gt;&amp;#x27;http://aisleep.xyz&amp;#x27;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;built_in&#34;&gt;print&lt;/span&gt;(&lt;span class=&#34;built_in&#34;&gt;type&lt;/span&gt;(response))&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;built_in&#34;&gt;print&lt;/span&gt;(response.status_code)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;built_in&#34;&gt;print&lt;/span&gt;(&lt;span class=&#34;built_in&#34;&gt;type&lt;/span&gt;(response.text))&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;built_in&#34;&gt;print&lt;/span&gt;(response.text)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;built_in&#34;&gt;print&lt;/span&gt;(response.cookies)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这里的第6行和在&lt;code&gt;urllib&lt;/code&gt;中使用&lt;code&gt;read&lt;/code&gt;的作用是一样的，在&lt;code&gt;urllib&lt;/code&gt;中还要使用&lt;code&gt;.decode&lt;/code&gt;使得其变成字符串类型。在&lt;code&gt;Requests&lt;/code&gt;中就很方便了，直接使用&lt;code&gt;text&lt;/code&gt;就可以了。在最后一行中的&lt;code&gt;cookies&lt;/code&gt;获取中也比在&lt;code&gt;urllib&lt;/code&gt;中方便很多。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://aisleep.xyz/2018/04/03/Requests-webscraping/&t=Requests库详解"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018-2021
+    tuan_liu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

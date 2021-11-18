@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="最短路径：弗洛伊德算法我们先看一下我们举例的图，如下图中右边的图，其中左边的Av[]数组存储的任意两个顶点之间的当前最短路径长度，pathv[]数组存储了任意两个顶点他们所在最短路径之间的中间点(v为下标)。   执行思路：对于每个顶点v，和任意一顶点对（i,j）,i不等于j,v不等于i,v不等于j，如果A[i][j]&gt;A[i][v]+A[v][j],则将A[i][j]更新为A[i][v]+">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图——Floyd算法">
+<meta property="og:url" content="https://aisleep.xyz/2018/05/15/data-structure-9/index.html">
+<meta property="og:site_name" content="tuan_liu&#39;s blog">
+<meta property="og:description" content="最短路径：弗洛伊德算法我们先看一下我们举例的图，如下图中右边的图，其中左边的Av[]数组存储的任意两个顶点之间的当前最短路径长度，pathv[]数组存储了任意两个顶点他们所在最短路径之间的中间点(v为下标)。   执行思路：对于每个顶点v，和任意一顶点对（i,j）,i不等于j,v不等于i,v不等于j，如果A[i][j]&gt;A[i][v]+A[v][j],则将A[i][j]更新为A[i][v]+">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.com/fanandli/picblog/blob/master/%E5%BC%97%E6%B4%9B%E4%BC%8A%E5%BE%B71.png?raw=true">
+<meta property="og:image" content="https://github.com/fanandli/picblog/blob/master/%E5%BC%97%E6%B4%9B%E4%BC%8A%E5%BE%B72.png?raw=true">
+<meta property="og:image" content="https://github.com/fanandli/picblog/blob/master/%E5%BC%97%E6%B4%9B%E4%BC%8A%E5%BE%B73.png?raw=true">
+<meta property="og:image" content="https://github.com/fanandli/picblog/blob/master/%E5%BC%97%E6%B4%9B%E4%BC%8A%E5%BE%B74.png?raw=true">
+<meta property="article:published_time" content="2018-05-15T01:00:44.000Z">
+<meta property="article:modified_time" content="2021-11-13T03:14:18.000Z">
+<meta property="article:author" content="tuan_liu">
+<meta property="article:tag" content="data-structure">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/fanandli/picblog/blob/master/%E5%BC%97%E6%B4%9B%E4%BC%8A%E5%BE%B71.png?raw=true">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>图——Floyd算法</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2018/05/15/data-structure-10/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2018/05/11/data-structure-8/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://aisleep.xyz/2018/05/15/data-structure-9/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://aisleep.xyz/2018/05/15/data-structure-9/&text=图——Floyd算法"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://aisleep.xyz/2018/05/15/data-structure-9/&title=图——Floyd算法"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://aisleep.xyz/2018/05/15/data-structure-9/&is_video=false&description=图——Floyd算法"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=图——Floyd算法&body=Check out this article: https://aisleep.xyz/2018/05/15/data-structure-9/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://aisleep.xyz/2018/05/15/data-structure-9/&title=图——Floyd算法"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://aisleep.xyz/2018/05/15/data-structure-9/&title=图——Floyd算法"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://aisleep.xyz/2018/05/15/data-structure-9/&title=图——Floyd算法"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://aisleep.xyz/2018/05/15/data-structure-9/&title=图——Floyd算法"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://aisleep.xyz/2018/05/15/data-structure-9/&name=图——Floyd算法&description=&lt;p&gt;最短路径：&lt;br&gt;&lt;strong&gt;弗洛伊德算法&lt;/strong&gt;&lt;br&gt;我们先看一下我们举例的图，如下图中右边的图，其中左边的Av[]数组存储的任意两个顶点之间的当前最短路径长度，pathv[]数组存储了任意两个顶点他们所在最短路径之间的中间点(v为下标)。&lt;/p&gt;
+&lt;img src=&#34;https://github.com/fanandli/picblog/blob/master/%E5%BC%97%E6%B4%9B%E4%BC%8A%E5%BE%B71.png?raw=true&#34; width = &#34;600&#34; height = &#34;350&#34; alt=&#34;floyd1&#34; align=center /&gt;
+
+&lt;p&gt;执行思路：&lt;br&gt;对于每个顶点v，和任意一顶点对（i,j）,i不等于j,v不等于i,v不等于j，如果A[i][j]&amp;gt;A[i][v]+A[v][j],则将A[i][j]更新为A[i][v]+A[v][j]的值，并将path[i][j]改为v。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://aisleep.xyz/2018/05/15/data-structure-9/&t=图——Floyd算法"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        图——Floyd算法
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">tuan_liu</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-05-15T01:00:44.000Z" itemprop="datePublished">2018-05-15</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/data-structure/" rel="tag">data-structure</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>最短路径：<br><strong>弗洛伊德算法</strong><br>我们先看一下我们举例的图，如下图中右边的图，其中左边的Av[]数组存储的任意两个顶点之间的当前最短路径长度，pathv[]数组存储了任意两个顶点他们所在最短路径之间的中间点(v为下标)。</p>
+<img src="https://github.com/fanandli/picblog/blob/master/%E5%BC%97%E6%B4%9B%E4%BC%8A%E5%BE%B71.png?raw=true" width = "600" height = "350" alt="floyd1" align=center />
+
+<p>执行思路：<br>对于每个顶点v，和任意一顶点对（i,j）,i不等于j,v不等于i,v不等于j，如果A[i][j]&gt;A[i][v]+A[v][j],则将A[i][j]更新为A[i][v]+A[v][j]的值，并将path[i][j]改为v。</p>
+<span id="more"></span>
+
+<p>执行过程：<br><img src="https://github.com/fanandli/picblog/blob/master/%E5%BC%97%E6%B4%9B%E4%BC%8A%E5%BE%B72.png?raw=true" width = "600" height = "350" alt="floyd2" align=center /></p>
+<p>首先我们一共所有的情况为{0,1}，{0,2}……<br>初始化后，第一次，即当v=0时，发现所有情况中的{0,1}，此时i=0,j=1,v=0,v=i了，不满足条件，所以这个点跳过。很好理解，因为此时：式子”A[0][1]&gt;A[0][0]+A[0][1]”明显不成立，所以这种类型跳过，同样的{0,2}，{0,3}，{0,4}，这几个点也跳过，这也是为什么上面有说i不等于j,v不等于i,v不等于j的原因。接着我们来到{1,2},此时对应的式子为“A[1][2]&gt;A[1][0]+A[0][2]”,我们需要去判断大小，A[1][3]在A数组中为4，A[1][0]值为无穷，A[0][2]值也为无穷，所以式子不成立，不需要更新path数组。<br>接着再看下一个情况{1，3},i=V，所以跳过，再下一个{2,0},j=v所以也跳过。再下一个{2,1}，现在对应的式子为A[2][3]&gt;A[2][0]+A[0][3],对应的值分别为2,3,7，式子不成立，也不需要更新。再下一对{3,0}，j=v跳过。再下一对{3,1},A[3][1]值为无穷，式子一定不成立，所以也不需要更新。最后看{3，2}，A[3][0]也为无穷大，所以，对于v=0这一情况，path数组不需要更新。</p>
+<p>第二次，当v1时，也这样一个一个去比较，我就不细说了，其中，当为{0,2}时，式子为A[0][2]&gt;A[0][1]+A[1][2],其中的值分别为无穷大，5,4。明显，式子成立，所以，此时将A[0][2]更新为9，将path[0][2]更新为1，表示其中间结点为1。然后再一次一个一个的对比，不再赘述。</p>
+<img src="https://github.com/fanandli/picblog/blob/master/%E5%BC%97%E6%B4%9B%E4%BC%8A%E5%BE%B73.png?raw=true" width = "600" height = "350" alt="floyd3" align=center />
+
+
+<p>第三次，v=2,第四次，v=3，就这样循环比较，重复做上面的事情，更新A[]数组和path[]数组。</p>
+<p>接着我们再看一下如何通过更新过的path[]数组去查找任意两个点的最短路径。例如：如果我们要寻找从1到0的最短路径是什么：首先查path[1][0]=3,说明1和0之间的中间点为3，所以将3标出，然后查path[1][3]=-1，说明从1到3有直接的边（这里path数组的值为-1，都说明两个点之间有直接相连的点，算是一个标记）。然后查path[3][0]=2，说明3和0之间又有中间点2，所以将2标出，然后查path[3][2]=-1,说明3和2之间也有直接的线相连，然后再查path[2][0]=-1,说明也有直接相连的边。此时从1到0的最短路径已经找出来了，就是分别这些个-1的边，为1-&gt;3-&gt;2-&gt;0。</p>
+<img src="https://github.com/fanandli/picblog/blob/master/%E5%BC%97%E6%B4%9B%E4%BC%8A%E5%BE%B74.png?raw=true" width = "600" height = "350" alt="floyd4" align=center />
+
+
+<p>然后这个通过path数组查找是实现任意两个点之间的额最短路径的算法为（递归）：<br>u,v分别是从顶点u到顶点v</p>
+<p>然后我们再看一下弗洛伊德算法的实现代码：<br>n为图中顶点的个数，MGraph[][]是图的邻接矩阵存储。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Floyd</span><span class="params">(<span class="keyword">int</span> n,<span class="keyword">float</span> MGraph[][n],<span class="keyword">int</span> Path[][n])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,j,v;</span><br><span class="line">	<span class="keyword">int</span> A[n][n];</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;++i)<span class="comment">//初始化</span></span><br><span class="line">		<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;n;++j)</span><br><span class="line">		&#123;</span><br><span class="line">			A[i][j]=MGraph[i][j];</span><br><span class="line">			Path[i][j]=<span class="number">-1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">for</span>(v=<span class="number">0</span>;v&lt;n;++v)</span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;++i)</span><br><span class="line">			<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;n;++j)</span><br><span class="line">				<span class="keyword">if</span>(A[i][j]&gt;A[i][v]+A[v][j])</span><br><span class="line">				&#123;</span><br><span class="line">					A[i][j]=A[i][v]+A[v][j];</span><br><span class="line">					Path[i][j]=v;</span><br><span class="line">				&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://aisleep.xyz/2018/05/15/data-structure-9/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://aisleep.xyz/2018/05/15/data-structure-9/&text=图——Floyd算法"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://aisleep.xyz/2018/05/15/data-structure-9/&title=图——Floyd算法"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://aisleep.xyz/2018/05/15/data-structure-9/&is_video=false&description=图——Floyd算法"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=图——Floyd算法&body=Check out this article: https://aisleep.xyz/2018/05/15/data-structure-9/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://aisleep.xyz/2018/05/15/data-structure-9/&title=图——Floyd算法"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://aisleep.xyz/2018/05/15/data-structure-9/&title=图——Floyd算法"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://aisleep.xyz/2018/05/15/data-structure-9/&title=图——Floyd算法"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://aisleep.xyz/2018/05/15/data-structure-9/&title=图——Floyd算法"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://aisleep.xyz/2018/05/15/data-structure-9/&name=图——Floyd算法&description=&lt;p&gt;最短路径：&lt;br&gt;&lt;strong&gt;弗洛伊德算法&lt;/strong&gt;&lt;br&gt;我们先看一下我们举例的图，如下图中右边的图，其中左边的Av[]数组存储的任意两个顶点之间的当前最短路径长度，pathv[]数组存储了任意两个顶点他们所在最短路径之间的中间点(v为下标)。&lt;/p&gt;
+&lt;img src=&#34;https://github.com/fanandli/picblog/blob/master/%E5%BC%97%E6%B4%9B%E4%BC%8A%E5%BE%B71.png?raw=true&#34; width = &#34;600&#34; height = &#34;350&#34; alt=&#34;floyd1&#34; align=center /&gt;
+
+&lt;p&gt;执行思路：&lt;br&gt;对于每个顶点v，和任意一顶点对（i,j）,i不等于j,v不等于i,v不等于j，如果A[i][j]&amp;gt;A[i][v]+A[v][j],则将A[i][j]更新为A[i][v]+A[v][j]的值，并将path[i][j]改为v。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://aisleep.xyz/2018/05/15/data-structure-9/&t=图——Floyd算法"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018-2021
+    tuan_liu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

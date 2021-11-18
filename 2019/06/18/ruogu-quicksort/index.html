@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="题目描述：利用快速排序算法将读入的N个数从小到大排序后输出。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="由一个模板题引出的小总结-洛谷p1777快速排序">
+<meta property="og:url" content="https://aisleep.xyz/2019/06/18/ruogu-quicksort/index.html">
+<meta property="og:site_name" content="tuan_liu&#39;s blog">
+<meta property="og:description" content="题目描述：利用快速排序算法将读入的N个数从小到大排序后输出。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-06-18T05:09:23.000Z">
+<meta property="article:modified_time" content="2021-11-13T03:14:18.000Z">
+<meta property="article:author" content="tuan_liu">
+<meta property="article:tag" content="OJ">
+<meta property="article:tag" content="C&#x2F;C++">
+<meta property="article:tag" content="NOI&#x2F;NOIP">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>由一个模板题引出的小总结-洛谷p1777快速排序</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2019/07/01/ruogu-dfs-bfs/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2019/06/15/ruogu-p1478/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://aisleep.xyz/2019/06/18/ruogu-quicksort/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://aisleep.xyz/2019/06/18/ruogu-quicksort/&text=由一个模板题引出的小总结-洛谷p1777快速排序"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://aisleep.xyz/2019/06/18/ruogu-quicksort/&title=由一个模板题引出的小总结-洛谷p1777快速排序"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://aisleep.xyz/2019/06/18/ruogu-quicksort/&is_video=false&description=由一个模板题引出的小总结-洛谷p1777快速排序"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=由一个模板题引出的小总结-洛谷p1777快速排序&body=Check out this article: https://aisleep.xyz/2019/06/18/ruogu-quicksort/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://aisleep.xyz/2019/06/18/ruogu-quicksort/&title=由一个模板题引出的小总结-洛谷p1777快速排序"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://aisleep.xyz/2019/06/18/ruogu-quicksort/&title=由一个模板题引出的小总结-洛谷p1777快速排序"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://aisleep.xyz/2019/06/18/ruogu-quicksort/&title=由一个模板题引出的小总结-洛谷p1777快速排序"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://aisleep.xyz/2019/06/18/ruogu-quicksort/&title=由一个模板题引出的小总结-洛谷p1777快速排序"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://aisleep.xyz/2019/06/18/ruogu-quicksort/&name=由一个模板题引出的小总结-洛谷p1777快速排序&description=&lt;p&gt;题目描述：&lt;br&gt;利用快速排序算法将读入的N个数从小到大排序后输出。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://aisleep.xyz/2019/06/18/ruogu-quicksort/&t=由一个模板题引出的小总结-洛谷p1777快速排序"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        由一个模板题引出的小总结-洛谷p1777快速排序
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">tuan_liu</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-06-18T05:09:23.000Z" itemprop="datePublished">2019-06-18</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/C-C/" rel="tag">C/C++</a>, <a class="tag-link-link" href="/tags/NOI-NOIP/" rel="tag">NOI/NOIP</a>, <a class="tag-link-link" href="/tags/OJ/" rel="tag">OJ</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>题目描述：<br>利用快速排序算法将读入的N个数从小到大排序后输出。</p>
+<span id="more"></span>
+<p><a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P1177">题目链接</a><br>快速排序是信息学竞赛的必备算法之一。对于快速排序不是很了解的同学可以自行上网查询相关资料，掌握后独立完成。（C++C++选手请不要试图使用STL，虽然你可以使用sort一遍过，但是你并没有掌握快速排序算法的精髓。）</p>
+<p>输入输出格式<br>输入格式：<br>第1行为一个正整数N，第2行包含N个空格隔开的正整数a<sub>i</sub> ,为你需要进行排序的数，数据保证了A<sub>i</sub>不超过1000000000.</p>
+<p>输出格式：<br>将给定的N个数从小到大输出，数之间空格隔开，行末换行且无空格。</p>
+<p>输入输出样例<br>输入样例#1：<br>5<br>4 2 4 5 1<br>输出样例#1：<br>1 2 4 4 5</p>
+<p>说明:<br>对于20%的数据，有N≤1000；</p>
+<p>对于100%的数据，有N≤100000。</p>
+<p>题解：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">int</span> a[<span class="number">100010</span>];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quick_sort</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i=x,j=y,t;</span><br><span class="line">    <span class="keyword">int</span> k=a[x];<span class="comment">//选取最左边一个书为基准数,这样数据量太大的时候就会超时</span></span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span>(i&gt;=j)    <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;j)&#123;</span><br><span class="line">        <span class="keyword">while</span>(i&lt;j&amp;&amp;a[j]&gt;=k) j--;</span><br><span class="line">        t=a[i];</span><br><span class="line">        a[i]=a[j];</span><br><span class="line">        a[j]=t;</span><br><span class="line">        <span class="keyword">while</span>(i&lt;j&amp;&amp;a[i]&lt;k)  i++;</span><br><span class="line">        t=a[i];</span><br><span class="line">        a[i]=a[j];</span><br><span class="line">        a[j]=t;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">quick_sort</span>(x,i<span class="number">-1</span>);</span><br><span class="line">    <span class="built_in">quick_sort</span>(i+<span class="number">1</span>,y);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);<span class="comment">//个数</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;a[i]);<span class="comment">//将输入的数据用数组存储起来</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">quick_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果用上面的快速排序，有些测试数据此程序会<strong>运行超时</strong>，过不了。<br>基于此，我们可以对<strong>快速排序进行优化</strong>：</p>
+<p><strong>方法一：随机化</strong><br>上面的快排中总是选择第一个元素作为基准数，在数字已经有序的情况下每次划分都将得到最坏的结果，时间复杂度退化为O(n^2)因为子序列比原序列只少一个元素，这样的话，递归深度就很大。快排的分治思想的优势一点都没有了。<br>所以，我们可以随机的选择一个元素作为基准数，然后让这个元素与第一个元素交换位置，这样就可以继续用原来的方法来处理。<br>如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> &amp;a,<span class="keyword">int</span> &amp;b)</span></span>&#123;<span class="comment">//交换函数</span></span><br><span class="line">	<span class="keyword">int</span> temp=a;</span><br><span class="line">	a=b;</span><br><span class="line">	b=temp;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quicksort</span><span class="params">(<span class="keyword">int</span> left,<span class="keyword">int</span> right)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(left&gt;right)	<span class="keyword">return</span>;</span><br><span class="line">	<span class="keyword">int</span> i=left,j=right;</span><br><span class="line">	<span class="keyword">int</span> ranw=<span class="built_in">rand</span>()%(right-left+<span class="number">1</span>)+left;<span class="comment">//此处为随机化</span></span><br><span class="line">	<span class="built_in">swap</span>(a[left],a[ranw]);<span class="comment">//此处为将随机取得元素与第一个元素互换位置</span></span><br><span class="line">	<span class="keyword">while</span>(i&lt;j)&#123;</span><br><span class="line">		<span class="keyword">while</span>(j&gt;i&amp;&amp;a[j]&gt;=a[left])	j--;</span><br><span class="line">		<span class="keyword">while</span>(i&lt;j&amp;&amp;a[i]&lt;=a[left])	i++;</span><br><span class="line">		<span class="built_in">swap</span>(a[i],(i==j)?a[left]:a[j]);<span class="comment">//如果i==j说明，i，j相遇，</span></span><br><span class="line"><span class="comment">//此时要将基准元素与此位置交换，即swap(a[i],a[left])或者swap(a[j],a[left])</span></span><br><span class="line"><span class="comment">//（因为这个时候i，j都指向同一个位置）</span></span><br><span class="line">		<span class="comment">//如果i不等j，说明还没有相遇，此时只要转换swap(a[i],a[j])</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">quicksort</span>(a,left,i<span class="number">-1</span>);<span class="comment">//递归</span></span><br><span class="line">	<span class="built_in">quicksort</span>(a,j+<span class="number">1</span>,right);</span><br><span class="line">&#125;	</span><br></pre></td></tr></table></figure>
+<p><strong>方法二：小区间使用插入排序</strong><br>当递归到了一定程度之后，序列长度足够小了，我们就可以对其较小的序列改用插入排序，因为长度较好后，分治递归的处理速度比直接插入慢。<br>如下：</p>
+<pre><code class="c++">void insertsort(int left,int right)&#123;//直接插入排序
+    for(int i=left+1;i&lt;=right;i++)&#123;
+        for(int j=i;j&gt;0&amp;&amp;a[j]&lt;a[j-1];j--)    swap(a[j],a[j-1]);
+    &#125;
+
+void quicksort(int left,int right)&#123;
+    if(left&gt;=right)    return;
+    if(right-left+1&lt;10)&#123;  //这里就是如果长度小于10，就使用直接插入排序
+        insertsort(left,right);
+        return;
+    &#125;
+    int ranw=rand()%(right-left+1)+left;//此处为随机化
+    swap(a[left],a[ranw]);//此处为将随机取得元素与第一个元素互换位置
+    while(i&lt;j)&#123;
+        while(j&gt;i&amp;&amp;a[j]&gt;=a[left])    j--;
+        while(i&lt;j&amp;&amp;a[i]&lt;=a[left])    i++;
+        swap(a[i],(i==j)?a[left]:a[j]);
+    &#125;
+    quicksort(a,left,i-1);//递归
+    quicksort(a,j+1,right);
+&#125;```
+**方法三：聚拢重复元素**
+待补充
+===========================================我是可爱的分割线===========================================
+除了上述三种对快速排序的优化，我们还可以使用堆排序。
+**方法四：堆排序**
+
+```c++
+#include&lt;cstdio&gt;
+#include&lt;iostream&gt;
+using namespace std;
+int num=0;
+int n;
+int a[1000100];
+void up(int x)&#123;//上浮操作
+    while(a[x/2]&gt;a[x]&amp;&amp;x!=1)&#123;
+        swap(a[x],a[x/2]);
+        x/=2;
+    &#125;
+&#125;
+void down(int x)&#123;//下沉操作
+    while((a[x*2]&lt;=a[x]&amp;&amp;x*2&lt;=num)||(a[x*2+1]&lt;=a[x]&amp;&amp;x*2+1&lt;=num))&#123;
+        if(a[x*2]&lt;=a[2*x+1])&#123;
+            swap(a[x],a[x*2]);
+            x*=2;
+        &#125;else&#123;
+            swap(a[x],a[x*2+1]);
+            x=x*2+1;
+        &#125;
+    &#125;
+&#125;
+
+void insert(int x)&#123;//向堆中插入元素，建堆的核心操作所在   
+    num++;
+    a[num]=x;//数组a是从下标1开始存储数据
+    up(num);
+&#125;
+
+void work()&#123;//建堆成功后，将堆顶元素和最后一个元素互换位置
+//堆顶元素先输出，然后被最后一个元素覆盖，
+//就相当于将堆顶元素删除了，（即不再参与排序）
+    printf(&quot;%d &quot;,a[1]);//打印堆顶元素
+    a[1]=a[num--];//堆顶元素被覆盖
+    //上面一句话可以这样写,更好理解
+    //a[1]=a[num];
+    //num--;
+    //因为堆顶元素被覆盖了，自然的堆中元素的个数要减一，即num--
+    down(1);//元素变化后，重新通过下沉，排序成一个新的堆
+&#125;
+
+void build()&#123;//输入数字，调用插入函数，建堆
+    for(int i=1;i&lt;=n;i++)&#123;
+        int z;
+        scanf(&quot;%d&quot;,&amp;z);
+        insert(z);
+    &#125;
+&#125;
+
+void shuchu()&#123;
+    while(num!=1)   work();
+    printf(&quot;%d&quot;,a[1]);
+&#125;
+
+
+int main()&#123;  
+    scanf(&quot;%d&quot;,&amp;n);
+    build();
+    shuchu();
+    return 0;
+&#125;```
+    
+</code></pre>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://aisleep.xyz/2019/06/18/ruogu-quicksort/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://aisleep.xyz/2019/06/18/ruogu-quicksort/&text=由一个模板题引出的小总结-洛谷p1777快速排序"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://aisleep.xyz/2019/06/18/ruogu-quicksort/&title=由一个模板题引出的小总结-洛谷p1777快速排序"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://aisleep.xyz/2019/06/18/ruogu-quicksort/&is_video=false&description=由一个模板题引出的小总结-洛谷p1777快速排序"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=由一个模板题引出的小总结-洛谷p1777快速排序&body=Check out this article: https://aisleep.xyz/2019/06/18/ruogu-quicksort/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://aisleep.xyz/2019/06/18/ruogu-quicksort/&title=由一个模板题引出的小总结-洛谷p1777快速排序"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://aisleep.xyz/2019/06/18/ruogu-quicksort/&title=由一个模板题引出的小总结-洛谷p1777快速排序"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://aisleep.xyz/2019/06/18/ruogu-quicksort/&title=由一个模板题引出的小总结-洛谷p1777快速排序"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://aisleep.xyz/2019/06/18/ruogu-quicksort/&title=由一个模板题引出的小总结-洛谷p1777快速排序"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://aisleep.xyz/2019/06/18/ruogu-quicksort/&name=由一个模板题引出的小总结-洛谷p1777快速排序&description=&lt;p&gt;题目描述：&lt;br&gt;利用快速排序算法将读入的N个数从小到大排序后输出。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://aisleep.xyz/2019/06/18/ruogu-quicksort/&t=由一个模板题引出的小总结-洛谷p1777快速排序"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018-2021
+    tuan_liu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

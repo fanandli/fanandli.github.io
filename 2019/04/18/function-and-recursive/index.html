@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="（持续更新）list:1：救济金发放（The Dole Queue, UVa 133） 2：刽子手问题（Hangman Judge, UVa 489）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="函数和递归例题">
+<meta property="og:url" content="https://aisleep.xyz/2019/04/18/function-and-recursive/index.html">
+<meta property="og:site_name" content="tuan_liu&#39;s blog">
+<meta property="og:description" content="（持续更新）list:1：救济金发放（The Dole Queue, UVa 133） 2：刽子手问题（Hangman Judge, UVa 489）">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-04-18T12:42:13.000Z">
+<meta property="article:modified_time" content="2021-11-13T03:14:18.000Z">
+<meta property="article:author" content="tuan_liu">
+<meta property="article:tag" content="OJ">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>函数和递归例题</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2019/04/21/pat-b-solution/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2019/04/15/array-and-string-exercises/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://aisleep.xyz/2019/04/18/function-and-recursive/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://aisleep.xyz/2019/04/18/function-and-recursive/&text=函数和递归例题"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://aisleep.xyz/2019/04/18/function-and-recursive/&title=函数和递归例题"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://aisleep.xyz/2019/04/18/function-and-recursive/&is_video=false&description=函数和递归例题"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=函数和递归例题&body=Check out this article: https://aisleep.xyz/2019/04/18/function-and-recursive/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://aisleep.xyz/2019/04/18/function-and-recursive/&title=函数和递归例题"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://aisleep.xyz/2019/04/18/function-and-recursive/&title=函数和递归例题"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://aisleep.xyz/2019/04/18/function-and-recursive/&title=函数和递归例题"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://aisleep.xyz/2019/04/18/function-and-recursive/&title=函数和递归例题"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://aisleep.xyz/2019/04/18/function-and-recursive/&name=函数和递归例题&description=&lt;p&gt;（持续更新）&lt;br&gt;list:&lt;br&gt;&lt;a href=&#34;#c1&#34;&gt;1：救济金发放（The Dole Queue, UVa 133）&lt;/a&gt;&lt;br&gt;&lt;a href=&#34;#c2&#34;&gt; 2：刽子手问题（Hangman Judge, UVa 489）&lt;/a&gt;&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://aisleep.xyz/2019/04/18/function-and-recursive/&t=函数和递归例题"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%EF%BC%9A%E6%95%91%E6%B5%8E%E9%87%91%E5%8F%91%E6%94%BE"><span class="toc-number">1.</span> <span class="toc-text">1：救济金发放</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">分析：####</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">代码：####</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">注意：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%EF%BC%9A%E5%88%BD%E5%AD%90%E6%89%8B%E6%B8%B8%E6%88%8F"><span class="toc-number">5.</span> <span class="toc-text">2：刽子手游戏</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%EF%BC%9A-1"><span class="toc-number">6.</span> <span class="toc-text">分析：####</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%EF%BC%9A-1"><span class="toc-number">7.</span> <span class="toc-text">代码：####</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%EF%BC%9A-1"><span class="toc-number">8.</span> <span class="toc-text">注意：</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        函数和递归例题
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">tuan_liu</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-04-18T12:42:13.000Z" itemprop="datePublished">2019-04-18</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/OJ/" rel="tag">OJ</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>（持续更新）<br>list:<br><a href="#c1">1：救济金发放（The Dole Queue, UVa 133）</a><br><a href="#c2"> 2：刽子手问题（Hangman Judge, UVa 489）</a></p>
+<span id="more"></span>
+<p>=================================================================</p>
+<h4 id="1：救济金发放"><a href="#1：救济金发放" class="headerlink" title="1：救济金发放"></a><a name="c1">1：救济金发放</a></h4><p>（The Dole Queue, UVa 133）</p>
+<p>n(n&lt;20)个人站成一圈，逆时针编号为1～n。有两个官员，A从1开始逆时针数，B从n开 始顺时针数。在每一轮中，官员A数k个就停下来，官员B数m个就停下来（注意有可能两个 官员停在同一个人上）。接下来被官员选中的人（1个或者2个）离开队伍。<br>输入n，k，m输出每轮里被选中的人的编号（如果有两个人，先输出被A选中的）。<br>例如，n=10，k=4，m=3，输出为4 8, 9 5, 3 1, 2 6, 10, 7。注意：输出的每个数应当恰好占3列。</p>
+<h4 id="分析："><a href="#分析：" class="headerlink" title="分析：####"></a>分析：####</h4><p>很明显，可以用数组去存储编号。<br>用+1和-1来实现顺时针和逆时针的效果。<br>将选择过的编号设为0，在继续选择编号的时候如果数组值为0的话就继续选择，这样就可以实现离开队伍的效果。</p>
+<h4 id="代码："><a href="#代码：" class="headerlink" title="代码：####"></a>代码：####</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 25</span></span><br><span class="line"><span class="keyword">int</span> n,k,m,a[maxn];</span><br><span class="line"><span class="comment">//n为人数，k为a数的人数，m为b数的人数</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">go</span><span class="params">(<span class="keyword">int</span> p,<span class="keyword">int</span> d,<span class="keyword">int</span> t)</span></span>&#123;<span class="comment">//步长不太好想到</span></span><br><span class="line">    <span class="comment">//逆时针走t 步长是d,-1是顺时针</span></span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;<span class="comment">//当还有步数的时候</span></span><br><span class="line">        <span class="keyword">do</span>&#123;</span><br><span class="line">            p=(p+d+n<span class="number">-1</span>)%n+<span class="number">1</span>;<span class="comment">//循环移动的实线</span></span><br><span class="line">        &#125;<span class="keyword">while</span>(a[p]==<span class="number">0</span>);<span class="comment">//当为0的时候就继续移动</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d&quot;</span>,&amp;n,&amp;k,&amp;m)==<span class="number">3</span>&amp;&amp;n)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)   a[i]=i;<span class="comment">//先给数组赋值</span></span><br><span class="line">        <span class="keyword">int</span> left=n;<span class="comment">//剩余人数</span></span><br><span class="line">        <span class="keyword">int</span> p1=n,p2=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(left)&#123;</span><br><span class="line">            p1=<span class="built_in">go</span>(p1,<span class="number">1</span>,k);</span><br><span class="line">            p2=<span class="built_in">go</span>(p2,<span class="number">-1</span>,m);</span><br><span class="line"></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%3d&quot;</span>,p1);</span><br><span class="line">            left--;</span><br><span class="line">            <span class="keyword">if</span>(p1!=p2)&#123;<span class="built_in">printf</span>(<span class="string">&quot;%3d&quot;</span>,p2);left--;&#125;<span class="comment">//如果p1和p2指向不同的话，两者都输出</span></span><br><span class="line">            a[p1]=a[p2]=<span class="number">0</span>;<span class="comment">//设他们为0</span></span><br><span class="line">            <span class="keyword">if</span>(left)   <span class="built_in">printf</span>(<span class="string">&quot;,&quot;</span>); <span class="comment">//如果还有就要输出一个逗号</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);       </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h4><p>步长的方式可能不容易想到，<br>经常通过取余的形式实现环形取数的效果，<br>逻辑还是需要自己多调试。</p>
+<h4 id="2：刽子手游戏"><a href="#2：刽子手游戏" class="headerlink" title="2：刽子手游戏"></a><a name="c2">2：刽子手游戏</a></h4><p>（Hangman Judge, UVa 489）</p>
+<p>游戏规则是这样的：计算机想一个单词 让你猜，你每次可以猜一个字母。如果单词里有那个字母，所有该字母会显示出来；如果没有那个字母，则计算机会在一幅“刽子手”画上填一 笔。<br>这幅画一共需要7笔就能完成，因此你最多只能错6次。注意，猜一个已经猜过的字母也算错。<br>在本题中，你的任务是编写一个“裁判”程 序，输入单词和玩家的猜测，判断玩家赢了 （You win.）、输了（You lose.）还是放弃了 （You chickened out.）。每组数据包含3行，第1 行是游戏编号（-1为输入结束标记），第2行是 计算机想的单词，第3行是玩家的猜测。后两行 保证只含小写字母。<br>样例输入：<br>1<br>cheese<br>chese<br>2<br>cheese<br>abcdefg<br>3<br>cheese<br>abcdefgij<br>-1<br>样例输出:<br>Round 1<br>You win.<br>Round 2<br>You chickened out.<br>Round 3<br>You lose.</p>
+<h4 id="分析：-1"><a href="#分析：-1" class="headerlink" title="分析：####"></a>分析：####</h4><p>用数组去存储猜测的字母和目标字母<br>用变量（如这里的win,lose）去表示一些状态，从而更好的操作</p>
+<h4 id="代码：-1"><a href="#代码：-1" class="headerlink" title="代码：####"></a>代码：####</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 100</span></span><br><span class="line"><span class="keyword">int</span> left,chance;<span class="comment">//left是还需要猜测的位置个数，chance是能猜测的剩余次数</span></span><br><span class="line"><span class="keyword">char</span> s[maxn],s2[maxn];</span><br><span class="line"><span class="keyword">int</span> win,lose;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">guess</span><span class="params">(<span class="keyword">char</span> ch)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> bad=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="built_in">strlen</span>(s);i++)</span><br><span class="line">        <span class="keyword">if</span>(s[i]==ch)&#123;   left--;s[i]=<span class="string">&#x27; &#x27;</span>;bad=<span class="number">0</span>;&#125;</span><br><span class="line">    <span class="keyword">if</span>(bad) --chance;</span><br><span class="line">    <span class="keyword">if</span>(!chance) lose=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(!left)   win=<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> rnd;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">&quot;%d%s%s&quot;</span>,&amp;rnd,s,s2)==<span class="number">3</span>&amp;&amp;rnd!=<span class="number">-1</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Rounf %d\n&quot;</span>,rnd);</span><br><span class="line">        win=lose=<span class="number">0</span>;<span class="comment">//表示状态的变量</span></span><br><span class="line">        left=<span class="built_in">strlen</span>(s);</span><br><span class="line">        chance=<span class="number">7</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="built_in">strlen</span>(s2);i++)&#123;</span><br><span class="line">            <span class="built_in">guess</span>(s2[i]);</span><br><span class="line">            <span class="keyword">if</span>(win||lose)   <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(win) <span class="built_in">printf</span>(<span class="string">&quot;You win.\n&quot;</span>);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(lose)   <span class="built_in">printf</span>(<span class="string">&quot;You lose.\n&quot;</span>);</span><br><span class="line">        <span class="keyword">else</span>    <span class="built_in">printf</span>(<span class="string">&quot;You chickened out.\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="注意：-1"><a href="#注意：-1" class="headerlink" title="注意："></a>注意：</h4><p>使用全局变量的时候注意作用域，<br>这些变量的使用都比较灵活，如bad,left,chance等，还是需要自己多动手。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%EF%BC%9A%E6%95%91%E6%B5%8E%E9%87%91%E5%8F%91%E6%94%BE"><span class="toc-number">1.</span> <span class="toc-text">1：救济金发放</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">分析：####</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">代码：####</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">注意：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%EF%BC%9A%E5%88%BD%E5%AD%90%E6%89%8B%E6%B8%B8%E6%88%8F"><span class="toc-number">5.</span> <span class="toc-text">2：刽子手游戏</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%EF%BC%9A-1"><span class="toc-number">6.</span> <span class="toc-text">分析：####</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%EF%BC%9A-1"><span class="toc-number">7.</span> <span class="toc-text">代码：####</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%EF%BC%9A-1"><span class="toc-number">8.</span> <span class="toc-text">注意：</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://aisleep.xyz/2019/04/18/function-and-recursive/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://aisleep.xyz/2019/04/18/function-and-recursive/&text=函数和递归例题"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://aisleep.xyz/2019/04/18/function-and-recursive/&title=函数和递归例题"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://aisleep.xyz/2019/04/18/function-and-recursive/&is_video=false&description=函数和递归例题"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=函数和递归例题&body=Check out this article: https://aisleep.xyz/2019/04/18/function-and-recursive/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://aisleep.xyz/2019/04/18/function-and-recursive/&title=函数和递归例题"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://aisleep.xyz/2019/04/18/function-and-recursive/&title=函数和递归例题"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://aisleep.xyz/2019/04/18/function-and-recursive/&title=函数和递归例题"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://aisleep.xyz/2019/04/18/function-and-recursive/&title=函数和递归例题"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://aisleep.xyz/2019/04/18/function-and-recursive/&name=函数和递归例题&description=&lt;p&gt;（持续更新）&lt;br&gt;list:&lt;br&gt;&lt;a href=&#34;#c1&#34;&gt;1：救济金发放（The Dole Queue, UVa 133）&lt;/a&gt;&lt;br&gt;&lt;a href=&#34;#c2&#34;&gt; 2：刽子手问题（Hangman Judge, UVa 489）&lt;/a&gt;&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://aisleep.xyz/2019/04/18/function-and-recursive/&t=函数和递归例题"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018-2021
+    tuan_liu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

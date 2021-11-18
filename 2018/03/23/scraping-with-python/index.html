@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="之前就有对网络爬虫很感兴趣，觉得这是一件比较有意思的事情，奈何前段时间有接触过，学到后面的时候有点吃力，总结了一下原因之后觉得最直接的原因就是在前端方面自己接触的还是太少了，现在在准备论文之余。。。（为何总对论文的内容不感兴趣呢-_-！）再来重新看一遍爬虫吧。。哈哈，突然觉得保持一整天学习的热情的秘诀就是:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web scraping with python">
+<meta property="og:url" content="https://aisleep.xyz/2018/03/23/scraping-with-python/index.html">
+<meta property="og:site_name" content="tuan_liu&#39;s blog">
+<meta property="og:description" content="之前就有对网络爬虫很感兴趣，觉得这是一件比较有意思的事情，奈何前段时间有接触过，学到后面的时候有点吃力，总结了一下原因之后觉得最直接的原因就是在前端方面自己接触的还是太少了，现在在准备论文之余。。。（为何总对论文的内容不感兴趣呢-_-！）再来重新看一遍爬虫吧。。哈哈，突然觉得保持一整天学习的热情的秘诀就是:">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-03-23T01:13:05.000Z">
+<meta property="article:modified_time" content="2021-11-13T03:14:18.000Z">
+<meta property="article:author" content="tuan_liu">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="crawler">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>web scraping with python</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2018/04/01/web-scraping-1/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2018/03/21/css-learning/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://aisleep.xyz/2018/03/23/scraping-with-python/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://aisleep.xyz/2018/03/23/scraping-with-python/&text=web scraping with python"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://aisleep.xyz/2018/03/23/scraping-with-python/&title=web scraping with python"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://aisleep.xyz/2018/03/23/scraping-with-python/&is_video=false&description=web scraping with python"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=web scraping with python&body=Check out this article: https://aisleep.xyz/2018/03/23/scraping-with-python/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://aisleep.xyz/2018/03/23/scraping-with-python/&title=web scraping with python"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://aisleep.xyz/2018/03/23/scraping-with-python/&title=web scraping with python"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://aisleep.xyz/2018/03/23/scraping-with-python/&title=web scraping with python"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://aisleep.xyz/2018/03/23/scraping-with-python/&title=web scraping with python"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://aisleep.xyz/2018/03/23/scraping-with-python/&name=web scraping with python&description=&lt;p&gt;之前就有对网络爬虫很感兴趣，觉得这是一件比较有意思的事情，奈何前段时间有接触过，学到后面的时候有点吃力，总结了一下原因之后觉得最直接的原因就是在前端方面自己接触的还是太少了，现在在准备论文之余。。。（为何总对论文的内容不感兴趣呢-_-！）再来重新看一遍爬虫吧。。哈哈，突然觉得保持一整天学习的热情的秘诀就是:&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://aisleep.xyz/2018/03/23/scraping-with-python/&t=web scraping with python"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        web scraping with python
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">tuan_liu</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-03-23T01:13:05.000Z" itemprop="datePublished">2018-03-23</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/crawler/" rel="tag">crawler</a>, <a class="tag-link-link" href="/tags/python/" rel="tag">python</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>之前就有对网络爬虫很感兴趣，觉得这是一件比较有意思的事情，奈何前段时间有接触过，学到后面的时候有点吃力，总结了一下原因之后觉得最直接的原因就是在前端方面自己接触的还是太少了，现在在准备论文之余。。。（为何总对论文的内容不感兴趣呢-_-！）再来重新看一遍爬虫吧。。哈哈，突然觉得保持一整天学习的热情的秘诀就是:</p>
+<span id="more"></span>***把每一天的早晨的时间都用在自己感兴趣的事情上。***
+
+<hr>
+<p>好了，进入正题，直接来看代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlopen</span><br><span class="line"><span class="keyword">from</span> urllib.error <span class="keyword">import</span> HTTPError,URLError</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getTitle</span>(<span class="params">url</span>):</span></span><br><span class="line">	<span class="keyword">try</span> :</span><br><span class="line">		html=urlopen(url)</span><br><span class="line">	<span class="keyword">except</span> (HTTPError,URLError) <span class="keyword">as</span> e:</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		bsObj=BeautifulSoup(html.read())</span><br><span class="line">		title=bsObj.body.h1</span><br><span class="line">	<span class="keyword">except</span> AttributeError <span class="keyword">as</span> e:</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">	<span class="keyword">return</span> title</span><br><span class="line">	</span><br><span class="line">title=getTitle(<span class="string">&quot;http://aisleep.xyz&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> title ==<span class="literal">None</span>:</span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&quot;Title could not be found&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	<span class="built_in">print</span>(title)</span><br></pre></td></tr></table></figure>
+
+<p>首先是引入几个需要用到的库，<code>request</code>中的<code>urlopen</code>，<code>beautifulsoup</code>，是爬虫经常需要用到的库（这里代码中的<code>BeautifulSoup</code>是<code>BeautifulSoup</code>库中的<code>BeautifulSoup</code>对象，不是指的<code>BeautifulSoup</code>库），前者是自带的，能够直接获取网页中的<code>html</code>代码，而后者是第三方库，需要自己安装，他是用来转换我们得到的<code>html</code>代码的结构，使其能够只要目标信息的旁边或附近有标记（这里说的标记是<code>HTML</code>中的标记）我们就能够提取出来。<code>HTTPError</code>和<code>URLError</code>则是对异常的处理所需要的。</p>
+<p>我们这里首先定义了一个名为<code>getTitle</code>的函数。我们在进行这个语句的时候：<code>html=urlopen(&quot;http://aisleep.xyz&quot;)</code>这行代码可能会发生两种异常：1、网页不在服务器上；2、服务器不存在。发生第一种异常，程序会抛出<code>HTTpError</code>异常，发生第二种异常，程序会返回一个<code>None</code>对象。所以<code>getTitle</code>函数中的第一个异常处理针对于<code>HTTPError</code>，还增加了一个防止<code>url</code>地址输入错误引起的<code>URLError</code>。</p>
+<p>然后，我们在使用<code>BeautifulSoup</code>去提取我们所需要的信息时也会出错：如果我们想要调用的标签不存在，<code>BeautifulSoup</code>会返回一个<code>None</code>对象；如果再去调用这个<code>None</code>对象下面的子标签，还会发生<code>AttributeError</code>错误。</p>
+<p>所以第二个异常处理针对于：1、因为服务器不存在而返回一个<code>None</code>值，后再调用这个<code>None</code>值（通过<code>html.read()</code>调用）引起的<code>AttributeError</code>异常。2、因为我们使用<code>BeautifulSoup</code>调用一个不存在的标签的时候返回了一个<code>None</code>值，后再调用这个<code>None</code>值下面的子标签而造成的<code>AttributeError</code>异常。</p>
+<p>针对于爬虫中比较常见的异常处理，这样一来就会很简单的使自己的代码更稳定一点。</p>
+<hr>
+<p>上面的是采集一个页面中需要的信息，下面再看一个代码，实现随机的从一个页面跳转到另一个页面：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlopen</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">random.seed(datetime.datetime.now())</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getLinks</span>(<span class="params">articleUrl</span>)：</span></span><br><span class="line"><span class="function">	<span class="title">html</span>=<span class="title">urlopen</span>(<span class="params"><span class="string">&quot;http://en.wikipedia.org&quot;</span>+articleUrl</span>)</span></span><br><span class="line"><span class="function">	<span class="title">bsObj</span>=<span class="title">BeautifulSoup</span>(<span class="params">html</span>)</span></span><br><span class="line"><span class="function">	<span class="title">return</span> <span class="title">bsObj</span>.<span class="title">find</span>(<span class="params"><span class="string">&quot;div&quot;</span>,&#123;<span class="string">&quot;id&quot;</span>:<span class="string">&quot;bodyContent&quot;</span>&#125;</span>).<span class="title">findAll</span>(<span class="params"><span class="string">&quot;a&quot;</span>,href=re.<span class="built_in">compile</span>(<span class="params"><span class="string">&quot;^(/wiki/)((?!:).)*$&quot;</span></span>)</span>)</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">links</span>=<span class="title">getLinks</span>(<span class="params"><span class="string">&quot;/wiki/Kevin_Bacon&quot;</span></span>)</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">while</span> <span class="title">len</span>(<span class="params">links</span>)&gt;0:</span></span><br><span class="line">	newArticle=links[random.randint(<span class="number">0</span>,<span class="built_in">len</span>(links)-<span class="number">1</span>)].attrs[<span class="string">&quot;href&quot;</span>]</span><br><span class="line">	<span class="built_in">print</span>(newArticle)</span><br><span class="line">	links=getLinks(newArticle)</span><br></pre></td></tr></table></figure>
+<p>首先这里导入了一些需要的库，<code>datetime</code>和<code>random</code>分别是为了生成一个随机数生成器。第7行中就是通过当前时间为值实现了一个随机数生成器。接着定义了一个函数<code>getLitle</code>我们传入的是以<code>http://en.wikipedia.org</code>为开头的<code>url</code>然后传入<code>Beautifulsoup</code>，最后返回在<strong>当前</strong>网页（用的是<code>find</code>）中的在<code>div</code>标签下的<code>id</code>是<code>bodyContent</code>的，且不包含<code>:</code>的以<code>/wiki/</code>开头的<strong>所有</strong><code>url</code>链接（返回的是一个列表，这里用了正则表达式来匹配所要满足条件的链接）。</p>
+<p>第14行写到以<code>Kevin_Bacon</code>为开始页面，调用<code>getLinks</code>函数。16行往下是指在返回的列表不为空的情况下，以随机数生成器生成的随机数作为列表的序号，去访问另一个链接，跳转到另一个页面，打印这个链接，最后又将此链接传给<code>getLitle</code>函数。</p>
+<hr>
+<p>接下面再看一个代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlopen</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">pages=<span class="built_in">set</span>()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getLinks</span>(<span class="params">pageUrl</span>):</span></span><br><span class="line">	<span class="keyword">global</span> pages</span><br><span class="line">	html = urlopen(<span class="string">&quot;http://wikipedia.org&quot;</span>+pageUrl)</span><br><span class="line">	bsObj=BeautifulSoup(html)</span><br><span class="line">	<span class="keyword">for</span> link <span class="keyword">in</span> bsObj.findAll(<span class="string">&quot;a&quot;</span>,href=re.<span class="built_in">compile</span>(<span class="string">&quot;^(/wiki/)&quot;</span>)):</span><br><span class="line">		<span class="keyword">if</span> <span class="string">&#x27;href&#x27;</span> <span class="keyword">in</span> link.attrs:</span><br><span class="line">			<span class="keyword">if</span> link.attrs[<span class="string">&#x27;href&#x27;</span>] <span class="keyword">not</span> <span class="keyword">in</span> pages:</span><br><span class="line">				newPage=link.attrs[<span class="string">&#x27;href&#x27;</span>]</span><br><span class="line">				<span class="built_in">print</span>(newPage)</span><br><span class="line">				pages.add(newPage)</span><br><span class="line">				getLinks(newPage)</span><br><span class="line">getLinks(<span class="string">&quot;&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>由于链接之间很多都是重复的，所以自然就会有需要“链接去重”的功能。<br>首先定义了一个<code>set</code>集合类型的变量<code>pages</code>，接着我们看<code>getLinks</code>函数，第7行是定义全局变量<code>pages</code>，然后找到以<code>/wiki/</code>开头的链接。第12行是判断这个链接是否在<code>pages</code>中，如果不在就说明是新链接，打印且将他增加到<code>pages</code>中，最后将这个<code>newPage</code>又传入<code>getLinks</code>函数,递归处理。</p>
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  owner: 'fanandli',  //改你自己的名字
+  repo: 'Comments',  //专门储存评论一个GitHub仓库
+  oauth: {
+    client_id: '07907d02b088f1358f34', 
+    client_secret: 'd9f8fe0bb6f746db6e0d7b9478e7c907871c790d', 
+  },
+})
+gitment.render('container')
+</script>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://aisleep.xyz/2018/03/23/scraping-with-python/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://aisleep.xyz/2018/03/23/scraping-with-python/&text=web scraping with python"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://aisleep.xyz/2018/03/23/scraping-with-python/&title=web scraping with python"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://aisleep.xyz/2018/03/23/scraping-with-python/&is_video=false&description=web scraping with python"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=web scraping with python&body=Check out this article: https://aisleep.xyz/2018/03/23/scraping-with-python/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://aisleep.xyz/2018/03/23/scraping-with-python/&title=web scraping with python"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://aisleep.xyz/2018/03/23/scraping-with-python/&title=web scraping with python"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://aisleep.xyz/2018/03/23/scraping-with-python/&title=web scraping with python"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://aisleep.xyz/2018/03/23/scraping-with-python/&title=web scraping with python"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://aisleep.xyz/2018/03/23/scraping-with-python/&name=web scraping with python&description=&lt;p&gt;之前就有对网络爬虫很感兴趣，觉得这是一件比较有意思的事情，奈何前段时间有接触过，学到后面的时候有点吃力，总结了一下原因之后觉得最直接的原因就是在前端方面自己接触的还是太少了，现在在准备论文之余。。。（为何总对论文的内容不感兴趣呢-_-！）再来重新看一遍爬虫吧。。哈哈，突然觉得保持一整天学习的热情的秘诀就是:&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://aisleep.xyz/2018/03/23/scraping-with-python/&t=web scraping with python"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018-2021
+    tuan_liu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="&amp;nbsp;&amp;nbsp;非常明显，技术已经超越我们的人性。&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="urllib库详解">
+<meta property="og:url" content="https://aisleep.xyz/2018/04/01/web-scraping-1/index.html">
+<meta property="og:site_name" content="tuan_liu&#39;s blog">
+<meta property="og:description" content="&amp;nbsp;&amp;nbsp;非常明显，技术已经超越我们的人性。&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-04-01T01:56:48.000Z">
+<meta property="article:modified_time" content="2021-11-13T03:14:18.000Z">
+<meta property="article:author" content="tuan_liu">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="web-scraping">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>urllib库详解</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2018/04/03/Requests-webscraping/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2018/03/23/scraping-with-python/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://aisleep.xyz/2018/04/01/web-scraping-1/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://aisleep.xyz/2018/04/01/web-scraping-1/&text=urllib库详解"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://aisleep.xyz/2018/04/01/web-scraping-1/&title=urllib库详解"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://aisleep.xyz/2018/04/01/web-scraping-1/&is_video=false&description=urllib库详解"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=urllib库详解&body=Check out this article: https://aisleep.xyz/2018/04/01/web-scraping-1/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://aisleep.xyz/2018/04/01/web-scraping-1/&title=urllib库详解"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://aisleep.xyz/2018/04/01/web-scraping-1/&title=urllib库详解"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://aisleep.xyz/2018/04/01/web-scraping-1/&title=urllib库详解"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://aisleep.xyz/2018/04/01/web-scraping-1/&title=urllib库详解"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://aisleep.xyz/2018/04/01/web-scraping-1/&name=urllib库详解&description=&lt;blockquote&gt;
+&lt;p&gt;&amp;nbsp;&amp;nbsp;非常明显，技术已经超越我们的人性。&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;      &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;——阿尔伯特·爱因斯坦（Albert Einstein）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;python&lt;/code&gt;&lt;em&gt;&lt;strong&gt;爬虫之旅之第一站~~&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;首先讲一下&lt;code&gt;urllib&lt;/code&gt;库，他是python内置的一个&lt;code&gt;http&lt;/code&gt;请求库，他有以下主要的四个模块：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;urllib.request&lt;/code&gt;        请求模块，我们通过他来模拟发送一个请求&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;urllib.error&lt;/code&gt;        异常处理模块&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;urllib.parse&lt;/code&gt;        &lt;code&gt;url&lt;/code&gt;解析模块，可以对&lt;code&gt;url&lt;/code&gt;进行拆分，合并等操作&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;urllib.robotparser&lt;/code&gt;    &lt;code&gt;robots.txt&lt;/code&gt;解析模块，主要是对网站的&lt;code&gt;robots.txt&lt;/code&gt;文件进行解析    &lt;/li&gt;
+&lt;/ul&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://aisleep.xyz/2018/04/01/web-scraping-1/&t=urllib库详解"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        urllib库详解
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">tuan_liu</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-04-01T01:56:48.000Z" itemprop="datePublished">2018-04-01</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/python/" rel="tag">python</a>, <a class="tag-link-link" href="/tags/web-scraping/" rel="tag">web-scraping</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>&nbsp;&nbsp;非常明显，技术已经超越我们的人性。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——阿尔伯特·爱因斯坦（Albert Einstein）</p>
+</blockquote>
+<p><code>python</code><em><strong>爬虫之旅之第一站~~</strong></em></p>
+<p>首先讲一下<code>urllib</code>库，他是python内置的一个<code>http</code>请求库，他有以下主要的四个模块：</p>
+<ul>
+<li><code>urllib.request</code>        请求模块，我们通过他来模拟发送一个请求</li>
+<li><code>urllib.error</code>        异常处理模块</li>
+<li><code>urllib.parse</code>        <code>url</code>解析模块，可以对<code>url</code>进行拆分，合并等操作</li>
+<li><code>urllib.robotparser</code>    <code>robots.txt</code>解析模块，主要是对网站的<code>robots.txt</code>文件进行解析    </li>
+</ul>
+<span id="more"></span>
+<hr>
+<p>下面我们就来讲解一下<code>urllib</code>库中的各种使用情况：</p>
+<ul>
+<li><code>urlopen</code>函数：<br><code>urllib.request.urlopen(url,data=None,[timeout])</code><br><code>urlopen</code>函数中的常见的参数有<code>url</code>,<code>data</code>和<code>timeout</code>，<code>url</code>参数是传入网站的<code>url</code>，<code>data</code>参数主要是用来传入一些其他的数据，<code>timeout</code>是用于超时的数据。</li>
+</ul>
+<p>下面看代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line">response=urllib.request.urlopen(<span class="string">&quot;http://aisleep.xyz&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(response.read().decode(<span class="string">&#x27;utf-8&#x27;</span>)) </span><br></pre></td></tr></table></figure>
+<p>其中<code>.read()</code>是获取<code>response</code>的内容，因为一开始是<code>bytes</code>数据，所以才要再用<code>.decode(&#39;utf-8&#39;)</code>将其转为字符串。这个是<code>request</code>的一个<code>get</code>的请求。</p>
+<p>接着看：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"></span><br><span class="line">data=<span class="built_in">bytes</span>(urllib.parse.urlencode(&#123;<span class="string">&#x27;word&#x27;</span>: <span class="string">&#x27;hello&#x27;</span>&#125;),encoding=<span class="string">&#x27;utf8&#x27;</span>)</span><br><span class="line">response=urllib.request.urlopen(<span class="string">&#x27;http://httpbin.org&#x27;</span>,data=data)</span><br><span class="line"><span class="built_in">print</span>(response.read())</span><br></pre></td></tr></table></figure>
+<p>这里传入了个<code>data</code>，且必须是<code>bytes</code>类型。其中调用<code>urlencode</code>方法传入所需要的字典，后又定义了一个编码方式。这就是<code>post</code>请求。</p>
+<p>下面再看一下使用<code>timeout</code>参数的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> urllib.error</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">	response=urllib.request.urlopen(<span class="string">&#x27;http://httpbin.org/get&#x27;</span>,timeout=<span class="number">1</span>)</span><br><span class="line">	<span class="built_in">print</span>(response.read())</span><br><span class="line"><span class="keyword">except</span> urllib.error.URLError <span class="keyword">as</span> e:</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">isinstance</span>(e.reason,socket.timeout):</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">&quot;time out&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>这里是使用了一个<code>try-except</code>处理异常，还设置了一个<code>timeout</code>参数，还有涉及到了一些<code>error</code>等，这个后面会有讲解。</p>
+<p>下面我们再来看看，<code>urlopen</code>的响应类型（一般常用的有：状态码，响应头，响应体）：<br>代码一：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line">response=urllib.request.urlopen(<span class="string">&#x27;http://baidu.com&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(response))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>代码二：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line">response=urllib.request.urlopen(<span class="string">&#x27;https://baidu.com&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(response.status)</span><br><span class="line"><span class="built_in">print</span>(response.getheaders()）</span><br><span class="line"><span class="built_in">print</span>(response.getheader(<span class="string">&#x27;Server&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(response.read().decode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>代码一中是返回了<code>response</code>的类型是什么，代码二中第3行是返回的状态码，一般请求成功状态码就是<code>200</code>第4行是返回的响应头的全部信息，第5行则是返回的是响应头中的<code>Server</code>参数的信息，第6行则是使用了常用的<code>read</code>方法，来获取响应体的内容。</p>
+<ul>
+<li><code>Request</code>对象</li>
+</ul>
+<p>代码一：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line">request=urllib.request.Request(<span class="string">&#x27;http://aisleep.xyz&#x27;</span>)</span><br><span class="line">response=urllib.request.urlopen(request)</span><br><span class="line"><span class="built_in">print</span>(response.read().decode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br></pre></td></tr></table></figure>
+<p>代码二：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> request,parse</span><br><span class="line">url=<span class="string">&quot;http://httpbin.org/post&quot;</span></span><br><span class="line"><span class="built_in">dict</span>=&#123;</span><br><span class="line">	<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;lifan&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line">data=<span class="built_in">bytes</span>(parse.urlencode(<span class="built_in">dict</span>),encoding=<span class="string">&#x27;utf8&#x27;</span>)</span><br><span class="line">req=request.Request(url=url,data=data,method=<span class="string">&#x27;POST&#x27;</span>)</span><br><span class="line">req.add_header(<span class="string">&#x27;User-Agent&#x27;</span>,<span class="string">&#x27;Mozilia/4.0(compatible;MSIE 5.5;Windows NT)&#x27;</span>)</span><br><span class="line">response=request.urlopen(req)</span><br><span class="line"><span class="built_in">print</span>(response.read().decode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br></pre></td></tr></table></figure>
+<p>这里代码二是将<code>url</code>,<code>data</code>,<code>header</code>一起传给<code>Request</code>对象，然后再使用<code>urlopen</code>函数。第8行是传入了一个<code>header</code>,可以用特殊的<code>add_header</code>函数，也可以将其构造一个和这里的<code>dict</code>一样的字典传给<code>Request</code>。<br>通过<code>Request</code>对象可以将我们需要传入的请求方式，请求头，请求体等参数构造成一各整体，传给<code>Request</code>对象，发送给服务器。这里使用<code>Request</code>对象，再调用<code>urlopen</code>函数的方法相比于直接使用<code>urlopen</code>函数的好处就是可以传入更多类型的参数。不单单只是<code>url</code>,<code>timeout</code>,<code>data</code>等了。</p>
+<ul>
+<li>代理（<code>handler</code>）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line">proxy_handler=urllib.request.ProxyHandler(&#123;</span><br><span class="line">	<span class="string">&#x27;https&#x27;</span>: <span class="string">&#x27;https://127.0.0.1:9743&#x27;</span>,</span><br><span class="line">	<span class="string">&#x27;http&#x27;</span>: <span class="string">&#x27;http://127.0.0.1:9743&#x27;</span></span><br><span class="line">	&#125;)</span><br><span class="line">opener=urllib.request.build_opener(proxy_handler)</span><br><span class="line">response=opener.<span class="built_in">open</span>(<span class="string">&#x27;http://www.google.com&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(response.read())</span><br></pre></td></tr></table></figure>
+<p>这里稍后再细讲</p>
+<ul>
+<li><code>cookie</code></li>
+</ul>
+<p>获取<code>cookie</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request,http.cookiejar</span><br><span class="line">cookie=http.cookiejar.CookieJar()</span><br><span class="line">hander=urllib.request.HTTPCookieProcessor(cookie)</span><br><span class="line">opener=urllib.request.build_opener(hander)</span><br><span class="line">response=opener.<span class="built_in">open</span>(<span class="string">&#x27;http://www.baidu.com&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> cookie:</span><br><span class="line">	<span class="built_in">print</span>(item.name+<span class="string">&quot;=&quot;</span>+item.value)</span><br></pre></td></tr></table></figure>
+<p><code>cookie</code>保存：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#cookie保存方式1</span></span><br><span class="line"><span class="keyword">import</span> http.cookiejar,urllib.request</span><br><span class="line">filename=<span class="string">&quot;cookie.txt&quot;</span></span><br><span class="line">cookie=http.cookiejar.MozillaCookieJar(filename)</span><br><span class="line">handler=urllib.request.HTTPCookieProcessor(cookie)</span><br><span class="line">opener=urllib.request.build_opener(handler)</span><br><span class="line">response=opener.<span class="built_in">open</span>(<span class="string">&quot;http://www.baidu.com&quot;</span>)</span><br><span class="line">cookie.save(ignore_discard=<span class="literal">True</span>,ignore_expires=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#cookie保存方式2</span></span><br><span class="line"><span class="keyword">import</span> http.cookie,urllib.request</span><br><span class="line">filename =<span class="string">&#x27;cookie.txt&#x27;</span></span><br><span class="line">cookie=http.cookiejar.LWPCookieJar(filename)</span><br><span class="line">handler=urllib.request.HTTPCookieProcessor(cookie)</span><br><span class="line">opener=urllib.request.build_opener(handler)</span><br><span class="line">response=opener.<span class="built_in">open</span>(<span class="string">&#x27;http://www.baidu.com&#x27;</span>)</span><br><span class="line">cookie.save(ignore_discard=<span class="literal">True</span>,ignore_expires=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#读取cookie文件</span></span><br><span class="line"><span class="keyword">import</span> http.cookiejar,urllib.request</span><br><span class="line">cookie=http.cookiejar.LWPCookiejar()</span><br><span class="line">cookie.load(<span class="string">&#x27;cookie.txt&#x27;</span>,ignore_discard=<span class="literal">True</span>,ignore_expires=<span class="literal">True</span>)</span><br><span class="line">handler=urllib.request.build_opener(handler)</span><br><span class="line">response=opener.<span class="built_in">open</span>(<span class="string">&#x27;http://www.baidu.com&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(response.read().decode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br></pre></td></tr></table></figure>
+<p><code>cookie</code>这里的使用，后面再细讲。</p>
+<ul>
+<li><code>error</code>模块，异常处理</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> request,error</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">	response=request.urlopen(<span class="string">&#x27;http://www.baidu.com&#x27;</span>)</span><br><span class="line"><span class="keyword">except</span> error.HTTPError <span class="keyword">as</span> e:</span><br><span class="line">	<span class="built_in">print</span>(e.reason,e.code,e.headers,sep=<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line"><span class="keyword">except</span> error.URLError <span class="keyword">as</span> e:</span><br><span class="line">	<span class="built_in">print</span>(e.reason)</span><br><span class="line"><span class="keyword">else</span>：</span><br><span class="line">	<span class="built_in">print</span>（<span class="string">&#x27;Request.Successfully&#x27;</span>）</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>urlparse</code>模块，<code>url</code>解析</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urlib.parse <span class="keyword">import</span> urlparse</span><br><span class="line">result=urlparse(<span class="string">&#x27;http://www.baidu.com/index.html;user?id=5#comment&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+<p><code>urlparse</code>模块主要是对<code>url</code>进行解析，这个代码的输出信息是：<br><code>ParseResult(scheme=&#39;http&#39;,netloc=&#39;www.baidu.com&#39;,path=&#39;/index.html&#39;,params=&#39;user&#39;,query=&#39;id5&#39;,fragment=&#39;comment&#39;)</code></p>
+<p>再看：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urlib.parse <span class="keyword">import</span> urlparse</span><br><span class="line">result=urlparse(<span class="string">&#x27;http://www.baidu.com/index.html;user?id=5#comment&#x27;</span>,scheme=<span class="string">&#x27;https&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+<p>这个代码的输出信息则是：<br><code>ParseResult(scheme=&#39;http&#39;,netloc=&#39;www.baidu.com&#39;,path=&#39;/index.html&#39;,params=&#39;user&#39;,query=&#39;id5&#39;,fragment=&#39;comment&#39;)</code><br>可以看到，我们指定的协议类型，如果默认协议存在则不会被我们指定的协议所改变。</p>
+<p>再看：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> urlparse</span><br><span class="line">result=urlparse(<span class="string">&#x27;http://www.baidu.com/index.html;user?id=5#comment&#x27;</span>,allow_fragments=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+<p>这个代码的输出信息则是：<br><code>ParseResult(scheme=&#39;http&#39;,netloc=&#39;www.baidu.com&#39;,path=&#39;/index.html&#39;,params=&#39;user&#39;,query=&#39;id=5#comment&#39;,fragment=&#39;&#39;)</code><br>可见，当我们指定<code>allow_fragment=False</code>的时候，<code>fragment</code>的内容就会被拼接到前面的<code>query</code>    里面去。如果连前面的<code>query</code>也没有呢？<code>fragment</code>里面的内容会继续拼接到前面的地方。</p>
+<ul>
+<li><code>unurlparse</code>函数，组成<code>url</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> urlunparse</span><br><span class="line">data=[<span class="string">&#x27;http&#x27;</span>,<span class="string">&#x27;www.baidu.com&#x27;</span>,<span class="string">&#x27;index.html&#x27;</span>,<span class="string">&#x27;user&#x27;</span>,<span class="string">&#x27;a=6&#x27;</span>,<span class="string">&#x27;comment&#x27;</span>]</span><br><span class="line"><span class="built_in">print</span>(urlunparse(data))</span><br></pre></td></tr></table></figure>
+<p>这个代码的输出信息则是：<br><code>http://www.baidu.com/index.html;user?a=6#comment</code></p>
+<ul>
+<li><code>urljoin</code>函数，拼接<code>url</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> urljoin</span><br><span class="line"><span class="built_in">print</span>(urljoin(<span class="string">&#x27;http://www.baidu.com&#x27;</span>,<span class="string">&#x27;https://www.google.com/faq.html&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>（urljoin(<span class="string">&#x27;http://www.baidu.com&#x27;</span>,<span class="string">&#x27;https://www.baidu.com&#x27;</span>)）</span><br><span class="line"><span class="built_in">print</span>(urljoin(<span class="string">&#x27;http://www.baidu.com&#x27;</span>,<span class="string">&#x27;http://www.baidu.com/FAQ.html?question=2&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(urljoin(<span class="string">&#x27;http://www.baidu.com&#x27;</span>,<span class="string">&#x27;?category=1&#x27;</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这个代码的运行结果是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">https://www.google.com/faq.html</span><br><span class="line">https://www.baidu.com</span><br><span class="line">http://www.baidu.com/FAQ.html?question=2</span><br><span class="line">http://www.baidu.com?category=1</span><br></pre></td></tr></table></figure>
+<p>我们从中可以知道，<code>urljoin</code>函数，泛泛的理解就是：在前者后者都有的情况下，后者的内容会覆盖前者，前者没有后者有的时候，也是为后者的内容，如果前者有，后者内容没有就以前者为准。</p>
+<ul>
+<li><code>urlencode</code>函数，将字典对象转换成<code>get</code>请求参数</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> urlencode</span><br><span class="line">params=&#123;</span><br><span class="line">	<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;lifan&#x27;</span>,</span><br><span class="line">	<span class="string">&#x27;age&#x27;</span>:<span class="number">23</span></span><br><span class="line">&#125;</span><br><span class="line">base_url=<span class="string">&#x27;http://www.baidu.com&#x27;</span></span><br><span class="line">url=base_url+urlencode(params)</span><br><span class="line"><span class="built_in">print</span>(url)</span><br></pre></td></tr></table></figure>
+<p>运行结果是：<code>http://www.baidu.comname=lifan&amp;age=23</code></p>
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  owner: 'fanandli',  //改你自己的名字
+  repo: 'Comments',  //专门储存评论一个GitHub仓库
+  oauth: {
+    client_id: '07907d02b088f1358f34', //改为你自己的，下同
+    client_secret: 'd9f8fe0bb6f746db6e0d7b9478e7c907871c790d', 
+  },
+})
+gitment.render('container')
+</script>
+
+
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://aisleep.xyz/2018/04/01/web-scraping-1/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://aisleep.xyz/2018/04/01/web-scraping-1/&text=urllib库详解"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://aisleep.xyz/2018/04/01/web-scraping-1/&title=urllib库详解"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://aisleep.xyz/2018/04/01/web-scraping-1/&is_video=false&description=urllib库详解"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=urllib库详解&body=Check out this article: https://aisleep.xyz/2018/04/01/web-scraping-1/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://aisleep.xyz/2018/04/01/web-scraping-1/&title=urllib库详解"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://aisleep.xyz/2018/04/01/web-scraping-1/&title=urllib库详解"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://aisleep.xyz/2018/04/01/web-scraping-1/&title=urllib库详解"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://aisleep.xyz/2018/04/01/web-scraping-1/&title=urllib库详解"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://aisleep.xyz/2018/04/01/web-scraping-1/&name=urllib库详解&description=&lt;blockquote&gt;
+&lt;p&gt;&amp;nbsp;&amp;nbsp;非常明显，技术已经超越我们的人性。&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;      &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;——阿尔伯特·爱因斯坦（Albert Einstein）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;python&lt;/code&gt;&lt;em&gt;&lt;strong&gt;爬虫之旅之第一站~~&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;首先讲一下&lt;code&gt;urllib&lt;/code&gt;库，他是python内置的一个&lt;code&gt;http&lt;/code&gt;请求库，他有以下主要的四个模块：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;urllib.request&lt;/code&gt;        请求模块，我们通过他来模拟发送一个请求&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;urllib.error&lt;/code&gt;        异常处理模块&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;urllib.parse&lt;/code&gt;        &lt;code&gt;url&lt;/code&gt;解析模块，可以对&lt;code&gt;url&lt;/code&gt;进行拆分，合并等操作&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;urllib.robotparser&lt;/code&gt;    &lt;code&gt;robots.txt&lt;/code&gt;解析模块，主要是对网站的&lt;code&gt;robots.txt&lt;/code&gt;文件进行解析    &lt;/li&gt;
+&lt;/ul&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://aisleep.xyz/2018/04/01/web-scraping-1/&t=urllib库详解"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018-2021
+    tuan_liu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
