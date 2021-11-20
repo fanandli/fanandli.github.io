@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="序列化：序列化：将模型，查询集转换成需要的格式的数据，比如json。一般为输出 123456789101112131415161718192021222324252627&#96;&#96;&#96;pythonfrom django.db import modelsclass BookInfo(models.Model):    btitle &#x3D; models.CharField(max_length&#x3D;20, verb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DRF的序列化与反序列化">
+<meta property="og:url" content="https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/index.html">
+<meta property="og:site_name" content="tuan_liu&#39;s blog">
+<meta property="og:description" content="序列化：序列化：将模型，查询集转换成需要的格式的数据，比如json。一般为输出 123456789101112131415161718192021222324252627&#96;&#96;&#96;pythonfrom django.db import modelsclass BookInfo(models.Model):    btitle &#x3D; models.CharField(max_length&#x3D;20, verb">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Users/turli/AppData/Roaming/Typora/typora-user-images/image-20210316123844737.png">
+<meta property="og:image" content="c:/Users/turli/AppData/Roaming/Typora/typora-user-images/image-20210316155725799.png">
+<meta property="og:image" content="c:/Users/turli/AppData/Roaming/Typora/typora-user-images/image-20210316162109955.png">
+<meta property="article:published_time" content="2020-04-14T06:48:10.000Z">
+<meta property="article:modified_time" content="2021-11-20T04:17:34.923Z">
+<meta property="article:author" content="tuan_liu">
+<meta property="article:tag" content="django">
+<meta property="article:tag" content="drf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:/Users/turli/AppData/Roaming/Typora/typora-user-images/image-20210316123844737.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>DRF的序列化与反序列化</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/04/16/%E8%A7%86%E5%9B%BE/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/01/19/stl-set/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/&text=DRF的序列化与反序列化"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/&title=DRF的序列化与反序列化"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/&is_video=false&description=DRF的序列化与反序列化"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=DRF的序列化与反序列化&body=Check out this article: https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/&title=DRF的序列化与反序列化"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/&title=DRF的序列化与反序列化"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/&title=DRF的序列化与反序列化"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/&title=DRF的序列化与反序列化"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/&name=DRF的序列化与反序列化&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/&t=DRF的序列化与反序列化"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">序列化：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E5%BA%8F%E5%88%97%E5%8C%96%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">关联序列化：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">总结：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">反序列化：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A2%9E%E5%8A%A0%E9%A2%9D%E5%A4%96%E7%9A%84%E6%A0%A1%E9%AA%8C"><span class="toc-number">2.1.</span> <span class="toc-text">增加额外的校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#serializer-save"><span class="toc-number">2.2.</span> <span class="toc-text">serializer.save()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A-1"><span class="toc-number">2.3.</span> <span class="toc-text">总结：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ModelSerializer"><span class="toc-number">3.</span> <span class="toc-text">ModelSerializer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BaseSerializer"><span class="toc-number">4.</span> <span class="toc-text">BaseSerializer</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        DRF的序列化与反序列化
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">tuan_liu</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-04-14T06:48:10.000Z" itemprop="datePublished">2020-04-14</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/django/" rel="tag">django</a>, <a class="tag-link-link" href="/tags/drf/" rel="tag">drf</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="序列化："><a href="#序列化：" class="headerlink" title="序列化："></a>序列化：</h2><p>序列化：将模型，查询集转换成需要的格式的数据，比如json。一般为输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">```python</span><br><span class="line">from django.db import models</span><br><span class="line"></span><br><span class="line">class BookInfo(models.Model):</span><br><span class="line">    btitle = models.CharField(max_length=20, verbose_name=&#x27;名称&#x27;)</span><br><span class="line">    bpub_date = models.CharField(max_length=20, verbose_name=&#x27;发布日期&#x27;)</span><br><span class="line">    bread = models.IntegerField(default=0)</span><br><span class="line">    bcomment = models.IntegerField(default=0)</span><br><span class="line">    is_delete = models.BooleanField(default=False)</span><br><span class="line">    image = models.ImageField()</span><br><span class="line"></span><br><span class="line">    class Meta:</span><br><span class="line">        db_table = &#x27;tb_books&#x27;</span><br><span class="line">        verbose_name = &#x27;books&#x27;</span><br><span class="line">        verbose_name_plural = verbose_name</span><br><span class="line">    </span><br><span class="line">    def __str__(self):</span><br><span class="line">        return self.btitle</span><br><span class="line">    </span><br><span class="line">class HeroInfo(models.Model):</span><br><span class="line">    #略写</span><br><span class="line">    id = models.CharField(read_only=True)</span><br><span class="line">    hname = models.CharField(max_length=20)</span><br><span class="line">    hgender = models.ChoiceField(choice = GENDER)</span><br><span class="line">    hcomment = models.CharField()</span><br><span class="line">    hbook = models.PrimaryKeyField(lable = &#x27;shuji&#x27;)#外键</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">```python</span><br><span class="line">from rest_framework import serializers</span><br><span class="line">from .se import BookInfo</span><br><span class="line">class BookInfoSerializer(serializers.Serializer):</span><br><span class="line">    #定义序列化器,</span><br><span class="line">    #序列化器中的字段可以比模型中的字段多，也可以少，但是，模型中已经存在的字段，在写到序列化器中的时候，名字一定要是一样的</span><br><span class="line">    id = serializers.IntegerField(label = &#x27;ID&#x27;,read_only = True) #read_only属性指只做序列化，write_only代表只做反序列化，都不写的话默认是两者都可。</span><br><span class="line">    btitle = serializers.CharField(max_length=20, verbose_name=&#x27;名称&#x27;,required = True)</span><br><span class="line">    bpub_date = serializers.CharField(max_length=20, verbose_name=&#x27;发布日期&#x27;)</span><br><span class="line">    bread = serializers.IntegerField(default=0)</span><br><span class="line">    bcomment = serializers.IntegerField(default=0)</span><br><span class="line">    is_delete = serializers.BooleanField(default=False)</span><br><span class="line">    image = serializers.ImageField()</span><br><span class="line"></span><br><span class="line">class HeroInfoSerializer(serializer.Serializer):</span><br><span class="line">    id = serializer.CharField(read_only=True)</span><br><span class="line">    hname = serializer.CharField(max_length20)</span><br><span class="line">    hgender = serializer.ChoiceField(choice = GENDER,required=False)</span><br><span class="line">    hcomment = serializer.CharField()</span><br><span class="line">    hbook = serializer.PrimaryKeyRelatedField(lable = &#x27;shuji&#x27;, read_only = True)#外键，只能序列化</span><br><span class="line">    #hbook = serializer.PrimaryKeyRelatedField(lable = &#x27;shuji&#x27;, queryset = BookInfo.objects.all())#这里的queryset是只能反序列化使用，且，如果传过来的要反序列化的数据不是BookInfo的模型数据，就会报错</span><br></pre></td></tr></table></figure>
+
+
+
+<p>使用序列化器<strong>序列化</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> serializers <span class="keyword">import</span> BookInfoSerializer</span><br><span class="line">book = BookInfo.objects.get(<span class="built_in">id</span> = <span class="number">1</span>) <span class="comment">#先取到要传出去的模型对象</span></span><br><span class="line">s = BookInfoSerializer(instance = book)</span><br><span class="line"><span class="comment">#BookInfoSerializer(instance,data, many)给instance传值是用序列化器序列化，</span></span><br><span class="line"><span class="comment">#给data转值就是用序列化器反序列化,many参数，是，当instance是一个查询集的时候，就要many = True</span></span><br><span class="line">s.data<span class="comment">#就是获取序列化后的数据，一般为原生python数据类型   s.instance返回book，即没序列化的原始数据</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="关联序列化："><a href="#关联序列化：" class="headerlink" title="关联序列化："></a><strong>关联序列化：</strong></h3><p>所谓关联序列化，就是当模型之间存在外键关联的时候，可以通过序列化这个表的时候，直接将关联的表也序列化掉。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hero = HeroInfo.objects.get(<span class="built_in">id</span> = <span class="number">1</span>)</span><br><span class="line">serializer = HeroInfoSerializer(instance = hero)</span><br><span class="line">serializer.data</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>这里就会发现，<code>HeroInfoSerializer</code>中的<code>hbook = serializer.PrimaryKeyRelatedField(lable = &#39;shuji&#39;, read_only = True)</code>序列化的是id。</p>
+</li>
+<li><p>如果写为<code>hbook = serializer.StringRelatedField(lable = &#39;shuji&#39;, read_only = True)</code>是将<code>__str__</code>函数的返回值序列化出来。</p>
+</li>
+<li><p>如果写为<code>hbook = BookInfoSerializer()</code>会将关联的模型的所有字段序列化出来。</p>
+</li>
+</ol>
+<p>上面总共三种情况，都是在“一对多”中的“多”关联序列化的“一”，那如何在“一”中关联序列化“多”呢？</p>
+<p>在<code>BookInfoSerializer</code>中增加一个字段<code>heroinfo_set = serializers.PrimaryKeyRelatedField(mang = True)</code>这个关联序列化的是id字段，当然也可以和上面一样，有<code>__str__</code>函数等其他的序列化，比如<code>heroinfo = HeroInfoSerialzier(many = True)</code>，当然，<code>HeroInfoSerializer</code>要在这个类前面。</p>
+<p><strong>注意</strong>，在多中关联序列化一，或者一中关联序列化多，这两者，只能二选一。</p>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p><img src="C:\Users\turli\AppData\Roaming\Typora\typora-user-images\image-20210316123844737.png" alt="image-20210316123844737"></p>
+<h2 id="反序列化："><a href="#反序列化：" class="headerlink" title="反序列化："></a>反序列化：</h2><p>反序列化：将前端数据转为模型数据。</p>
+<p>首先先从前端拿到传来的数据，然后将其传给序列化器的data参数，然后调用序列化器的.is_valid()</p>
+<p>方法进行校验，最后调用“序列化器.save()方法”。save方法，会根据传参情况，选择性的调用create方法或者update方法。create/update方法里面会再使用django的object.create方法保存至数据库。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#反序列化：</span></span><br><span class="line">dataa = &#123; <span class="comment">#准备一个前端数据</span></span><br><span class="line">    <span class="string">&#x27;btitile&#x27;</span>: <span class="string">&#x27;三国&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;bpub_date&#x27;</span>: <span class="string">&#x27;1991-11-11&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line">serializer = BookInfoSerializer(data = dataa)<span class="comment">#传给参数data，就是反序列化</span></span><br><span class="line">serializer.is_valid()<span class="comment">#调用序列化器的校验方法 是True还是False</span></span><br><span class="line"><span class="comment"># serializer.error#获取校验的错误信息</span></span><br><span class="line"><span class="comment">#serializer.is_valid(raise_exception = True)相当于is_validu与error一起使用了</span></span><br><span class="line">serializer.validated_data<span class="comment">#获取反序列化校验后的数据</span></span><br><span class="line"><span class="comment">#serializer.data是反序列化完成后，完成序列化的数据，因为反序列的过程中也有反序列化完成后，又序列化一下</span></span><br><span class="line"><span class="comment">#如果校验成功</span></span><br><span class="line">serializer.save()<span class="comment">#会执行序列化器中的create或update方法</span></span><br></pre></td></tr></table></figure>
+
+<p>如果想要增加自己的数据校验方法，可以直接在序列化器中增加：</p>
+<h3 id="增加额外的校验"><a href="#增加额外的校验" class="headerlink" title="增加额外的校验"></a>增加额外的校验</h3><p>1.如果想要对一个字段增加校验，可以：(以在<code>BookInfoSerializer</code>中增加校验为例)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">validate_btitle</span>(<span class="params">self, value</span>):</span></span><br><span class="line">    <span class="comment">#value是当前要进行校验的单个字段的值</span></span><br><span class="line">	<span class="keyword">if</span> <span class="string">&#x27;hhh&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> value.lower():</span><br><span class="line">		<span class="keyword">raise</span> serializers.ValidationError(<span class="string">&quot;hhh不在btitle中&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> value</span><br></pre></td></tr></table></figure>
+
+<p>此方法的命名规则是<code>validate_字段</code>， 此方法要<code>return value</code>，如果不返回，后面还要的<code>serializer.validated_data</code>就获取不到了。</p>
+<p>2.如果想要对多个字段增加校验，可以：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">validate</span>(<span class="params">self,attrs</span>):</span></span><br><span class="line"><span class="comment">#联合校验，对多个字段校验，attrs里面是前端传过来的所有数据</span></span><br><span class="line">	bcomment = attrs[<span class="string">&#x27;bcomment&#x27;</span>]</span><br><span class="line">    bread = attrs[<span class="string">&#x27;bread&#x27;</span>]</span><br><span class="line">    <span class="keyword">if</span> bcomment &lt; bread:</span><br><span class="line">        <span class="keyword">raise</span> serializers.ValidationError(<span class="string">&#x27;评论小于阅读数&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> attrs</span><br></pre></td></tr></table></figure>
+
+<p>3.使用<code>validators</code></p>
+<p>比如我在<code>BookInfoSerializer</code>中的一个字段中添加</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">```python</span><br><span class="line">def about_hhh:</span><br><span class="line">	if &#x27;hhh&#x27; not in value.lower():</span><br><span class="line">	raise serializers.ValidationError(&quot;hhh不在btitle中&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>所以，应用场景是，一个校验逻辑，多个字段都要以此去校验的时候，用这种写法。</p>
+<h3 id="serializer-save"><a href="#serializer-save" class="headerlink" title="serializer.save()"></a>serializer.save()</h3><p>当我们校验成功之后，调用这个save方法会执行序列化器中的create或update方法。</p>
+<p><img src="C:\Users\turli\AppData\Roaming\Typora\typora-user-images\image-20210316155725799.png" alt="image-20210316155725799"></p>
+<p>根据save函数的源码可知，当这样调用序列化器的时候<code>BookInfoSerializer(instance = book,data = dataa )</code>的时候，<code>save</code>调用的是<code>update</code>方法，如果只有<code>data</code>传参，<code>instance</code>没有接收到参数，那么<code>save</code>函数就调用<code>create</code>方法。</p>
+<p>再看一下父类Serializer中的update和create方法没有实际的逻辑，所以，我们要save数据的时候，要在BookInfoSerializer中重构update方法和create方法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create</span>(<span class="params">self,validated_data</span>):</span></span><br><span class="line">	<span class="comment">#validated_data是反序列化校验后的字典数据</span></span><br><span class="line">	book = BookInfo.objects.create(**validated_data)<span class="comment">#本质还是调用orm中的create方法</span></span><br><span class="line">    <span class="keyword">return</span> book <span class="comment">#这里的返回值会赋给save函数中的self.instance， 所以book = serializer.save()这样可以接收到这个值</span></span><br><span class="line">	</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">update</span>(<span class="params">self,instance, validated_data</span>):</span></span><br><span class="line">    <span class="comment">#instance是要修改的模型对象，这个参数的值创建序列化器时通过传参过来的。validated_data是反序列化校验后的字典数据，也通过传参过来。</span></span><br><span class="line">    instance.btitle = validated_data.get(<span class="string">&#x27;btitle&#x27;</span>)<span class="comment">#validated_data是字典，可以用[]也可以用.get</span></span><br><span class="line">    instance.bpub_date = validated_data.get(<span class="string">&#x27;bpub_date&#x27;</span>)</span><br><span class="line">    instance.save()</span><br><span class="line">    <span class="keyword">return</span> instance</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结：-1"><a href="#总结：-1" class="headerlink" title="总结："></a>总结：</h3><p><img src="C:\Users\turli\AppData\Roaming\Typora\typora-user-images\image-20210316162109955.png" alt="image-20210316162109955"></p>
+<p><code>Serializer</code>的构造方法是<code>serializer(instance= None, data = empty, **kwarg)</code></p>
+<p>所以Book序列化器的构造函数为这个<code>BookInfoSerialzier(instance , data, context)</code>第三个参数可以传字典。</p>
+<h2 id="ModelSerializer"><a href="#ModelSerializer" class="headerlink" title="ModelSerializer"></a>ModelSerializer</h2><p>ModelSerializer继承至Serializer</p>
+<p>他比父类多的功能有：</p>
+<p><strong>1.他可以自动根据模型生成序列化器中的字段。</strong></p>
+<p><strong>2.这个类帮我们实现了create和update方法。当然这些方法中的逻辑不一定是我们所需要的。</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookInfoSerializer</span>(<span class="params">serializers.ModelSerializer</span>):</span></span><br><span class="line">    <span class="comment">#pass = serializer.CharField()这样可以添加模型之外的字段，当然要配合Meta</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">         model = BookInfo</span><br><span class="line">         fields = <span class="string">&#x27;__all__&#x27;</span></span><br><span class="line">        <span class="comment">#fields = [&#x27;id&#x27;,&#x27;btitle&#x27;,&#x27;bpub_date&#x27;],这样可以指定映射特定的模型字段到序列化器</span></span><br><span class="line">        <span class="comment">#exclude = [&#x27;image&#x27;]，这样可以除了这个字段外的字段都映射到序列化器</span></span><br><span class="line">        extra_kwargs = &#123; <span class="comment">#这样可以对一字段的参数修改</span></span><br><span class="line">            <span class="string">&#x27;bread&#x27;</span>:&#123;<span class="string">&#x27;min_value&#x27;</span> :<span class="number">0</span>,<span class="string">&#x27;require&#x27;</span>:<span class="literal">True</span>&#125;</span><br><span class="line">            <span class="string">&#x27;bcomment&#x27;</span> :&#123;<span class="string">&#x27;write_only&#x27;</span>:<span class="literal">True</span>&#125; <span class="comment">#指定可以反序列化</span></span><br><span class="line">        &#125;</span><br><span class="line">        read_only_fields = [<span class="string">&#x27;id&#x27;</span>, <span class="string">&#x27;bread&#x27;</span>]<span class="comment">#指定哪些字段只能序列化，注意没有write_only_fields</span></span><br></pre></td></tr></table></figure>
+
+<p>这样就直接按照BookInfo的模型的所有字段，生成了此序列化器中的字段。</p>
+<p>序列化与反序列化如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ser = BookInfoSerializer(book)</span><br><span class="line">ser.data</span><br><span class="line"></span><br><span class="line">ser = BookInfoSerializer(instance = book, data = data)</span><br><span class="line">ser.is_valid(raise_exception = <span class="literal">True</span>)</span><br><span class="line">ser.save()</span><br><span class="line"><span class="comment">#ser.validated_data</span></span><br><span class="line"><span class="comment">#...</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="BaseSerializer"><a href="#BaseSerializer" class="headerlink" title="BaseSerializer"></a>BaseSerializer</h2><p>DRF的serializer和ModelSerialzier 都继承至<code>BaseSerializer</code> ，所以，我们可以看看序列化器都有哪些基本的属性和方法。</p>
+<p>该类实现与<code>Serializer</code>类相同的基本API：</p>
+<ul>
+<li><code>.data</code> - 返回<strong>传出</strong>的原始数据。（是python的原生数据,返回的数据应该是序列化的数据）</li>
+<li><code>.is_valid()</code> - 反序列化并验证传入的数据。（是一个方法，返回True/False）</li>
+<li><code>.validated_data</code> - 返回经过验证后的<strong>传入</strong>数据（是字典等python原生数据类型）。</li>
+<li><code>.errors</code> - 返回验证期间的错误。</li>
+<li><code>.save()</code> - 将验证的数据保留到<strong>对象实例</strong>中。（会调用create/update方法）</li>
+</ul>
+<p>它还有可以覆写的四种方法，具体取决于你想要序列化类支持的功能：</p>
+<ul>
+<li><code>.to_representation()</code> - 重写此方法来改变读取操作的序列化结果。</li>
+<li><code>.to_internal_value()</code> - 重写此方法来改变写入操作的序列化结果。</li>
+<li><code>.create()</code> 和 <code>.update()</code> - 重写其中一个或两个来改变保存实例时的动作。</li>
+</ul>
+<p>因为此类提供与<code>Serializer</code>类相同的接口，所以你可以将它与现有的基于类的通用视图一起使用，就像使用常规<code>Serializer</code>或<code>ModelSerializer</code>一样。</p>
+<p>这样做时你需要注意到的唯一区别是<code>BaseSerializer</code>类并不会在可浏览的API页面中生成HTML表单。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">序列化：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E5%BA%8F%E5%88%97%E5%8C%96%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">关联序列化：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">总结：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">反序列化：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A2%9E%E5%8A%A0%E9%A2%9D%E5%A4%96%E7%9A%84%E6%A0%A1%E9%AA%8C"><span class="toc-number">2.1.</span> <span class="toc-text">增加额外的校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#serializer-save"><span class="toc-number">2.2.</span> <span class="toc-text">serializer.save()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A-1"><span class="toc-number">2.3.</span> <span class="toc-text">总结：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ModelSerializer"><span class="toc-number">3.</span> <span class="toc-text">ModelSerializer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BaseSerializer"><span class="toc-number">4.</span> <span class="toc-text">BaseSerializer</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/&text=DRF的序列化与反序列化"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/&title=DRF的序列化与反序列化"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/&is_video=false&description=DRF的序列化与反序列化"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=DRF的序列化与反序列化&body=Check out this article: https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/&title=DRF的序列化与反序列化"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/&title=DRF的序列化与反序列化"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/&title=DRF的序列化与反序列化"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/&title=DRF的序列化与反序列化"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/&name=DRF的序列化与反序列化&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://aisleep.xyz/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/&t=DRF的序列化与反序列化"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018-2021
+    tuan_liu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

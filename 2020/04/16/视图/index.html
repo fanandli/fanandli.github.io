@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="DRF中帮我们在django的view类的基础上，又实现了个APIView。 其中，request， response，是继承了HttpRequest和HttpResponse django中的view正常django中的view，使用view来实现增删改查的话，如下： 1234567891011121314151617181920212223242526272829303132333435363">
+<meta property="og:type" content="article">
+<meta property="og:title" content="drf的视图">
+<meta property="og:url" content="https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/index.html">
+<meta property="og:site_name" content="tuan_liu&#39;s blog">
+<meta property="og:description" content="DRF中帮我们在django的view类的基础上，又实现了个APIView。 其中，request， response，是继承了HttpRequest和HttpResponse django中的view正常django中的view，使用view来实现增删改查的话，如下： 1234567891011121314151617181920212223242526272829303132333435363">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-16T06:48:10.000Z">
+<meta property="article:modified_time" content="2021-11-20T04:17:41.311Z">
+<meta property="article:author" content="tuan_liu">
+<meta property="article:tag" content="django">
+<meta property="article:tag" content="drf">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>drf的视图</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/04/14/drf%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/&text=drf的视图"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/&title=drf的视图"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/&is_video=false&description=drf的视图"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=drf的视图&body=Check out this article: https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/&title=drf的视图"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/&title=drf的视图"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/&title=drf的视图"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/&title=drf的视图"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/&name=drf的视图&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/&t=drf的视图"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#django%E4%B8%AD%E7%9A%84view"><span class="toc-number">1.</span> <span class="toc-text">django中的view</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DRF%E4%B8%AD%E7%9A%84APIView"><span class="toc-number">2.</span> <span class="toc-text">DRF中的APIView</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GenericAPIView"><span class="toc-number">2.1.</span> <span class="toc-text">GenericAPIView</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GenericAPIView-Mixin"><span class="toc-number">3.</span> <span class="toc-text">GenericAPIView + Mixin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%88%E6%88%90%E7%B1%BB"><span class="toc-number">4.</span> <span class="toc-text">合成类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ListAPIView"><span class="toc-number">4.1.</span> <span class="toc-text">ListAPIView</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CreateAPIView"><span class="toc-number">4.2.</span> <span class="toc-text">CreateAPIView</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ListCreateAPIView"><span class="toc-number">4.3.</span> <span class="toc-text">ListCreateAPIView</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RetrieveAPIView"><span class="toc-number">4.4.</span> <span class="toc-text">RetrieveAPIView</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DestoryAPIView"><span class="toc-number">4.5.</span> <span class="toc-text">DestoryAPIView</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UpdateAPIView"><span class="toc-number">4.6.</span> <span class="toc-text">UpdateAPIView</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RetrieveUpdateDestoryAPIView"><span class="toc-number">4.7.</span> <span class="toc-text">RetrieveUpdateDestoryAPIView</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%86%E5%9B%BE%E9%9B%86"><span class="toc-number">6.</span> <span class="toc-text">视图集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E5%A2%9E%E9%A2%9D%E5%A4%96%E7%9A%84%E8%A1%8C%E4%B8%BA"><span class="toc-number">6.1.</span> <span class="toc-text">新增额外的行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%86%E5%9B%BE%E9%9B%86%E4%B8%AD%E7%9A%84%E8%B7%AF%E7%94%B1%E5%99%A8"><span class="toc-number">6.2.</span> <span class="toc-text">视图集中的路由器</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        drf的视图
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">tuan_liu</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-04-16T06:48:10.000Z" itemprop="datePublished">2020-04-16</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/django/" rel="tag">django</a>, <a class="tag-link-link" href="/tags/drf/" rel="tag">drf</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>DRF中帮我们在django的view类的基础上，又实现了个<code>APIView</code>。</p>
+<p>其中，<code>request， response</code>，是继承了<code>HttpRequest</code>和<code>HttpResponse</code></p>
+<h2 id="django中的view"><a href="#django中的view" class="headerlink" title="django中的view"></a>django中的view</h2><p>正常django中的<code>view</code>，使用<code>view</code>来实现增删改查的话，如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookListView</span>(<span class="params">View</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self,request</span>):</span></span><br><span class="line">        <span class="comment">#查询所有图书的接口</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#1.查询出所有图书模型</span></span><br><span class="line">        books = BookInfo.objects.<span class="built_in">all</span>()</span><br><span class="line">        <span class="comment">#2.遍历返回的查询集，取出里面的每个书籍模型对象，把模型对象转换成字典</span></span><br><span class="line">        book_list = []</span><br><span class="line">        <span class="keyword">for</span> book <span class="keyword">in</span> books:</span><br><span class="line">            book_dict = &#123;</span><br><span class="line">                <span class="string">&#x27;id&#x27;</span>: book.<span class="built_in">id</span>,</span><br><span class="line">                <span class="string">&#x27;bititle&#x27;</span>: book.btitle,</span><br><span class="line">                <span class="string">&#x27;bpub_date&#x27;</span>: book.bpub_date,</span><br><span class="line">                <span class="string">&#x27;bread&#x27;</span>: book.bread,</span><br><span class="line">                <span class="string">&#x27;bcomment&#x27;</span>: book.bcomment,</span><br><span class="line">                <span class="string">&#x27;image&#x27;</span>: book.image.url <span class="keyword">if</span> book.image <span class="keyword">else</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">            &#125;</span><br><span class="line">            book_list.append(book_dict)</span><br><span class="line">        <span class="comment">#3.响应</span></span><br><span class="line">        <span class="keyword">return</span> JsonResponse(book_list,safe=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span>(<span class="params">self,request</span>):</span></span><br><span class="line">        <span class="comment">#新增图书的接口</span></span><br><span class="line">        </span><br><span class="line">		<span class="comment">#=====================</span></span><br><span class="line">        <span class="comment">#1.获取前端传过来的数据(json) request.body</span></span><br><span class="line">        json_str_bytes = request.body</span><br><span class="line">        <span class="comment">#2.把bytes类型的json字符串转换成json_str</span></span><br><span class="line">        json_str = json_str_bytes.decode()</span><br><span class="line">        <span class="comment">#3.利用json.loads将json字符串转换成json(字典、列表)</span></span><br><span class="line">        book_dict = json.loads(json_str)</span><br><span class="line">        <span class="comment">#4.创建模型对象并保存(把字典转换成模型并存储)</span></span><br><span class="line">        book = BookInfo(</span><br><span class="line">            btitle = book_dict[<span class="string">&#x27;btitile&#x27;</span>],</span><br><span class="line">            bpub_date = book_dict[<span class="string">&#x27;bpub_date&#x27;</span>]</span><br><span class="line">        )</span><br><span class="line">        book.save()</span><br><span class="line">        <span class="comment">#====================</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">#5.将新增的模型转换成字典</span></span><br><span class="line">        json_dict = &#123;</span><br><span class="line">            <span class="string">&#x27;id&#x27;</span>: book.<span class="built_in">id</span>,</span><br><span class="line">                <span class="string">&#x27;bititle&#x27;</span>: book.btitle,</span><br><span class="line">                <span class="string">&#x27;bpub_date&#x27;</span>: book.bpub_date,</span><br><span class="line">                <span class="string">&#x27;bread&#x27;</span>: book.bread,</span><br><span class="line">                <span class="string">&#x27;bcomment&#x27;</span>: book.bcomment,</span><br><span class="line">                <span class="string">&#x27;image&#x27;</span>: book.image.url <span class="keyword">if</span> book.image <span class="keyword">else</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">#6.响应(将新增的数据再响应回去，201)</span></span><br><span class="line">        <span class="keyword">return</span> JsonResponse(json_dict, status = <span class="number">201</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookDetailView</span>(<span class="params">View</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self,request,pk</span>):</span></span><br><span class="line">        <span class="comment">#查询指定的图书的接口</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#1.获取出指定的pk的那个模型对象</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            book = BookInfo.objects.get(<span class="built_in">id</span> = pk)</span><br><span class="line">        <span class="keyword">except</span> BookInfo.DoesNotExist:</span><br><span class="line">            <span class="keyword">return</span> HttpResponse(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;查询的数据不存在&#x27;</span>&#125;,status = <span class="number">404</span>)</span><br><span class="line">        <span class="comment">#2.模型对象转字典</span></span><br><span class="line">        book_dict = &#123;</span><br><span class="line">            <span class="string">&#x27;id&#x27;</span>: book.<span class="built_in">id</span>,</span><br><span class="line">            <span class="string">&#x27;bititle&#x27;</span>: book.btitle,</span><br><span class="line">            <span class="string">&#x27;bpub_date&#x27;</span>: book.bpub_date,</span><br><span class="line">            <span class="string">&#x27;bread&#x27;</span>: book.bread,</span><br><span class="line">            <span class="string">&#x27;bcomment&#x27;</span>: book.bcomment,</span><br><span class="line">            <span class="string">&#x27;image&#x27;</span>: book.image.url <span class="keyword">if</span> book.image <span class="keyword">else</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">#3.响应</span></span><br><span class="line">        <span class="keyword">return</span> JsonResponse(book_dict)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span>(<span class="params">self, request, pk</span>):</span></span><br><span class="line">        <span class="comment">#修改指定的图书的接口</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#1.先查询要修改的模型对象</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            book = BookInfo.objects.get(<span class="built_in">id</span> = pk)</span><br><span class="line">        <span class="keyword">except</span> BookInfo.DoesNotExist:</span><br><span class="line">            <span class="keyword">return</span> HttpResponse(&#123;<span class="string">&#x27;message&#x27;</span>:<span class="string">&#x27;所要修改的数据不存在&#x27;</span>&#125;,status = <span class="number">404</span>)</span><br><span class="line">        <span class="comment">#2.获取前端传入的新数据（将数据转换成字典）</span></span><br><span class="line">        json_str_bytes = request.body</span><br><span class="line">        json_str = json_str_bytes.decode()</span><br><span class="line">        book_dict = json.loads(json_str)</span><br><span class="line">        <span class="comment">#上面的三行代码等价于： book_dict = json.loads(request.body.decode())</span></span><br><span class="line">        <span class="comment">#3.重新给指定的属性赋值</span></span><br><span class="line">        book.btitle = book_dict[<span class="string">&#x27;btitle&#x27;</span>]</span><br><span class="line">        book.bpub_date = book_dict[<span class="string">&#x27;bpub_date&#x27;</span>]</span><br><span class="line">        <span class="comment">#...</span></span><br><span class="line">        <span class="comment">#4.调用save方法进行修改操作</span></span><br><span class="line">        book.save()</span><br><span class="line">        <span class="comment">#5.将修改后的模型再转换成字典</span></span><br><span class="line">        book_dict = &#123;</span><br><span class="line">            <span class="string">&#x27;id&#x27;</span>: book.<span class="built_in">id</span>,</span><br><span class="line">            <span class="string">&#x27;bititle&#x27;</span>: book.btitle,</span><br><span class="line">            <span class="string">&#x27;bpub_date&#x27;</span>: book.bpub_date,</span><br><span class="line">            <span class="string">&#x27;bread&#x27;</span>: book.bread,</span><br><span class="line">            <span class="string">&#x27;bcomment&#x27;</span>: book.bcomment,</span><br><span class="line">            <span class="string">&#x27;image&#x27;</span>: book.image.url <span class="keyword">if</span> book.image <span class="keyword">else</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">#6.响应</span></span><br><span class="line">        <span class="keyword">return</span> JsonResponse(json_dict)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">delete</span>(<span class="params">self, request, pk</span>):</span></span><br><span class="line">        <span class="comment">#删除指定的图书</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#1.获取到想要删除的模型对象</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            book = BookInfo.objects.get(<span class="built_in">id</span> = pk)</span><br><span class="line">        <span class="keyword">except</span> BookInfo.DoesNotExist:</span><br><span class="line">            <span class="keyword">return</span> HttpResponse(&#123;<span class="string">&#x27;message&#x27;</span>:<span class="string">&#x27;所要删除的数据不存在&#x27;</span>&#125;,status = <span class="number">404</span>)</span><br><span class="line">        <span class="comment">#2.删除模型对象</span></span><br><span class="line">        book.delete() <span class="comment">#真正从数据库中删除</span></span><br><span class="line">        <span class="comment"># book.is_delete = True 这是逻辑上的删除，数据库中还有其信息</span></span><br><span class="line">        <span class="comment"># book.save()</span></span><br><span class="line">        <span class="comment">#3.响应</span></span><br><span class="line">        <span class="keyword">return</span> HttpResponse(status = <span class="number">204</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="DRF中的APIView"><a href="#DRF中的APIView" class="headerlink" title="DRF中的APIView"></a>DRF中的APIView</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.views <span class="keyword">import</span> APIView</span><br><span class="line"><span class="keyword">from</span> rest_framework.response <span class="keyword">import</span> Response</span><br><span class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> status</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookListAPIView</span>(<span class="params">APIView</span>):</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">        <span class="comment">#获取</span></span><br><span class="line"></span><br><span class="line">        qs = BookInfo.objects.<span class="built_in">all</span>()</span><br><span class="line">        serializer = BookInfoModelSerializer(instance = qs, many = <span class="literal">True</span>)</span><br><span class="line">        response = Response(serializer.data)</span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line">        <span class="comment">#serializer 是序列化后，但是没有渲染的数据</span></span><br><span class="line">        <span class="comment">#调用Response(serializer.data)之后，就是渲染后的数据，</span></span><br><span class="line">        <span class="comment">#当然，response.data也可以显示未渲染的数据</span></span><br><span class="line">        <span class="comment">#response.content显示渲染后的数据，当然，其中django会调用render方法，之后才会有content也即渲染后的数据</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span>(<span class="params">self, request</span>):</span></span><br><span class="line">        <span class="comment">#新增</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#获取前端传入的数据</span></span><br><span class="line">        dataa = request.data<span class="comment">#request不再是django的request，用法更简单了，这里拿到手就是一个json数据</span></span><br><span class="line">        <span class="comment">#创建序列化器，进行反序列化（反序列化的过程中有序列化）</span></span><br><span class="line">        serializer = BookInfoModelSerializer(data = dataa)</span><br><span class="line">        <span class="comment">#调用序列化器中的is_valid()方法校验</span></span><br><span class="line">        serializer.is_valid(raise_exception = <span class="literal">True</span>)</span><br><span class="line">        <span class="comment">#调用序列化器的save方法进行执行create方法</span></span><br><span class="line">        serializer.save()</span><br><span class="line">        <span class="comment">#响应（用的序列化）</span></span><br><span class="line">        <span class="keyword">return</span> Response(serializer.data, status = status.HTTP_201_CREATED)</span><br><span class="line">    </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookDetailAPIView</span>(<span class="params">APIView</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request, pk</span>):</span></span><br><span class="line">        <span class="comment">#查询pk指定的模型对象</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            book = BookInfo.objects.get(<span class="built_in">id</span> = pk)</span><br><span class="line">        <span class="keyword">except</span> BookInfo.DoesNotExist:</span><br><span class="line">            <span class="keyword">return</span> Response(status = status.HTTP_404_NOT_FOUND)</span><br><span class="line">        <span class="comment">#创建序列化器进行序列化</span></span><br><span class="line">        serializer = BookInfoModelSerializer(book)</span><br><span class="line">        <span class="comment">#响应</span></span><br><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span>(<span class="params">self, request, pk</span>):</span></span><br><span class="line">        <span class="comment">#修改</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#查询pk指定的模型对象</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            book = BookInfo.objects.get(<span class="built_in">id</span> = pk)</span><br><span class="line">        <span class="keyword">except</span> BookInfo.DoesNotExist:</span><br><span class="line">            <span class="keyword">return</span> Response(status = status.HTTP_404_NOT_FOUND)</span><br><span class="line">        <span class="comment">#获取前端传入的数据</span></span><br><span class="line">        bookInfo = request.data</span><br><span class="line">        <span class="comment">#创建序列化器进行反序列化</span></span><br><span class="line">        bookSer = BookInfoModelSerializer(instance = book, data = bookInfo)</span><br><span class="line">        <span class="comment">#校验</span></span><br><span class="line">        bookSer.is_valid(raise_exception = <span class="literal">True</span>)</span><br><span class="line">        <span class="comment">#调用save方法，此方法中又调用update方法</span></span><br><span class="line">        bookSer.save()</span><br><span class="line">        <span class="comment">#响应</span></span><br><span class="line">        <span class="keyword">return</span> Response(bookSer.data) <span class="comment">#默认返回的是200状态码</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">delete</span>(<span class="params">self, request,pk</span>):</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            book = BookInfo.objects.get(<span class="built_in">id</span> = pk)</span><br><span class="line">        <span class="keyword">except</span> BookInfo.DoesNotExist:</span><br><span class="line">            <span class="keyword">return</span> Response(status = status.HTTP_404_NOT_FOUND)</span><br><span class="line">        book.delete()</span><br><span class="line">        <span class="keyword">return</span> Response(status = status.HTTP_204_NOT_CONTENT)</span><br></pre></td></tr></table></figure>
+
+<p>从中可以发现，<code>APIView</code>做了哪些功能扩展：</p>
+<p><code>APIView</code>类和一般的<code>View</code>类有以下不同：</p>
+<ul>
+<li>被传入到处理方法的请求不会是Django的<code>HttpRequest</code>类的实例，而是REST framework的<code>Request</code>类的实例。</li>
+<li>处理方法可以返回REST framework的<code>Response</code>，而不是Django的<code>HttpRequest</code>。视图会管理内容协议，给响应设置正确的渲染器。</li>
+<li>任何<code>APIException</code>异常都会被捕获，并且传递给合适的响应。</li>
+<li>进入的请求将会经过认证，合适的权限和（或）节流检查会在请求被派发到处理方法之前运行。</li>
+</ul>
+<p>使用<code>APIView</code>类和使用一般的<code>View</code>类非常相似，通常，进入的请求会被分发到合适处理方法比如<code>.get()</code>，或者<code>.post()</code>。另外，很多属性会被设定在控制API策略的各种切面的类上。</p>
+<p><strong>说白了，目前为止，APIView与View最大的区别是Request与Response。还有就是他可以增加对数据的认证，权限，节流检查操作(当然这里还没有展示这方面的功能)。</strong></p>
+<p>上面的代码中序列化与反序列化的逻辑区别，主要是因为使用了<strong>序列化器</strong>之后造成的。</p>
+<p>从中我们又可以发现，其中的很多逻辑就是所操作的<strong>模型</strong>的不同，以及<strong>序列化器</strong>的不同，所以，我们可以抽象这两个为参数，用传参，这样就更抽象了。比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookDetailAPIView</span>(<span class="params">APIView</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request, pk</span>):</span></span><br><span class="line">        <span class="comment">#查询pk指定的模型对象</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            book = modell.objects.get(<span class="built_in">id</span> = pk) <span class="comment">#将BookInfo抽象为modell</span></span><br><span class="line">        <span class="keyword">except</span> modell.DoesNotExist:<span class="comment">#同理</span></span><br><span class="line">            <span class="keyword">return</span> Response(status = status.HTTP_404_NOT_FOUND)</span><br><span class="line">        <span class="comment">#创建序列化器进行序列化</span></span><br><span class="line">        serializer = modelSerializerr(book) <span class="comment">#将BookInfoModelSerializer抽象为modelSerializer</span></span><br><span class="line">        <span class="comment">#响应</span></span><br><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span><br></pre></td></tr></table></figure>
+
+<p>所以,我们继承<code>APIView</code>,做了个<code>GenericAPIView</code>.</p>
+<h3 id="GenericAPIView"><a href="#GenericAPIView" class="headerlink" title="GenericAPIView"></a>GenericAPIView</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.generics <span class="keyword">import</span> GenericAPIView</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookListGenericView</span>(<span class="params">GenericAPIView</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#使用GenericAPIView要指定序列化器和指定查询集（数据来源，也即是哪个模型的哪些数据）</span></span><br><span class="line">    serializer_class = BookInfoModelSerializer</span><br><span class="line">    queryset = BookInfo.<span class="built_in">object</span>.<span class="built_in">all</span>()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">        <span class="comment">#分别用这两个方法，获取到serialzier_class 和queryset</span></span><br><span class="line">        qs = self.get_queryset() </span><br><span class="line">        serializer = self.get_serializer(qs, many = <span class="literal">True</span>)<span class="comment">#对这个查询集使用序列化器</span></span><br><span class="line">        <span class="comment">#get_serializer方法是返回一个序列化器对象.为什么还要用get_serializer方法去调用序列化器,是因为,我们可以在方法中再增加操作序列化器的逻辑,比如在某种情况下用a序列化器,在满足另一种情况下用b序列化器,这样更灵活了.</span></span><br><span class="line">        <span class="keyword">return</span> Response(serialize r.data)</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookDetailGenericView</span>(<span class="params">GenericAPIView</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#使用GenericAPIView要指定序列化器和指定查询集（数据来源，也即是哪个模型的哪些数据）</span></span><br><span class="line">    serializer_class = BookInfoModelSerializer</span><br><span class="line">    queryset = BookInfo.<span class="built_in">object</span>.<span class="built_in">all</span>()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request, pk</span>):</span></span><br><span class="line">        <span class="comment">#分别用这两个方法，获取到serialzier_class 和pk指定的哪个对象的数据</span></span><br><span class="line">        book = self.get_object() <span class="comment">#直接用get_object方法获取到pk的对象的数据，pk都没有作为参数传进去，因为这个方法的内部帮我们传参了</span></span><br><span class="line">        serializer = self.get_serializer(book)<span class="comment">#对这个查询集使用序列化器</span></span><br><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span>(<span class="params">self, request, pk</span>):</span></span><br><span class="line">        <span class="comment">#实现修改</span></span><br><span class="line">        </span><br><span class="line">        book = self.get_object() </span><br><span class="line">        serializer = self.get_serializer(book, request.data)</span><br><span class="line">        serializer.is_valid(raise_exception = <span class="literal">True</span>)</span><br><span class="line">        serializer.save()</span><br><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>由上可知,增加的两个属性: <code>serializer_class</code>和<code>queryset</code>就是为上面所说,抽象而准备的.当然,目前只这样用,代码是稍微麻烦一点的。</p>
+<p><strong>所以，GenericAPIView是对序列化器，模型的抽象。</strong></p>
+<p>看上面的代码,我们发现,<strong>调用</strong>序列化器的代码的<strong>动作逻辑</strong>,<strong>指定</strong>查询集这样的<strong>动作逻辑</strong>还是重复的,所以我们将这些动作逻辑再抽象,</p>
+<p>所以,我们基于<code>GenericAPIView</code>.又引入了<code>mixin</code>类,这样可以通过多重继承,实现我们需要的各种增删改查的类.</p>
+<h2 id="GenericAPIView-Mixin"><a href="#GenericAPIView-Mixin" class="headerlink" title="GenericAPIView + Mixin"></a>GenericAPIView + Mixin</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.mixins <span class="keyword">import</span> ListModelMixin, CreateModelMixin, RetrieveModelMixin,DestoryModelMixin,UpdateModelMixin</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> rest_framework.generics <span class="keyword">import</span> GenericAPIView</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookListGenericView</span>(<span class="params">CreateModelMixin,ListModelMixin,GenericAPIView</span>):</span></span><br><span class="line">    serializer_class = BookInfoModelSerializer</span><br><span class="line">    queryset = BookInfo.objects.<span class="built_in">all</span>()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.<span class="built_in">list</span>(request)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span>(<span class="params">self,request</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.create(request)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookDetailGenericView</span>(<span class="params">UpdateModelMixin,DestoryModelMixin,RetrieveModelMixin,GenericAPIView</span>):</span></span><br><span class="line">    serializer_class = BookInfoModelSerializer</span><br><span class="line">    queryset = BookInfo.objects.<span class="built_in">all</span>()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request, pk</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.retrieve(request, pk)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span>(<span class="params">self, request, pk</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.update(request, pk)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">delete</span>(<span class="params">self, request, pk</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.destory(request, pk)</span><br></pre></td></tr></table></figure>
+
+<p>从上面可以发现,<strong>每一个<code>get</code>,<code>post</code>等方法中的动作逻辑,都被封装到了一个<code>mixin</code>类中了</strong>,<code>mixin</code>类是继承至objects不是继承至django的view类</p>
+<p>至此,我们又发现了,我们总是要写<code>get,post, put,delet</code>这些方法,这些方法相对于<code>BookListGenericView</code>这个类而言也是固定的,那么,我们可以在<code>BookListGenericView</code>的方法这一层面再去封装,就会引出我们<code>GenericAPIView</code> + <code>Mixin</code>的合成类</p>
+<h2 id="合成类"><a href="#合成类" class="headerlink" title="合成类"></a>合成类</h2><h3 id="ListAPIView"><a href="#ListAPIView" class="headerlink" title="ListAPIView"></a>ListAPIView</h3><p>此类是封装了<code>Mixins.ListModelMixin</code> 和<code>GenericAPIView</code>,所以这个类就相当于直接实现了<code>BookListGenericView</code>中<strong>的<code>get</code>方法</strong>,我们可以直接不写这个方法了都.</p>
+<h3 id="CreateAPIView"><a href="#CreateAPIView" class="headerlink" title="CreateAPIView"></a>CreateAPIView</h3><p>此类是封装了<code>Mixins.CreateModelMixin</code> 和<code>GenericAPIView</code>,所以这个类就相当于直接实现了<code>BookListGenericView</code>中<strong>的post方法</strong>,我们可以直接不写这个方法了都.</p>
+<p>所以<code>BookListGenericView</code>类直接可以写成:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookListGenericView</span>(<span class="params">CreateAPIView,ListAPIView</span>):</span></span><br><span class="line">    serializer_class = BookInfoModelSerializer</span><br><span class="line">    queryset = BookInfo.objects.<span class="built_in">all</span>()</span><br></pre></td></tr></table></figure>
+
+<p>更进一步:</p>
+<h3 id="ListCreateAPIView"><a href="#ListCreateAPIView" class="headerlink" title="ListCreateAPIView"></a>ListCreateAPIView</h3><p>此类是封装了<code>ListAPIView</code>和<code>CreateAPIView</code>.所以:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookListGenericView</span>(<span class="params">ListCreateAPIView</span>):</span></span><br><span class="line">    serializer_class = BookInfoModelSerializer</span><br><span class="line">    queryset = BookInfo.objects.<span class="built_in">all</span>()</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="RetrieveAPIView"><a href="#RetrieveAPIView" class="headerlink" title="RetrieveAPIView"></a>RetrieveAPIView</h3><p>此继承了<code>RetrieveModelMixin,GenericAPIView</code>,所以这个类就相当于直接实现了<code>BookDetailGenericView</code>中的**<code>get</code>方**法,我们可以直接不写这个方法了都.</p>
+<h3 id="DestoryAPIView"><a href="#DestoryAPIView" class="headerlink" title="DestoryAPIView"></a>DestoryAPIView</h3><p>此继承了<code>DestoryModelMixin,GenericAPIView</code>,所以这个类就相当于直接实现了<code>BookDetailGenericView</code>中的<strong>delete</strong>方法,我们可以直接不写这个方法了都.</p>
+<h3 id="UpdateAPIView"><a href="#UpdateAPIView" class="headerlink" title="UpdateAPIView"></a>UpdateAPIView</h3><p>此继承了<code>UpdateModelMixin,GenericAPIView,</code>所以这个类就相当于直接实现了<code>BookDetailGenericView</code>中的<strong>put</strong>方法,我们可以直接不写这个方法了都.</p>
+<p>所以<code>BookDetailGenericView</code>类直接可以写成:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookDetailGenericView</span>(<span class="params">RetrieveAPIView,DestoryAPIView,UpdateAPIView</span>):</span></span><br><span class="line">    serializer_class = BookInfoModelSerializer</span><br><span class="line">    queryset = BookInfo.objects.<span class="built_in">all</span>()</span><br></pre></td></tr></table></figure>
+
+<p>更进一步:</p>
+<h3 id="RetrieveUpdateDestoryAPIView"><a href="#RetrieveUpdateDestoryAPIView" class="headerlink" title="RetrieveUpdateDestoryAPIView"></a>RetrieveUpdateDestoryAPIView</h3><p>此类继承了<code>RetrieveAPIView,DestoryAPIView,UpdateAPIView</code></p>
+<p>所以<code>BookDetailGenericView</code>类直接可以写成:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookDetailGenericView</span>(<span class="params">RetrieveUpdateDestoryAPIView</span>):</span></span><br><span class="line">    serializer_class = BookInfoModelSerializer</span><br><span class="line">    queryset = BookInfo.objects.<span class="built_in">all</span>()</span><br></pre></td></tr></table></figure>
+
+<p>至此,视图中的逻辑就封装到不能再封装的地步了,<code>RetrieveUpdateDestoryAPIView</code>和<code>ListCreateAPIView</code>可以再封装吗?不可以,因为两者里面有同名不同参数的方法,比如get方法,一个参数只有两个,一个的get方法有三个参数,这在python中是冲突的,不能放在一个类中这样去定义.</p>
+<p>当然,这种情况,我们可以通过<strong>视图集</strong>中的<strong>GenericViewSet</strong>去解决.</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h2><p>1.<code>django</code>的<code>view</code>类,继承了<code>object</code>.</p>
+<p><code>DRF</code>的<code>APIview</code>类,继承了<code>view</code>.</p>
+<p>所以,<code>python</code>的基类是<code>object</code>.<code>django</code>的基视图类是<code>view</code>,<code>drf</code>的基视图类是<code>APIView</code>.</p>
+<p>2.drf中的<code>GenericAPIView</code>继承了<code>APIView</code></p>
+<p>drf中的<code>Mixin</code>类(<code>ListModelMixin, CreateModelMixin, RetrieveModelMixin,DestoryModelMixin,UpdateModelMixin</code>)继承于<code>object</code>.</p>
+<p>3.各种合成类,分别继承了<code>GenericAPIView</code>与特定的Mixin类</p>
+<h2 id="视图集"><a href="#视图集" class="headerlink" title="视图集"></a>视图集</h2><p><code>django</code>的<code>as_view</code>调用的<code>dispatch</code>()中写死了调用get,post,delete这些方法.</p>
+<p>视图集就重写了这里的逻辑,这样,这些方法可以重写了.</p>
+<p>视图集中用：</p>
+<p>list 提供一组数据，相当于列表视图中的get</p>
+<p>retrieve提供单个数据，相当于详细视图中的get</p>
+<p>create创建数据，相当于列表视图的post</p>
+<p>update更新数据，相当于详细视图中的put</p>
+<p>destory删除数据，相当于详细视图中的delete</p>
+<p>视图集主要有两个类,一个是<code>ViewSet</code>,继承至<code>APIView</code>(当然,还继承了其他的).一个是<code>GenericViewSet</code>,继承至<code>GenericAPIView</code>(当然,还继承了其他的)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.viewsets <span class="keyword">import</span> ViewSet</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookViewSet</span>(<span class="params">ViewSet</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">list</span>(<span class="params">self, request</span>):</span> <span class="comment">#这个方法对应了原来的列表视图中的get方法</span></span><br><span class="line">        qs = BookInfo.objects.<span class="built_in">all</span>()</span><br><span class="line">        serialzier = BookInfoModelSerializer(qs, many = <span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">retrieve</span>(<span class="params">self, request, pk</span>):</span><span class="comment">#这个方法对应了原来的详细视图中的get方法</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            book = BookInfo.objects.get(<span class="built_in">id</span> = pk)</span><br><span class="line">        <span class="keyword">except</span> BookInfo.DoesNotExist:</span><br><span class="line">            <span class="keyword">return</span> Response(status = status.HTTP_404_NOT_FOUND)</span><br><span class="line">        serializer = BookInfoSerializer(book)</span><br><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span><br></pre></td></tr></table></figure>
+
+<p>至此,这两个方法就可以写在同一个类中了.</p>
+<p>当然,使用此视图的路由也做了相应的改变:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r&#x27;^books/$&#x27;</span>, views.BookViewSet.as_view(&#123;<span class="string">&#x27;get&#x27;</span>:<span class="string">&#x27;list&#x27;</span>&#125;)), <span class="comment">#这个字典,左值为Http的请求方式,是GET还是POST请求</span></span><br><span class="line">    url(<span class="string">r&#x27;^books/(?P&lt;pk&gt;\d)/$&#x27;</span>, views.BookViewSet.as_view(&#123;<span class="string">&#x27;get&#x27;</span>：<span class="string">&#x27;retrieve&#x27;</span>&#125;)),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>当然可以用<code>Mixin</code>和<code>GenericViewSet</code>改写这个视图:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.viewsets <span class="keyword">import</span> GenericViewSet</span><br><span class="line"><span class="keyword">from</span> rest_framework.mixins <span class="keyword">import</span> ListModelMixin,  RetrieveModelMixin</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookViewSet</span>(<span class="params">ListModelMixin,RetrieveModelMixin,GenericViewSet</span>):</span></span><br><span class="line">    queryset = BookInfo.objects.<span class="built_in">all</span>()</span><br><span class="line">    serializer_class = BookInfoModelSerializer</span><br></pre></td></tr></table></figure>
+
+<p>当然 <code>ReadOnlyModelViewSet</code>继承了<code>ListModelMixin,RetrieveModelMixin,GenericViewSet</code></p>
+<p>​    所以上面可以改写为:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.viewsets <span class="keyword">import</span> ReadOnlyModelViewSet</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookViewSet</span>(<span class="params">ReadOnlyModelViewSet</span>):</span></span><br><span class="line">    queryset = BookInfo.objects.<span class="built_in">all</span>()</span><br><span class="line">    serializer_class = BookInfoModelSerializer</span><br></pre></td></tr></table></figure>
+
+<p><code>ModelViewSet</code> 继承了<code>ListModelMixin, CreateModelMixin, RetrieveModelMixin,DestoryModelMixin,UpdateModelMixin和GenericAPIView</code></p>
+<p>所以,终极代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.viewsets <span class="keyword">import</span> ModelViewSet</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookViewSet</span>(<span class="params">ModelViewSet</span>):</span></span><br><span class="line">    <span class="comment">#1.指定查询集</span></span><br><span class="line">    queryset = BookInfo.objects.<span class="built_in">all</span>()</span><br><span class="line">    <span class="comment">#2.定义序列化器</span></span><br><span class="line">    serializer_class = BookInfoSerializer</span><br></pre></td></tr></table></figure>
+
+<p>将增删改查,特定对象的增删改查,全都用一个视图类完成了.</p>
+<p>且,路由也有简单版本:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span><br><span class="line">  </span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">router = DefaultRouter()<span class="comment">#创建一个路由器，也即创建这个类的一个实例</span></span><br><span class="line">router.register(<span class="string">r&#x27;books&#x27;</span>, views.BookViewSet)<span class="comment">#注册路由</span></span><br><span class="line">urlpatterns += router.urls<span class="comment">#将生成好的路由拼接到urlpatterns</span></span><br></pre></td></tr></table></figure>
+
+<p>那么如何在视图集中新增额外的行为呢？</p>
+<h3 id="新增额外的行为"><a href="#新增额外的行为" class="headerlink" title="新增额外的行为"></a>新增额外的行为</h3><p>比如想要查询最后一本书的信息，修改图书的阅读量的数据:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#写在views.py中的BookViewSet类中</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookViewSet</span>(<span class="params">ModelViewSet</span>):</span></span><br><span class="line">    <span class="comment">#...</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">latest</span>(<span class="params">self, request</span>):</span></span><br><span class="line">        book = BookInfo.objects.latest(<span class="string">&#x27;id&#x27;</span>)</span><br><span class="line">        serializer = self.get_serializer(book)</span><br><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span><br><span class="line">    </span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">read</span>(<span class="params">self, request, pk</span>):</span></span><br><span class="line">        book = self.get_object()</span><br><span class="line">        book.bread = request.data.get(<span class="string">&#x27;bread&#x27;</span>)<span class="comment">#直接将用户输入的值赋给了该字段，没有写反序列化器调用，校验等，简写了。</span></span><br><span class="line">        book.save()</span><br><span class="line">        serializer =self.get_serializer(book)</span><br><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span><br></pre></td></tr></table></figure>
+
+<p>其中urls.py中可以这么写</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span><br><span class="line">    <span class="comment">#不使用视图集的情况</span></span><br><span class="line">    <span class="comment">#url(r&#x27;^books/$&#x27;, views.BookListView.as_view()),</span></span><br><span class="line">    <span class="comment">#url(r&#x27;^books/(?P&lt;pk&gt;\d)/$&#x27;, views.BookListView.as_view()),</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#使用视图集的情况</span></span><br><span class="line">    url(<span class="string">r&#x27;^books/$&#x27;</span>, views.BookViewSet.as_view(&#123;<span class="string">&#x27;get&#x27;</span>:<span class="string">&#x27;list&#x27;</span>,<span class="string">&#x27;post&#x27;</span>:<span class="string">&#x27;create&#x27;</span>&#125;)),</span><br><span class="line">    url(<span class="string">r&#x27;^books/(?P&lt;pk&gt;\d+)/$&#x27;</span>,views.BookViewSet.as_view(&#123;<span class="string">&#x27;get&#x27;</span>：<span class="string">&#x27;retrieve&#x27;</span>,<span class="string">&#x27;put&#x27;</span>:<span class="string">&#x27;update&#x27;</span>,<span class="string">&#x27;delete&#x27;</span>:<span class="string">&#x27;destory&#x27;</span>&#125;)),</span><br><span class="line">    <span class="comment">#下面是新增方法的路由</span></span><br><span class="line">    url(<span class="string">r&#x27;^books/latest$&#x27;</span>, views.BookViewSet.as_view(&#123;<span class="string">&#x27;get&#x27;</span>：<span class="string">&#x27;latest&#x27;</span>&#125;)),</span><br><span class="line">	<span class="comment">#根据REST风格，详细视图时，新增其他动作，就在pk之后，增加动作，以做为路由</span></span><br><span class="line">    url(<span class="string">r&#x27;^books/(?P&lt;pk&gt;\d+)/read$&#x27;</span>, views.BookViewSet.as_view(&#123;<span class="string">&#x27;put&#x27;</span>：<span class="string">&#x27;read&#x27;</span>&#125;)),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h3 id="视图集中的路由器"><a href="#视图集中的路由器" class="headerlink" title="视图集中的路由器"></a>视图集中的路由器</h3><p>我们在使用视图集的时候，可以直接用一个路由器DefaultRouter来自动注册基本的视图的路由</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.routers <span class="keyword">import</span> DefaultRouter</span><br><span class="line">urlpatterns = [</span><br><span class="line">    </span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment">#初体验：下面的逻辑是使用drf中的路由的情况</span></span><br><span class="line">router = DefaultRouter()<span class="comment">#创建一个路由器，也即创建这个类的一个实例</span></span><br><span class="line">router.register(<span class="string">r&#x27;books&#x27;</span>, views.BookViewSet,base_name = <span class="string">&#x27;bookinfo&#x27;</span>)<span class="comment">#注册路由，books是路由的前缀</span></span><br><span class="line"><span class="comment">#base_name 默认是可以不用传参数的，如果要写，写对应的模型名的小写就行</span></span><br><span class="line">urlpatterns += router.urls<span class="comment">#将生成好的路由拼接到urlpatterns</span></span><br></pre></td></tr></table></figure>
+
+<p>但是，此时，是不可以将额外增加的方法自动注册的，想要使用这个路由器，又想能注册额外的方法，只要使用一个装饰器就可以了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookViewSet</span>(<span class="params">ModelViewSet</span>):</span></span><br><span class="line">    <span class="comment">#...</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">    @action(<span class="params">methods = [<span class="string">&#x27;get&#x27;</span>], detail = <span class="literal">False</span></span>)</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">latest</span>(<span class="params">self, request</span>):</span></span><br><span class="line">        book = BookInfo.objects.latest(<span class="string">&#x27;id&#x27;</span>)</span><br><span class="line">        serializer = self.get_serializer(book)</span><br><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span><br><span class="line">    </span><br><span class="line"><span class="meta">    @action(<span class="params">methods = [<span class="string">&#x27;put&#x27;</span>], detail = <span class="literal">True</span></span>) </span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">read</span>(<span class="params">self, request, pk</span>):</span></span><br><span class="line">        book = self.get_object()</span><br><span class="line">        book.bread = request.data.get(<span class="string">&#x27;bread&#x27;</span>)<span class="comment">#直接将用户输入的值赋给了该字段，没有写反序列化器调用，校验等，简写了。</span></span><br><span class="line">        book.save()</span><br><span class="line">        serializer =self.get_serializer(book)</span><br><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span><br></pre></td></tr></table></figure>
+
+<p>很明显，method参数是指定HTTP的请求方式，detail参数是区分是详细试图还是列表视图。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#django%E4%B8%AD%E7%9A%84view"><span class="toc-number">1.</span> <span class="toc-text">django中的view</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DRF%E4%B8%AD%E7%9A%84APIView"><span class="toc-number">2.</span> <span class="toc-text">DRF中的APIView</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GenericAPIView"><span class="toc-number">2.1.</span> <span class="toc-text">GenericAPIView</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GenericAPIView-Mixin"><span class="toc-number">3.</span> <span class="toc-text">GenericAPIView + Mixin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%88%E6%88%90%E7%B1%BB"><span class="toc-number">4.</span> <span class="toc-text">合成类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ListAPIView"><span class="toc-number">4.1.</span> <span class="toc-text">ListAPIView</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CreateAPIView"><span class="toc-number">4.2.</span> <span class="toc-text">CreateAPIView</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ListCreateAPIView"><span class="toc-number">4.3.</span> <span class="toc-text">ListCreateAPIView</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RetrieveAPIView"><span class="toc-number">4.4.</span> <span class="toc-text">RetrieveAPIView</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DestoryAPIView"><span class="toc-number">4.5.</span> <span class="toc-text">DestoryAPIView</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UpdateAPIView"><span class="toc-number">4.6.</span> <span class="toc-text">UpdateAPIView</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RetrieveUpdateDestoryAPIView"><span class="toc-number">4.7.</span> <span class="toc-text">RetrieveUpdateDestoryAPIView</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%86%E5%9B%BE%E9%9B%86"><span class="toc-number">6.</span> <span class="toc-text">视图集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E5%A2%9E%E9%A2%9D%E5%A4%96%E7%9A%84%E8%A1%8C%E4%B8%BA"><span class="toc-number">6.1.</span> <span class="toc-text">新增额外的行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%86%E5%9B%BE%E9%9B%86%E4%B8%AD%E7%9A%84%E8%B7%AF%E7%94%B1%E5%99%A8"><span class="toc-number">6.2.</span> <span class="toc-text">视图集中的路由器</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/&text=drf的视图"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/&title=drf的视图"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/&is_video=false&description=drf的视图"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=drf的视图&body=Check out this article: https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/&title=drf的视图"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/&title=drf的视图"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/&title=drf的视图"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/&title=drf的视图"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/&name=drf的视图&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://aisleep.xyz/2020/04/16/%E8%A7%86%E5%9B%BE/&t=drf的视图"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018-2021
+    tuan_liu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
